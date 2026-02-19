@@ -1,1 +1,37 @@
-{"nav":{"allAuctions":"Alle veilingen","categories":"Categorieën","blog":"Blog","about":"Over ons","contact":"Contact","login":"Inloggen"},"blog":{"title":"Blog","subtitle":"Inzichten, nieuws en updates van Dome Auctions","backToBlog":"Terug naar blog","readMore":"Artikel lezen","minRead":"min lezen","featuredArticle":"Uitgelicht artikel","allArticles":"Alle artikelen","recentArticles":"Recente artikelen","topics":"Onderwerpen","share":"Delen","noArticles":"Geen artikelen gevonden.","viewAuctions":"Bekijk onze veilingen","viewAuctionsText":"Ontdek industriële machines aan competitieve prijzen.","viewAllAuctions":"Alle veilingen bekijken"},"footer":{"newsletter":"Nieuwsbrief abonneren","newsletterPlaceholder":"jouw@email.com","subscribe":"Abonneren","terms":"Algemene voorwaarden","privacy":"Privacybeleid","faq":"FAQ","about":"Over ons","contact":"Contact"}}
+{
+  "nav": {
+    "allAuctions": "Alle veilingen",
+    "categories": "Categorieën",
+    "blog": "Blog",
+    "about": "Over ons",
+    "contact": "Contact",
+    "login": "Inloggen"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Inzichten, nieuws en updates van Dome Auctions",
+    "backToBlog": "Terug naar blog",
+    "readMore": "Artikel lezen",
+    "minRead": "min lezen",
+    "featuredArticle": "Uitgelicht artikel",
+    "allArticles": "Alle artikelen",
+    "recentArticles": "Recente artikelen",
+    "topics": "Onderwerpen",
+    "share": "Delen",
+    "noArticles": "Geen artikelen gevonden.",
+    "viewAuctions": "Bekijk onze veilingen",
+    "viewAuctionsText": "Ontdek industriële machines aan competitieve prijzen.",
+    "viewAllAuctions": "Alle veilingen bekijken"
+  },
+  "footer": {
+    "newsletter": "Nieuwsbrief abonneren",
+    "newsletterPlaceholder": "jouw@email.com",
+    "subscribe": "Abonneren",
+    "terms": "Algemene voorwaarden",
+    "privacy": "Privacybeleid",
+    "faq": "FAQ",
+    "about": "Over ons",
+    "contact": "Contact",
+    "allAuctions": "Alle veilingen"
+  }
+}
