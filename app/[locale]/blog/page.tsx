@@ -9,7 +9,8 @@ function formatDate(dateStr: string, locale: string) {
   return new Date(dateStr).toLocaleDateString(locale === 'nl-be' ? 'nl-BE' : locale === 'fr-be' ? 'fr-BE' : locale, { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-export default async function BlogListingPage({ params: { locale } }: { params: { locale: string } }) {
+export default async function BlogListingPage({ params: paramsPromise }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await paramsPromise
   const t = await getTranslations('blog')
   const [posts, categories] = await Promise.all([
     client.fetch(getPosts(locale)),
