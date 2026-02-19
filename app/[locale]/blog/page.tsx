@@ -6,11 +6,16 @@ import Link from 'next/link'
 
 function formatDate(dateStr: string, locale: string) {
   if (!dateStr) return ''
-  return new Date(dateStr).toLocaleDateString(locale === 'nl-be' ? 'nl-BE' : locale === 'fr-be' ? 'fr-BE' : locale, { day: 'numeric', month: 'long', year: 'numeric' })
+  return new Date(dateStr).toLocaleDateString(
+    locale === 'nl-be' ? 'nl-BE' : locale === 'fr-be' ? 'fr-BE' : locale,
+    { day: 'numeric', month: 'long', year: 'numeric' }
+  )
 }
 
-export default async function BlogListingPage({ params: paramsPromise }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await paramsPromise
+type Props = { params: Promise<{ locale: string }> }
+
+export default async function BlogListingPage({ params }: Props) {
+  const { locale } = await params
   const t = await getTranslations('blog')
   const [posts, categories] = await Promise.all([
     client.fetch(getPosts(locale)),
@@ -22,10 +27,9 @@ export default async function BlogListingPage({ params: paramsPromise }: { param
 
   return (
     <div>
-      {/* Page header */}
       <div style={{ background: '#000', padding: '4rem 2rem 3.5rem' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <h1 style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#fff', lineHeight: 1, marginBottom: '0.75rem', margin: 0 }}>
+          <h1 style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#fff', lineHeight: 1, margin: 0 }}>
             {t('title')}
           </h1>
           <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.6)', marginTop: '0.75rem', marginBottom: 0 }}>
@@ -34,7 +38,6 @@ export default async function BlogListingPage({ params: paramsPromise }: { param
         </div>
       </div>
 
-      {/* Filter bar */}
       {categories.length > 0 && (
         <div style={{ borderBottom: '1px solid #e0e0e0', background: '#fff', position: 'sticky', top: '70px', zIndex: 10 }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem', display: 'flex', overflowX: 'auto' }}>
@@ -58,12 +61,11 @@ export default async function BlogListingPage({ params: paramsPromise }: { param
           </div>
         ) : (
           <>
-            {/* Featured post */}
             {featured && (
               <Link href={`/${locale}/blog/${featured.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'grid', gridTemplateColumns: '1fr 1fr', border: '2px solid #000', marginBottom: '3rem' }}>
                 <div style={{ width: '100%', height: '380px', overflow: 'hidden', background: '#f2f2f2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {featured.mainImage ? (
-                    <img src={urlFor(featured.mainImage).width(700).height(380).url()} alt={featured.mainImage.alt || featured.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={urlFor(featured.mainImage).width(700).height(380).url()} alt={featured.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
                     <span style={{ fontSize: '3rem', color: '#ccc' }}>📷</span>
                   )}
@@ -98,7 +100,6 @@ export default async function BlogListingPage({ params: paramsPromise }: { param
               </Link>
             )}
 
-            {/* Grid posts */}
             {rest.length > 0 && (
               <>
                 <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#555', marginBottom: '1.5rem', paddingBottom: '0.75rem', borderBottom: '1px solid #e0e0e0' }}>
@@ -128,7 +129,7 @@ export default async function BlogListingPage({ params: paramsPromise }: { param
                         <div style={{ fontSize: '1rem', fontWeight: 700, lineHeight: 1.35, letterSpacing: '-0.01em', marginBottom: '0.5rem' }}>
                           {post.title}
                         </div>
-                        <div style={{ fontSize: '0.825rem', color: '#555', lineHeight: 1.6, marginBottom: '1rem', flex: 1, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as any}>
+                        <div style={{ fontSize: '0.825rem', color: '#555', lineHeight: 1.6, marginBottom: '1rem', flex: 1 }}>
                           {post.excerpt}
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.775rem', color: '#999', paddingTop: '0.875rem', borderTop: '1px solid #e0e0e0', marginTop: 'auto' }}>

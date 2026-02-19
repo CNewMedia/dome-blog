@@ -6,13 +6,13 @@ import Footer from '../../components/Footer'
 
 const locales = ['nl-be', 'fr-be', 'en', 'de']
 
-export default async function LocaleLayout({
-  children,
-  params: { locale },
-}: {
+type Props = {
   children: React.ReactNode
-  params: { locale: string }
-}) {
+  params: Promise<{ locale: string }>
+}
+
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params
   if (!locales.includes(locale)) notFound()
   const messages = await getMessages()
 

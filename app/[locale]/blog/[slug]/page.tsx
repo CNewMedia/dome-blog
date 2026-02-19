@@ -62,8 +62,8 @@ export default async function BlogPostPage({ params }: Props) {
           </article>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid #e0e0e0' }}>
             <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#555' }}>{t('share')}</span>
-            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', background: '#000', color: '#fff', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'none' }}>in</a>
-            <a href={`https://twitter.com/intent/tweet?url=`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', background: '#000', color: '#fff', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'none' }}>X</a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', background: '#0077b5', color: '#fff', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'none' }}>in</a>
+            <a href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', background: '#000', color: '#fff', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'none' }}>X</a>
           </div>
         </main>
         <aside style={{ position: 'sticky', top: '90px' }}>
