@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "allAuctions": "Alle Auktionen",
+    "categories": "Kategorien",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "viewAuctions": "Auktionen ansehen",
+    "blog": "Blog",
+    "search": "Suchen..."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Einblicke, Neuigkeiten und Updates von Dome Auctions",
+    "readMore": "Mehr lesen",
+    "readTime": "Min. Lesezeit",
+    "by": "von",
+    "backToBlog": "Zurück zum Blog",
+    "recentArticles": "Aktuelle Artikel",
+    "relatedArticles": "Ähnliche Artikel",
+    "allArticles": "Alle Artikel",
+    "featuredArticle": "Hauptartikel",
+    "share": "Teilen",
+    "noArticles": "Keine Artikel gefunden.",
+    "categories": "Kategorien",
+    "allCategories": "Alle Kategorien"
+  },
+  "footer": {
+    "newsletter": "Newsletter abonnieren",
+    "emailPlaceholder": "ihre@email.com",
+    "subscribe": "Abonnieren",
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "privacy": "Datenschutzrichtlinie",
+    "allAuctions": "Alle Auktionen",
+    "about": "Über uns",
+    "faq": "FAQ",
+    "contact": "Kontakt"
+  },
+  "cta": {
+    "title": "Unsere Auktionen ansehen",
+    "text": "Industriemaschinen zu wettbewerbsfähigen Preisen. Schnell, transparent und kostengünstig.",
+    "button": "Alle Auktionen ansehen"
+  }
+}

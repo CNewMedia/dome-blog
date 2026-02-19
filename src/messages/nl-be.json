@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "allAuctions": "Alle veilingen",
+    "categories": "Categorieën",
+    "about": "Over ons",
+    "contact": "Contact",
+    "viewAuctions": "Bekijk veilingen",
+    "blog": "Blog",
+    "search": "Zoeken..."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Inzichten, nieuws en updates van Dome Auctions",
+    "readMore": "Lees meer",
+    "readTime": "min lezen",
+    "by": "door",
+    "backToBlog": "Terug naar blog",
+    "recentArticles": "Recente artikelen",
+    "relatedArticles": "Gerelateerde artikelen",
+    "allArticles": "Alle artikelen",
+    "featuredArticle": "Uitgelicht artikel",
+    "share": "Delen",
+    "noArticles": "Geen artikelen gevonden.",
+    "categories": "Categorieën",
+    "allCategories": "Alle categorieën"
+  },
+  "footer": {
+    "newsletter": "Schrijf je in op de nieuwsbrief",
+    "emailPlaceholder": "jouw@email.com",
+    "subscribe": "Inschrijven",
+    "terms": "Algemene voorwaarden",
+    "privacy": "Privacybeleid",
+    "allAuctions": "Alle veilingen",
+    "about": "Over ons",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "cta": {
+    "title": "Bekijk onze veilingen",
+    "text": "Industriële machines aan competitieve prijzen. Snel, transparant en kostenefficiënt.",
+    "button": "Alle veilingen bekijken"
+  }
+}

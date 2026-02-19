@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "allAuctions": "Toutes les ventes",
+    "categories": "Catégories",
+    "about": "À propos",
+    "contact": "Contact",
+    "viewAuctions": "Voir les ventes",
+    "blog": "Blog",
+    "search": "Rechercher..."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Insights, actualités et mises à jour de Dome Auctions",
+    "readMore": "Lire la suite",
+    "readTime": "min de lecture",
+    "by": "par",
+    "backToBlog": "Retour au blog",
+    "recentArticles": "Articles récents",
+    "relatedArticles": "Articles similaires",
+    "allArticles": "Tous les articles",
+    "featuredArticle": "Article en vedette",
+    "share": "Partager",
+    "noArticles": "Aucun article trouvé.",
+    "categories": "Catégories",
+    "allCategories": "Toutes les catégories"
+  },
+  "footer": {
+    "newsletter": "Abonnez-vous à la newsletter",
+    "emailPlaceholder": "votre@email.com",
+    "subscribe": "S'abonner",
+    "terms": "Conditions générales",
+    "privacy": "Politique de confidentialité",
+    "allAuctions": "Toutes les ventes",
+    "about": "À propos",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "cta": {
+    "title": "Découvrez nos ventes",
+    "text": "Machines industrielles à des prix compétitifs. Rapide, transparent et rentable.",
+    "button": "Voir toutes les ventes"
+  }
+}
