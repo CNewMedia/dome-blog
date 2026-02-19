@@ -10,6 +10,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.dome-auctions.com' },
     ],
   },
+  transpilePackages: ['next-sanity'],
 }
 
 export default withNextIntl(nextConfig)
