@@ -19,11 +19,19 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+        <style>{`
+          *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+          body { font-family: 'DM Sans', -apple-system, sans-serif; background: #f7f5f0; color: #0c0c0b; -webkit-font-smoothing: antialiased; }
+          a { color: inherit; }
+          img { max-width: 100%; }
+        `}</style>
       </head>
-      <body style={{ margin: 0, fontFamily: "'Inter', -apple-system, sans-serif", paddingTop: '70px', WebkitFontSmoothing: 'antialiased' }}>
+      <body style={{ paddingTop: '60px' }}>
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           {children}
