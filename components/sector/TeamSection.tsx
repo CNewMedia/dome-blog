@@ -40,10 +40,10 @@ export default function TeamSection({ teamMembers, locale }: TeamSectionProps) {
                 <div className="sector-team-photo-wrap">
                   {member.foto ? (
                     <Image
-                      src={urlFor(member.foto).width(480).height(400).fit('crop').url()}
+                      src={urlFor(member.foto).width(360).height(360).fit('crop').url()}
                       alt={fotoAlt}
-                      width={480}
-                      height={400}
+                      width={360}
+                      height={360}
                       className="sector-team-photo"
                     />
                   ) : (

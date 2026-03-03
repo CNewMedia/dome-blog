@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { client } from '../../../sanity/client'
 import { getSectorPage, getSectorPageLegacy, getTeamMembers } from '../../../sanity/queries'
-import SectorLandingPage from '../../../components/SectorLandingPage'
+import SectorLandingPage, { type SectorPageData } from '../../../components/SectorLandingPage'
 
 const SECTORS = ['woodworking', 'metalworking', 'construction', 'agriculture', 'transport'] as const
 const LOCALES = ['nl-be', 'fr-be'] as const
@@ -16,6 +16,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+function isSectorPageData(value: unknown): value is SectorPageData {
+  if (!isRecord(value)) return false
+
+  return typeof value._id === 'string' && typeof value.sector === 'string'
+}
+
 function normalizeLocalizedValue(value: unknown, locale: string): unknown {
   if (Array.isArray(value)) {
     return value.map((item) => normalizeLocalizedValue(item, locale))
@@ -27,7 +33,6 @@ function normalizeLocalizedValue(value: unknown, locale: string): unknown {
 
   const localeKey = locale.replace('-', '_')
 
-  // If this object looks like a localized value object, pick the current locale
   const looksLocalized =
     localeKey in value ||
     'nl_be' in value ||
@@ -39,7 +44,6 @@ function normalizeLocalizedValue(value: unknown, locale: string): unknown {
     return value[localeKey] ?? value['nl_be'] ?? value['fr_be'] ?? ''
   }
 
-  // Otherwise recurse through nested objects
   return Object.fromEntries(
     Object.entries(value).map(([key, nestedValue]) => [
       key,
@@ -48,15 +52,24 @@ function normalizeLocalizedValue(value: unknown, locale: string): unknown {
   )
 }
 
-async function getSectorData(sector: string, locale: Locale) {
+async function getSectorData(sector: string, locale: Locale): Promise<SectorPageData | null> {
   const localeAlt = locale.replace('-', '_')
+
   const next = await client.fetch(getSectorPage(locale), { sector, locale, localeAlt })
-  if (next) return normalizeLocalizedValue(next, locale)
+  if (isSectorPageData(next)) return next
+
+  if (next) {
+    const normalizedNext = normalizeLocalizedValue(next, locale)
+    if (isSectorPageData(normalizedNext)) return normalizedNext
+  }
 
   const legacy = await client.fetch(getSectorPageLegacy(locale), { sector })
   if (!legacy) return null
 
-  return normalizeLocalizedValue(legacy, locale)
+  const normalizedLegacy = normalizeLocalizedValue(legacy, locale)
+  if (!isSectorPageData(normalizedLegacy)) return null
+
+  return normalizedLegacy
 }
 
 export default async function SectorPage({ params }: Props) {
@@ -65,10 +78,12 @@ export default async function SectorPage({ params }: Props) {
   if (!LOCALES.includes(locale as Locale)) notFound()
   if (!SECTORS.includes(sector as (typeof SECTORS)[number])) notFound()
 
-  const [data, teamMembers] = await Promise.all([
+  const [data, rawTeamMembers] = await Promise.all([
     getSectorData(sector, locale as Locale),
     client.fetch(getTeamMembers),
   ])
+
+  const teamMembers = normalizeLocalizedValue(rawTeamMembers ?? [], locale as Locale)
 
   if (!data) notFound()
 
@@ -84,25 +99,13 @@ export async function generateMetadata({ params }: Props) {
 
   const data = await getSectorData(sector, locale as Locale)
 
-  if (!data || typeof data !== 'object' || data === null) {
+  if (!data) {
     return { title: 'Sector | Dome Auctions' }
   }
 
-  const typed = data as Record<string, unknown>
-
-  const title =
-    typeof typed.seoTitle === 'string'
-      ? typed.seoTitle
-      : typeof typed.heroTitle === 'string'
-        ? typed.heroTitle
-        : `${sector} | Dome Auctions`
-
-  const description =
-    typeof typed.seoDescription === 'string' ? typed.seoDescription : undefined
-
   return {
-    title,
-    description,
+    title: data.seoTitle || data.heroTitle || `${sector} | Dome Auctions`,
+    description: data.seoDescription ?? undefined,
   }
 }
 
