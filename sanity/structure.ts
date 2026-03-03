@@ -13,4 +13,5 @@ export const structure = (S: StructureBuilder) =>
       S.listItem().title('Sector Landing Pages').schemaType('sectorPage').child(
         S.documentList().title('Sector Landing Pages').filter('_type == "sectorPage"')
       ),
+      S.listItem().title('Media Library').id('media'),
     ])
