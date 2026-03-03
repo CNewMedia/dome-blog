@@ -27,6 +27,53 @@ const localizedText = (name: string, title: string) =>
     })),
   })
 
+const localizedBody = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: 'object',
+    fields: locales.map((locale) => ({
+      name: locale.replace('-', '_'),
+      title: locale.toUpperCase(),
+      type: 'array',
+      of: [
+        {
+          type: 'block',
+          options: {
+            styles: [
+              { title: 'Normal', value: 'normal' },
+              { title: 'H2', value: 'h2' },
+              { title: 'H3', value: 'h3' },
+            ],
+          },
+          lists: [
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
+          ],
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+            ],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [{ name: 'href', type: 'url', title: 'URL' }],
+              },
+            ],
+          },
+        },
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
+        },
+      ],
+    })),
+  })
+
 export const sectorPageSchema = defineType({
   name: 'sectorPage',
   title: 'Sector Landing Page',
@@ -57,6 +104,7 @@ export const sectorPageSchema = defineType({
       options: { hotspot: true },
       fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
     }),
+    localizedBody('content', 'Content'),
     defineField({
       name: 'uspBlocks',
       title: 'USP blocks',

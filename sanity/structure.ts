@@ -13,4 +13,6 @@ export const structure = (S: StructureBuilder) =>
       S.listItem().title('Sector Landing Pages').schemaType('sectorPage').child(
         S.documentList().title('Sector Landing Pages').filter('_type == "sectorPage"')
       ),
+      // Media library (sanity-plugin-media): list item id must match tool name so the plugin opens
+      S.listItem().title('Media').id('media'),
     ])

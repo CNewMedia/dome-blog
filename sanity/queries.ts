@@ -46,3 +46,30 @@ export const getRecentPosts = (locale: string) => {
 export const getCategories = groq`*[_type == "category"] | order(title asc) {
   _id, title, "slug": slug.current
 }`
+
+export const getSectorPage = (locale: string) => {
+  const l = localeToField(locale)
+  return groq`*[_type == "sectorPage" && sector == $sector][0] {
+    _id,
+    sector,
+    "heroTitle": heroTitle.${l},
+    "heroSubtitle": heroSubtitle.${l},
+    heroImage,
+    "content": content.${l},
+    uspBlocks,
+    machines[] {
+      name,
+      description,
+      image
+    },
+    successStory {
+      quote,
+      company,
+      result
+    },
+    "ctaFormTitle": ctaFormTitle.${l},
+    hubspotFormId,
+    "seoTitle": seo.title.${l},
+    "seoDescription": seo.description.${l}
+  }`
+}
