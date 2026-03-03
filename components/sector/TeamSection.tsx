@@ -69,6 +69,21 @@ export default function TeamSection({ teamMembers, locale }: TeamSectionProps) {
                     <p className="sector-team-desc">{beschrijving}</p>
                   )}
 
+                  {(member.email || member.telefoon) && (
+                    <div className="sector-team-meta">
+                      {member.email && (
+                        <a href={`mailto:${member.email}`} className="sector-team-email">
+                          {member.email}
+                        </a>
+                      )}
+                      {member.telefoon && (
+                        <a href={`tel:${member.telefoon.replace(/\s/g, '')}`} className="sector-team-phone">
+                          {member.telefoon}
+                        </a>
+                      )}
+                    </div>
+                  )}
+
                   <div className="sector-team-ctas">
                     {member.meetingCalendarUrl && (
                       <a

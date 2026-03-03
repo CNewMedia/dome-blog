@@ -596,6 +596,26 @@
   overflow: hidden;
 }
 
+.sector-team-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.sector-team-email,
+.sector-team-phone {
+  font-size: 0.75rem;
+  color: rgba(247, 246, 244, 0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.sector-team-email:hover,
+.sector-team-phone:hover {
+  color: rgba(255, 214, 0, 0.9);
+}
+
 .sector-team-ctas {
   display: flex;
   flex-wrap: wrap;

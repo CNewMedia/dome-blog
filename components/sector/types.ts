@@ -56,4 +56,6 @@ export type TeamMember = {
   linkedinUrl?: string
   meetingCalendarUrl?: string
   ctaLabel?: LocalizedValue
+  volgorde?: number
+  actief?: boolean
 }

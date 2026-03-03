@@ -125,7 +125,9 @@ export const getTeamMembers = groq`*[_type == "teamMember" && actief == true] | 
   telefoon,
   linkedinUrl,
   meetingCalendarUrl,
-  ctaLabel
+  ctaLabel,
+  volgorde,
+  actief
 }`
 
 export const getSiteSettings = groq`*[_type == "siteSettings"][0]{
