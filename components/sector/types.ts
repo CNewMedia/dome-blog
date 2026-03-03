@@ -5,49 +5,55 @@ export type LocalizedValue = string | Record<string, string>
 export type SanityImage = {
   asset?: { _ref?: string }
   alt?: string
-} | null
+}
+
+export type SectorUspBlock = {
+  icon?: string
+  title?: string
+  description?: string
+}
+
+export type Machine = {
+  name?: string
+  description?: string
+  image?: SanityImage
+}
+
+export type SuccessStory = {
+  quote?: string
+  company?: string
+  result?: string
+}
 
 export type SectorPageData = {
   _id: string
   sector: string
   locale?: string
   language?: string
-  heroTitle?: string | null
-  heroSubtitle?: string | null
+  heroTitle?: string
+  heroSubtitle?: string
   heroImage?: SanityImage
-  content?: unknown[] | null
+  content?: unknown[]
   contentImage?: SanityImage
-  uspBlocks?: Array<{
-    icon?: string
-    title?: string
-    description?: string
-  }> | null
-  machines?: Array<{
-    name?: string
-    description?: string
-    image?: SanityImage
-  }> | null
-  successStory?: {
-    quote?: string
-    company?: string
-    result?: string
-  } | null
-  ctaFormTitle?: string | null
-  hubspotFormId?: string | null
-  seoTitle?: string | null
-  seoDescription?: string | null
+  uspBlocks?: SectorUspBlock[]
+  machines?: Machine[]
+  successStory?: SuccessStory
+  ctaFormTitle?: string
+  hubspotFormId?: string
+  seoTitle?: string
+  seoDescription?: string
 }
 
 /** Team member from Sanity (getTeamMembers) */
 export type TeamMember = {
   _id: string
   naam: LocalizedValue
-  functie?: LocalizedValue | null
-  beschrijving?: LocalizedValue | null
+  functie?: LocalizedValue
+  beschrijving?: LocalizedValue
   foto?: SanityImage
-  email?: string | null
-  telefoon?: string | null
-  linkedinUrl?: string | null
-  meetingCalendarUrl?: string | null
-  ctaLabel?: LocalizedValue | null
+  email?: string
+  telefoon?: string
+  linkedinUrl?: string
+  meetingCalendarUrl?: string
+  ctaLabel?: LocalizedValue
 }
