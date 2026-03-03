@@ -4,55 +4,31 @@ import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import Image from 'next/image'
 import { urlFor } from '../sanity/client'
+import { getLocaleString, type SiteSettings } from '../lib/siteSettings'
 import { useState } from 'react'
-
-type FooterLink = { title?: string; url?: string }
-type SocialLink = { platform?: string; url?: string }
-
-export type SiteSettings = {
-  logo?: any
-  companyName?: string
-  tagline?: string
-  address?: string
-  footerLinks?: FooterLink[]
-  socialLinks?: SocialLink[]
-  newsletterText?: string
-}
 
 export default function Footer({ settings }: { settings?: SiteSettings | null }) {
   const locale = useLocale()
   const da = locale === 'nl-be' ? 'nl' : locale
   const [email, setEmail] = useState('')
-  const t = (nl: string, fr: string, de: string, en: string) =>
-    locale === 'nl-be' ? nl : locale === 'fr-be' ? fr : locale === 'de' ? de : en
 
-  const companyName = settings?.companyName || 'DOME AUCTIONS'
-  const tagline =
-    settings?.tagline ||
-    'Industrial machinery auctions across Belgium, Netherlands, Germany and Switzerland. Fast, transparent, cost-effective.'
-  const address = settings?.address
+  const companyName = settings?.bedrijfsnaam || 'DOME AUCTIONS'
+  const logoAlt = settings?.logoAlt || companyName
+  const tagline = getLocaleString(settings?.tagline, locale) || 'Industrial machinery auctions across Belgium, Netherlands, Germany and Switzerland. Fast, transparent, cost-effective.'
+  const adres = settings?.adres
+  const copyrightTekst = getLocaleString(settings?.copyrightTekst, locale) || `© ${new Date().getFullYear()} ${companyName}. All rights reserved.`
+  const nieuwsbriefTitel = getLocaleString(settings?.nieuwsbriefTitel, locale) || (locale === 'nl-be' ? 'Nieuwsbrief' : locale === 'fr-be' ? 'Newsletter' : locale === 'de' ? 'Newsletter' : 'Newsletter')
+  const footerKolommen = settings?.footerKolommen ?? []
+  const socialLinks = settings?.socialLinks ?? []
 
-  const footerLinks: FooterLink[] =
-    settings?.footerLinks && settings.footerLinks.length > 0
-      ? settings.footerLinks
-      : [
-          {
-            title: t('Algemene voorwaarden', 'Conditions générales', 'AGB', 'Terms and conditions'),
-            url: `https://dome-auctions.com/${da}/terms-and-conditions/`,
-          },
-          {
-            title: t('Privacybeleid', 'Politique de confidentialité', 'Datenschutz', 'Privacy policy'),
-            url: `https://dome-auctions.com/${da}/privacy-policy/`,
-          },
-        ]
-
-  const socialLinks: SocialLink[] = settings?.socialLinks || []
+  const placeholder = locale === 'nl-be' ? 'Uw e-mailadres' : locale === 'fr-be' ? 'Votre email' : locale === 'de' ? 'Ihre E-Mail' : 'Your email address'
+  const subscribeLabel = locale === 'nl-be' ? 'Abonneren' : locale === 'fr-be' ? "S'abonner" : locale === 'de' ? 'Abonnieren' : 'Subscribe'
 
   return (
     <>
       <style>{`
         .footer { background:#0f0f0f;color:#f7f5f0;margin-top:6rem; }
-        .foot-top { max-width:1400px;margin:0 auto;padding:5rem 2.5rem 3rem;display:grid;grid-template-columns:1.7fr 1.1fr 1.1fr 1.5fr;gap:4rem; }
+        .foot-top { max-width:1400px;margin:0 auto;padding:5rem 2.5rem 3rem;display:grid;gap:4rem; }
         .foot-logo { margin-bottom:1.25rem; }
         .foot-logo-text { font-size:1.1rem;font-weight:800;letter-spacing:.08em;color:#f7f5f0;font-family:inherit; }
         .foot-sub { font-size:.85rem;color:rgba(247,245,240,.35);line-height:1.7;margin-bottom:.65rem; }
@@ -72,17 +48,22 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
         .foot-bot-links { display:flex;gap:2rem;flex-wrap:wrap; }
         .foot-bot-links a { color:rgba(247,245,240,.3);text-decoration:none;transition:color .15s; }
         .foot-bot-links a:hover { color:rgba(247,245,240,.7); }
-        @media(max-width:1024px) { .foot-top { grid-template-columns:1fr 1fr;gap:2.5rem; } }
-        @media(max-width:768px) { .foot-top { grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem 2rem; } .foot-bot { flex-direction:column;gap:1rem;text-align:center;padding:1.5rem; } .foot-bot-links { justify-content:center; } }
+        @media(max-width:1024px) { .foot-top { grid-template-columns:1fr 1fr !important;gap:2.5rem; } }
+        @media(max-width:768px) { .foot-top { grid-template-columns:1fr !important;gap:2rem;padding:3rem 1.5rem 2rem; } .foot-bot { flex-direction:column;gap:1rem;text-align:center;padding:1.5rem; } .foot-bot-links { justify-content:center; } }
       `}</style>
       <footer className="footer">
-        <div className="foot-top">
+        <div
+          className="foot-top"
+          style={{
+            gridTemplateColumns: `1.7fr ${footerKolommen.map(() => '1fr').join(' ')} 1.5fr`,
+          }}
+        >
           <div>
             <div className="foot-logo">
               {settings?.logo ? (
                 <Image
                   src={urlFor(settings.logo).width(180).height(40).fit('max').url()}
-                  alt={companyName}
+                  alt={logoAlt}
                   width={180}
                   height={40}
                   style={{ height: 'auto', width: 'auto', maxWidth: '180px' }}
@@ -92,62 +73,49 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
               )}
             </div>
             <p className="foot-sub">{tagline}</p>
-            {address && <p className="foot-address">{address}</p>}
-          </div>
-          <div>
-            <div className="foot-col-title">Platform</div>
-            <div className="foot-links">
-              <Link href={`https://dome-auctions.com/${da}/auctions/`}>{t('Alle veilingen','Toutes les ventes','Alle Auktionen','All auctions')}</Link>
-              <Link href={`https://dome-auctions.com/${da}/categories/`}>{t('Categorieën','Catégories','Kategorien','Categories')}</Link>
-              <Link href={`https://dome-auctions.com/${da}/how-it-works/`}>{t('Hoe het werkt','Comment ça marche','Wie es funktioniert','How it works')}</Link>
-            </div>
-          </div>
-          <div>
-            <div className="foot-col-title">{t('Bedrijf','Entreprise','Unternehmen','Company')}</div>
-            <div className="foot-links">
-              <Link href={`https://dome-auctions.com/${da}/about/`}>{t('Over ons','À propos','Über uns','About us')}</Link>
-              <Link href={`/${locale}/blog`}>Blog</Link>
-              <Link href={`https://dome-auctions.com/${da}/faq/`}>FAQ</Link>
-              <Link href={`https://dome-auctions.com/${da}/contact/`}>Contact</Link>
-            </div>
+            {adres && <p className="foot-address">{adres}</p>}
             {socialLinks.length > 0 && (
               <div className="foot-social">
                 {socialLinks.map((s, i) =>
                   s.url ? (
-                    <Link key={i} href={s.url}>
+                    <a key={i} href={s.url} target="_blank" rel="noopener noreferrer">
                       {s.platform || 'Social'}
-                    </Link>
+                    </a>
                   ) : null
                 )}
               </div>
             )}
           </div>
+          {footerKolommen.map((kolom, ki) => (
+            <div key={ki}>
+              <div className="foot-col-title">{getLocaleString(kolom.titel, locale)}</div>
+              <div className="foot-links">
+                {kolom.links?.map((link, li) =>
+                  link.url ? (
+                    <Link key={li} href={link.url}>
+                      {getLocaleString(link.label, locale) || link.url}
+                    </Link>
+                  ) : null
+                )}
+              </div>
+            </div>
+          ))}
           <div>
-            <div className="foot-col-title">{t('Nieuwsbrief','Newsletter','Newsletter','Newsletter')}</div>
-            {settings?.newsletterText && <p className="foot-nl-copy">{settings.newsletterText}</p>}
+            <div className="foot-col-title">{nieuwsbriefTitel}</div>
             <input
               className="foot-nl-input"
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder={t('Uw e-mailadres','Votre email','Ihre E-Mail','Your email address')}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={placeholder}
             />
-            <button className="foot-nl-btn">
-              {t('Abonneren',"S'abonner",'Abonnieren','Subscribe')}
+            <button type="button" className="foot-nl-btn">
+              {subscribeLabel}
             </button>
           </div>
         </div>
         <div className="foot-bot">
-          <span>© {new Date().getFullYear()} {companyName}. All rights reserved.</span>
-          <div className="foot-bot-links">
-            {footerLinks.map((link, i) =>
-              link.url && link.title ? (
-                <Link key={i} href={link.url}>
-                  {link.title}
-                </Link>
-              ) : null
-            )}
-          </div>
+          <span>{copyrightTekst}</span>
         </div>
       </footer>
     </>

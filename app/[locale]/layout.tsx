@@ -36,7 +36,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       </head>
       <body style={{ paddingTop: '60px' }}>
         <NextIntlClientProvider messages={messages}>
-          <Navbar />
+          <Navbar settings={siteSettings} />
           {children}
           <Footer settings={siteSettings} />
         </NextIntlClientProvider>

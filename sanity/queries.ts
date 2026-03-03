@@ -77,10 +77,20 @@ export const getSectorPage = (locale: string) => {
 export const getSiteSettings = groq`*[_type == "siteSettings"][0]{
   _id,
   logo,
-  companyName,
+  logoAlt,
+  bedrijfsnaam,
   tagline,
-  address,
-  footerLinks,
-  socialLinks,
-  newsletterText
+  headerMenu[] {
+    label,
+    url,
+    submenu[] { label, url }
+  },
+  footerKolommen[] {
+    titel,
+    links[] { label, url }
+  },
+  socialLinks[] { platform, url },
+  adres,
+  copyrightTekst,
+  nieuwsbriefTitel
 }`
