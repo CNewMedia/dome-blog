@@ -3,7 +3,7 @@
 export type SectorPageData = {
   _id: string
   sector: string
-  availableLocales?: string[] | null
+  locale?: string
   heroTitle?: string | null
   heroSubtitle?: string | null
   heroImage?: { asset?: { _ref?: string }; alt?: string } | null
@@ -18,6 +18,8 @@ export type SectorPageData = {
   successStory?: { quote?: string; company?: string; result?: string } | null
   ctaFormTitle?: string | null
   hubspotFormId?: string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
 }
 
 /** Team member from Sanity (getTeamMembers) */

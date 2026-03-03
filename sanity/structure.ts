@@ -19,9 +19,64 @@ export const structure = (S: StructureBuilder) =>
       S.listItem().title('Categories').schemaType('category').child(
         S.documentList().title('Categories').filter('_type == "category"')
       ),
-      S.listItem().title('Sector Landing Pages').schemaType('sectorPage').child(
-        S.documentList().title('Sector Landing Pages').filter('_type == "sectorPage"')
-      ),
+      S.listItem()
+        .title('Sector Landing Pages')
+        .child(
+          S.list()
+            .title('Sector Landing Pages')
+            .items([
+              S.listItem()
+                .title('Woodworking')
+                .id('sector-woodworking')
+                .child(
+                  S.documentList()
+                    .title('Woodworking')
+                    .schemaType('sectorPage')
+                    .filter('_type == "sectorPage" && sector == "woodworking"')
+                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Metalworking')
+                .id('sector-metalworking')
+                .child(
+                  S.documentList()
+                    .title('Metalworking')
+                    .schemaType('sectorPage')
+                    .filter('_type == "sectorPage" && sector == "metalworking"')
+                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Construction')
+                .id('sector-construction')
+                .child(
+                  S.documentList()
+                    .title('Construction')
+                    .schemaType('sectorPage')
+                    .filter('_type == "sectorPage" && sector == "construction"')
+                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Agriculture')
+                .id('sector-agriculture')
+                .child(
+                  S.documentList()
+                    .title('Agriculture')
+                    .schemaType('sectorPage')
+                    .filter('_type == "sectorPage" && sector == "agriculture"')
+                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Transport')
+                .id('sector-transport')
+                .child(
+                  S.documentList()
+                    .title('Transport')
+                    .schemaType('sectorPage')
+                    .filter('_type == "sectorPage" && sector == "transport"')
+                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                ),
+            ])
+        ),
       S.listItem()
         .title('Team')
         .schemaType('teamMember')
@@ -31,5 +86,4 @@ export const structure = (S: StructureBuilder) =>
             .filter('_type == "teamMember"')
             .defaultOrdering([{ field: 'volgorde', direction: 'asc' }])
         ),
-      S.listItem().title('Media Library').id('media'),
     ])

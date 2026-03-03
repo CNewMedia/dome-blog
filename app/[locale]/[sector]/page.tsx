@@ -15,8 +15,8 @@ export default async function SectorPage({ params }: Props) {
   if (!SECTORS.includes(sector as (typeof SECTORS)[number])) notFound()
 
   const [data, teamMembers] = await Promise.all([
-    client.fetch(getSectorPage(locale), { sector }),
-    client.fetch(getTeamMembers(locale)),
+    client.fetch(getSectorPage(locale), { sector, locale }),
+    client.fetch(getTeamMembers),
   ])
   if (!data) notFound()
 
@@ -25,7 +25,7 @@ export default async function SectorPage({ params }: Props) {
 
 export async function generateMetadata({ params }: Props) {
   const { locale, sector } = await params
-  const data = await client.fetch(getSectorPage(locale), { sector })
+  const data = await client.fetch(getSectorPage(locale), { sector, locale })
   if (!data) return { title: 'Sector | Dome Auctions' }
   return {
     title: data.seoTitle || data.heroTitle || `${sector} | Dome Auctions`,

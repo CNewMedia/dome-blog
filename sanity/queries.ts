@@ -47,23 +47,21 @@ export const getCategories = groq`*[_type == "category"] | order(title asc) {
   _id, title, "slug": slug.current
 }`
 
-/** Lightweight query for middleware: only availableLocales */
-export const getSectorAvailableLocales = groq`*[_type == "sectorPage" && sector == $sector][0] {
-  "availableLocales": coalesce(availableLocales, ["nl-be"])
+/** For language selector: which locales exist for a sector */
+export const getSectorAvailableLocales = groq`{
+  "availableLocales": array::unique(*[_type == "sectorPage" && sector == $sector].locale)
 }`
 
 export const getSectorPage = (locale: string) => {
-  const l = localeToField(locale)
-  const fallback = 'nl_be'
-  return groq`*[_type == "sectorPage" && sector == $sector][0] {
+  return groq`*[_type == "sectorPage" && sector == $sector && locale == $locale][0] {
     _id,
     sector,
-    availableLocales,
-    "heroTitle": coalesce(heroTitle.${l}, heroTitle.${fallback}),
-    "heroSubtitle": coalesce(heroSubtitle.${l}, heroSubtitle.${fallback}),
+    locale,
+    heroTitle,
+    heroSubtitle,
     heroImage,
     contentImage,
-    "content": coalesce(content.${l}, content.${fallback}),
+    content,
     uspBlocks,
     machines[] {
       name,
@@ -75,29 +73,25 @@ export const getSectorPage = (locale: string) => {
       company,
       result
     },
-    "ctaFormTitle": coalesce(ctaFormTitle.${l}, ctaFormTitle.${fallback}),
+    ctaFormTitle,
     hubspotFormId,
-    "seoTitle": coalesce(seo.title.${l}, seo.title.${fallback}),
-    "seoDescription": coalesce(seo.description.${l}, seo.description.${fallback})
+    seoTitle,
+    seoDescription
   }`
 }
 
-export const getTeamMembers = (locale: string) => {
-  const l = localeToField(locale)
-  const fallback = 'nl_be'
-  return groq`*[_type == "teamMember" && actief == true] | order(volgorde asc) {
-    _id,
-    naam,
-    "functie": coalesce(functie.${l}, functie.${fallback}),
-    "beschrijving": coalesce(beschrijving.${l}, beschrijving.${fallback}),
-    foto,
-    email,
-    telefoon,
-    linkedinUrl,
-    meetingCalendarUrl,
-    "ctaLabel": coalesce(ctaLabel.${l}, ctaLabel.${fallback})
-  }`
-}
+export const getTeamMembers = groq`*[_type == "teamMember" && actief == true] | order(volgorde asc) {
+  _id,
+  naam,
+  functie,
+  beschrijving,
+  foto,
+  email,
+  telefoon,
+  linkedinUrl,
+  meetingCalendarUrl,
+  ctaLabel
+}`
 
 export const getSiteSettings = groq`*[_type == "siteSettings"][0]{
   _id,

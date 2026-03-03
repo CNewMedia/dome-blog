@@ -1,43 +1,67 @@
 import { defineType, defineField } from 'sanity'
 
-const locales = ['en', 'nl-be', 'fr-be', 'de']
+const SECTOR_OPTIONS: {title: string; value: string}[] = [
+  { title: 'Woodworking (Houtbewerking)', value: 'woodworking' },
+  { title: 'Metalworking (Metaalbewerking)', value: 'metalworking' },
+  { title: 'Construction (Bouw & Grondverzet)', value: 'construction' },
+  { title: 'Agriculture (Landbouw)', value: 'agriculture' },
+  { title: 'Transport (Transport & Handling)', value: 'transport' },
+] as const
 
-const localizedString = (name: string, title: string, group?: string) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    group,
-    fields: locales.map((locale) => ({
-      name: locale.replace('-', '_'),
-      title: locale.toUpperCase(),
+const LOCALE_OPTIONS: {title: string; value: string}[] = [
+  { title: 'Nederlands (België)', value: 'nl-be' },
+  { title: 'Français (Belgique)', value: 'fr-be' },
+  { title: 'English', value: 'en' },
+  { title: 'Deutsch', value: 'de' },
+] as const
+
+export const sectorPageSchema = defineType({
+  name: 'sectorPage',
+  title: 'Sector Landing Page',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'sector',
+      title: 'Sector',
       type: 'string',
-    })),
-  })
-
-const localizedText = (name: string, title: string, group?: string) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    group,
-    fields: locales.map((locale) => ({
-      name: locale.replace('-', '_'),
-      title: locale.toUpperCase(),
+      options: {
+        list: SECTOR_OPTIONS,
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'locale',
+      title: 'Taal',
+      type: 'string',
+      options: {
+        list: LOCALE_OPTIONS,
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'heroTitle',
+      title: 'Hero title',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'heroSubtitle',
+      title: 'Hero subtitle',
       type: 'text',
       rows: 3,
-    })),
-  })
-
-const localizedBody = (name: string, title: string, group?: string) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    group,
-    fields: locales.map((locale) => ({
-      name: locale.replace('-', '_'),
-      title: locale.toUpperCase(),
+    }),
+    defineField({
+      name: 'heroImage',
+      title: 'Hero image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
+    }),
+    defineField({
+      name: 'content',
+      title: 'Content',
       type: 'array',
       of: [
         {
@@ -74,110 +98,30 @@ const localizedBody = (name: string, title: string, group?: string) =>
           fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
         },
       ],
-    })),
-  })
-
-export const sectorPageSchema = defineType({
-  name: 'sectorPage',
-  title: 'Sector Landing Page',
-  type: 'document',
-  groups: [
-    { name: 'instellingen', title: 'Instellingen & taal', default: true },
-    { name: 'hero', title: 'Hero' },
-    { name: 'content', title: 'Content' },
-    { name: 'usps', title: 'USP\'s' },
-    { name: 'machines', title: 'Machines' },
-    { name: 'success', title: 'Success story' },
-    { name: 'cta', title: 'Contactformulier' },
-    { name: 'seo', title: 'SEO' },
-  ],
-  fields: [
-    defineField({
-      name: 'sector',
-      title: 'Sector',
-      type: 'string',
-      group: 'instellingen',
-      options: {
-        list: [
-          { title: 'Woodworking (Houtbewerking)', value: 'woodworking' },
-          { title: 'Metalworking (Metaalbewerking)', value: 'metalworking' },
-          { title: 'Construction (Bouw & Grondverzet)', value: 'construction' },
-          { title: 'Agriculture (Landbouw)', value: 'agriculture' },
-          { title: 'Transport (Transport & Handling)', value: 'transport' },
-        ],
-        layout: 'dropdown',
-      },
-      validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'availableLocales',
-      title: 'Beschikbare talen',
-      type: 'array',
-      group: 'instellingen',
-      of: [{ type: 'string' }],
-      options: {
-        list: [
-          { title: 'Nederlands (België)', value: 'nl-be' },
-          { title: 'Français (Belgique)', value: 'fr-be' },
-          { title: 'English', value: 'en' },
-          { title: 'Deutsch', value: 'de' },
-        ],
-        layout: 'tags',
-      },
-      initialValue: ['nl-be'],
-      description: 'Alleen deze talen zijn beschikbaar voor deze sectorpagina. Gebruiker wordt doorgestuurd naar nl-be als de gekozen taal niet beschikbaar is. De teamleden van de team-sectie beheer je onder "Team" in het zijmenu.',
-    }),
-    defineField({
-      name: 'heroTitle',
-      title: 'Hero title',
-      type: 'object',
-      group: 'hero',
-      fields: locales.map((locale) => ({
-        name: locale.replace('-', '_'),
-        title: locale.toUpperCase(),
-        type: 'string',
-      })),
-    }),
-    defineField({
-      name: 'heroSubtitle',
-      title: 'Hero subtitle',
-      type: 'object',
-      group: 'hero',
-      fields: locales.map((locale) => ({
-        name: locale.replace('-', '_'),
-        title: locale.toUpperCase(),
-        type: 'text',
-        rows: 3,
-      })),
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Hero image',
-      type: 'image',
-      group: 'hero',
-      options: { hotspot: true },
-      fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
-    }),
-    localizedBody('content', 'Content', 'content'),
     defineField({
       name: 'contentImage',
       title: 'Content afbeelding',
       type: 'image',
-      group: 'content',
       options: { hotspot: true },
-      description: 'Afbeelding naast de contenttekst (desktop). Optioneel; anders wordt de hero-afbeelding gebruikt.',
+      description:
+        'Afbeelding naast de contenttekst (desktop). Optioneel; anders wordt de hero-afbeelding gebruikt.',
       fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
     }),
     defineField({
       name: 'uspBlocks',
       title: 'USP blocks',
       type: 'array',
-      group: 'usps',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'icon', title: 'Icon', type: 'string', description: 'Icon name or identifier (e.g. speed, personal)' },
+            {
+              name: 'icon',
+              title: 'Icon',
+              type: 'string',
+              description: 'Icon name or identifier (e.g. speed, personal)',
+            },
             { name: 'title', title: 'Title', type: 'string' },
             { name: 'description', title: 'Description', type: 'text', rows: 3 },
           ],
@@ -194,7 +138,6 @@ export const sectorPageSchema = defineType({
       name: 'machines',
       title: 'Machine categories',
       type: 'array',
-      group: 'machines',
       of: [
         {
           type: 'object',
@@ -222,35 +165,42 @@ export const sectorPageSchema = defineType({
       name: 'successStory',
       title: 'Success story / case reference',
       type: 'object',
-      group: 'success',
       fields: [
         { name: 'quote', title: 'Quote', type: 'text', rows: 4 },
         { name: 'company', title: 'Company', type: 'string' },
         { name: 'result', title: 'Result', type: 'string', description: 'Short result or outcome' },
       ],
     }),
-    localizedString('ctaFormTitle', 'CTA form title', 'cta'),
+    defineField({
+      name: 'ctaFormTitle',
+      title: 'CTA form title',
+      type: 'string',
+    }),
     defineField({
       name: 'hubspotFormId',
       title: 'HubSpot form ID',
       type: 'string',
-      group: 'cta',
       description: 'Sector-specific HubSpot form ID for lead capture',
     }),
     defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'object',
-      group: 'seo',
-      fields: [
-        localizedString('title', 'SEO title'),
-        localizedText('description', 'SEO description'),
-      ],
+      name: 'seoTitle',
+      title: 'SEO title',
+      type: 'string',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO description',
+      type: 'text',
+      rows: 3,
     }),
   ],
   preview: {
-    select: { sector: 'sector', heroTitle: 'heroTitle.en' },
-    prepare({ sector, heroTitle }) {
+    select: {
+      sector: 'sector',
+      locale: 'locale',
+      heroTitle: 'heroTitle',
+    },
+    prepare({ sector, locale, heroTitle }) {
       const labels: Record<string, string> = {
         woodworking: 'Woodworking',
         metalworking: 'Metalworking',
@@ -258,9 +208,11 @@ export const sectorPageSchema = defineType({
         agriculture: 'Agriculture',
         transport: 'Transport',
       }
+      const sectorLabel = labels[sector] || sector || 'Sector page'
+      const localeLabel = locale ? String(locale).toUpperCase() : ''
       return {
-        title: heroTitle || labels[sector] || sector || 'Sector page',
-        subtitle: sector ? labels[sector] : undefined,
+        title: `${sectorLabel}${localeLabel ? ` — ${localeLabel}` : ''}`,
+        subtitle: heroTitle || undefined,
       }
     },
   },
