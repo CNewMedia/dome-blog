@@ -1,7 +1,6 @@
+/** No Tailwind in this project; sector-landing.css is plain CSS. */
 const config = {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
+  plugins: {},
 };
 
 export default config;

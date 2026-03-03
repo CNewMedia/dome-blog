@@ -68,9 +68,7 @@ export default function SectorLandingPage({ data }: { data: SectorPageData }) {
         />
       )}
 
-      <Reveal>
-        <TeamSection />
-      </Reveal>
+      <TeamSection />
 
       <Reveal>
         <ContactForm
