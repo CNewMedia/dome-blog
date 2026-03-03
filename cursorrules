@@ -1,0 +1,272 @@
+# Dome Auctions Blog + Sector Landing Pages — Cursor Project Rules
+
+## Project Overview
+
+This is the Dome Auctions website project: a Next.js application with Sanity CMS, deployed on Vercel.
+Repository: CNewMedia/dome-blog
+Vercel project: dome_blog (domeblog.vercel.app)
+Sanity organization: CNewMedia (with "Dome Auctions Blog" studios)
+
+The project serves two purposes:
+1. **Blog/Insights** — articles about industrial auctions, sector news, expertise content
+2. **Sector Landing Pages** — lead capture pages for 5 industry sectors
+
+## Tech Stack
+
+- **Framework:** Next.js (App Router)
+- **CMS:** Sanity v3 (headless, with embedded Studio)
+- **Styling:** Tailwind CSS + PostCSS
+- **i18n:** Built-in (nl-be, fr-be locales — see i18n/, messages/ folders)
+- **Middleware:** middleware.ts handles locale routing
+- **Deployment:** Vercel (Hobby plan, team "CNIP's projects")
+- **Forms:** HubSpot embedded forms (Portal ID: 147410570, region: eu1)
+
+## Branch Strategy
+
+- `main` → Production (insights.dome-auctions.com)
+- `staging` → Staging/preview (staging.dome-auctions.com)
+- `develop` → Daily development work
+
+## Domain Structure
+
+The sector landing pages will eventually be accessible via:
+- woodworking.dome-auctions.com → /woodworking
+- metalworking.dome-auctions.com → /metalworking
+- construction.dome-auctions.com → /construction
+- agriculture.dome-auctions.com → /agriculture
+- transport.dome-auctions.com → /transport
+- insights.dome-auctions.com → / (blog homepage)
+
+Hostname-based routing should be handled in middleware.ts.
+
+---
+
+## Brand Identity — DOME AUCTIONS
+
+### Core
+
+- **Full name:** Dome Auctions
+- **Tagline:** Simplify Industrial Auctions
+- **DOME =** Dutch • Online • Machinery • Exchange
+- **Merkbelofte:** "Wij veilen uw machines alsof het de onze zijn. Geen massa, wel klasse."
+- **Market:** Belgium / Flanders (expanding to Benelux)
+- **Team Belgium:** Peter Lechat (Key Account & Commercieel Directeur), Wim Miserez, Wouter Vanrysselberghe, Mattias Van Apers
+- **Location:** Esplanade 1 PB48, BE-1020 Brussel. Warehouse in Deinze.
+
+### Visual Brand
+
+- **Primary colors:** Black (#0f0f0f), Yellow/Gold (#FFD600 primary, #c8a84b gold accent), White (#ffffff)
+- **Background:** Off-white (#f7f6f4), Charcoal for dark sections
+- **Typography:** Font "Melody" (custom, hosted on HubSpot CDN), fallback to system sans-serif
+- **Logo:** SVG, black on white or white on black. Available at insights.dome-auctions.com/hubfs/Brand_folder/
+- **Style:** Clean, professional, industrial. NOT flashy or consumer-oriented. Bootstrap-based on main site.
+
+### Tone of Voice
+
+- **Direct:** Say what you mean. No vague promises.
+- **Professional:** Show expertise without arrogance.
+- **Human:** Understanding of the customer's situation.
+- **Reliable:** Do what you say, say what you do.
+- **Result-oriented:** Focus on solutions, not problems.
+
+### DO NOT:
+- Use "Wij zijn de beste op de markt"
+- Use pressure tactics ("U moet snel beslissen")
+- Use consumer/B2C language
+- Use generic stock photos of offices/people in suits
+
+### DO:
+- Reference concrete timelines (6 weeks from intake to sale)
+- Mention the personal approach (one fixed contact person)
+- Reference 20+ years experience, 1000+ auctions
+- Use industrial/machinery imagery
+- Keep it B2B and sector-specific
+
+---
+
+## 5 USPs (Use consistently across all pages)
+
+1. **SPEED** — 6 Weeks from Intake to Sale
+2. **PERSONAL** — One Fixed Contact Person
+3. **EXPERIENCE** — 20+ Years, 1000+ Auctions
+4. **PURE B2B** — Exclusively Industrial
+5. **INTERNATIONAL** — European Buyer Network
+
+---
+
+## 5 Sector Landing Pages
+
+Each sector page must include:
+- Hero section with sector-specific headline and image
+- USP blocks (tailored per sector)
+- Machine categories for that sector
+- Success story / case reference
+- HubSpot lead capture form (sector-specific form ID)
+- SEO metadata (title, description) in nl-be and fr-be
+- CTA linking to contact / form
+
+### Sectors:
+
+**1. Woodworking (Houtbewerking)**
+- Machines: CNC routers, plaatzagen, schaafmachines, kantenbanders, afzuiginstallaties
+- Keywords: houtbewerkingsmachines verkopen, houtveiling, CNC hout veiling
+
+**2. Metalworking (Metaalbewerking)**
+- Machines: CNC draaibanken, freesmachines, lasapparatuur, plaatbewerking, buigmachines
+- Keywords: metaalbewerkingsmachines verkopen, CNC veiling, metaalveiling
+
+**3. Construction (Bouw & Grondverzet)**
+- Machines: graafmachines, kranen, bulldozers, betonmixers, hoogwerkers, steigers
+- Keywords: bouwmachines verkopen, grondverzetmachines veiling
+
+**4. Agriculture (Landbouw)**
+- Machines: tractoren, combines, ploegen, zaaimachines, melkrobots, opslagsilo's
+- Keywords: landbouwmachines verkopen, tractorveiling, agri veiling
+
+**5. Transport (Transport & Handling)**
+- Machines: vrachtwagens, opleggers, heftrucks, reachtrucks, palletwagens, laadkleppen
+- Keywords: transportmachines verkopen, heftruckveiling, vrachtwagen veiling
+
+---
+
+## Sanity Schema Requirements
+
+### Blog Post (likely exists already)
+- title (localeString)
+- slug
+- author
+- publishedAt
+- body (portable text)
+- mainImage
+- categories
+- seo (title, description)
+
+### Sector Landing Page (NEW — create this)
+- sector (enum: woodworking, metalworking, construction, agriculture, transport)
+- heroTitle (localeString)
+- heroSubtitle (localeString)
+- heroImage (image with hotspot)
+- uspBlocks (array of objects: icon, title, description)
+- machines (array of objects: name, description, image)
+- successStory (reference or object: quote, company, result)
+- ctaFormTitle (localeString)
+- hubspotFormId (string)
+- seo (object: title, description — both localeString)
+
+### localeString type
+Should support nl-be and fr-be fields. Check existing i18n setup in the project.
+
+---
+
+## HubSpot Integration
+
+- **Portal ID:** 147410570
+- **Region:** eu1
+- **Script:** //js-eu1.hsforms.net/forms/embed/v2.js
+- **Tracking Code:** //js-eu1.hs-scripts.com/147410570.js (should be on all pages)
+
+Embed forms client-side using:
+```tsx
+'use client';
+import { useEffect } from 'react';
+
+export default function HubSpotForm({ formId }: { formId: string }) {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = '//js-eu1.hsforms.net/forms/embed/v2.js';
+    script.async = true;
+    script.onload = () => {
+      window.hbspt?.forms.create({
+        portalId: '147410570',
+        formId,
+        target: '#hubspot-form',
+        region: 'eu1',
+      });
+    };
+    document.body.appendChild(script);
+    return () => { document.body.removeChild(script); };
+  }, [formId]);
+
+  return <div id="hubspot-form" />;
+}
+```
+
+---
+
+## Vercel Environment Variables
+
+Set these in Vercel → Project Settings → Environment Variables:
+
+| Variable | Value | Environments |
+|----------|-------|-------------|
+| NEXT_PUBLIC_SANITY_PROJECT_ID | (from sanity.io/manage) | All |
+| NEXT_PUBLIC_SANITY_DATASET | production | Production |
+| NEXT_PUBLIC_SANITY_DATASET | staging | Preview |
+| SANITY_API_TOKEN | (read token from Sanity) | All |
+| NEXT_PUBLIC_HUBSPOT_PORTAL_ID | 147410570 | All |
+
+---
+
+## Coding Conventions
+
+- Use TypeScript (.ts/.tsx)
+- Use App Router (app/ directory)
+- Use Server Components by default, 'use client' only when needed
+- Tailwind CSS for styling
+- Follow existing project patterns and component structure
+- Sanity queries in GROQ
+- Images via Sanity CDN with next/image optimization
+- All user-facing text must support nl-be and fr-be locales
+
+---
+
+## File Structure (expected)
+
+```
+dome-blog/
+├── app/                    # Next.js App Router pages
+│   ├── [locale]/           # Locale-based routing
+│   │   ├── page.tsx        # Blog homepage
+│   │   ├── blog/           # Blog articles
+│   │   ├── woodworking/    # Sector landing page
+│   │   ├── metalworking/
+│   │   ├── construction/
+│   │   ├── agriculture/
+│   │   └── transport/
+│   └── studio/             # Sanity Studio route
+├── components/             # Reusable React components
+├── sanity/                 # Sanity config, schemas, queries
+│   ├── schemas/
+│   │   ├── post.ts
+│   │   ├── sectorPage.ts   # NEW
+│   │   └── ...
+│   └── lib/
+│       └── queries.ts
+├── src/                    # Additional source files
+├── i18n/                   # Internationalization config
+├── messages/               # Translation files
+├── public/                 # Static assets
+├── middleware.ts            # Locale + hostname routing
+├── sanity.config.ts        # Sanity studio config
+├── sanity.cli.js           # Sanity CLI config
+├── next.config.mjs         # Next.js config
+├── tailwind.config.ts      # Tailwind config
+├── postcss.config.mjs
+├── tsconfig.json
+├── package.json
+└── .env.local              # Local environment variables (NOT in git)
+```
+
+---
+
+## Current Priority Tasks
+
+1. Clean up repo (remove dist/, .sanity/runtime/ from git)
+2. Create staging branch
+3. Create Sanity schema for sectorPage
+4. Build reusable SectorLandingPage component
+5. Create 5 sector page routes
+6. Integrate HubSpot form component
+7. Add HubSpot tracking code to layout
+8. Test on staging URL
+9. Configure custom domains in Vercel
