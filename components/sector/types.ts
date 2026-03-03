@@ -1,21 +1,37 @@
 /** Sanity-driven content for sector landing pages */
 
+export type LocalizedValue = string | Record<string, string>
+
+export type SanityImage = {
+  asset?: { _ref?: string }
+  alt?: LocalizedValue | null
+} | null
+
 export type SectorPageData = {
   _id: string
   sector: string
   locale?: string
+  language?: string
   heroTitle?: string | null
   heroSubtitle?: string | null
-  heroImage?: { asset?: { _ref?: string }; alt?: string } | null
+  heroImage?: SanityImage
   content?: unknown[] | null
-  contentImage?: { asset?: { _ref?: string }; alt?: string } | null
-  uspBlocks?: Array<{ icon?: string; title?: string; description?: string }> | null
+  contentImage?: SanityImage
+  uspBlocks?: Array<{
+    icon?: string
+    title?: string
+    description?: string
+  }> | null
   machines?: Array<{
     name?: string
     description?: string
-    image?: { asset?: { _ref?: string }; alt?: string }
+    image?: SanityImage
   }> | null
-  successStory?: { quote?: string; company?: string; result?: string } | null
+  successStory?: {
+    quote?: string
+    company?: string
+    result?: string
+  } | null
   ctaFormTitle?: string | null
   hubspotFormId?: string | null
   seoTitle?: string | null
@@ -25,13 +41,13 @@ export type SectorPageData = {
 /** Team member from Sanity (getTeamMembers) */
 export type TeamMember = {
   _id: string
-  naam: string
-  functie?: string | null
-  beschrijving?: string | null
-  foto?: { asset?: { _ref?: string }; alt?: string } | null
+  naam: LocalizedValue
+  functie?: LocalizedValue | null
+  beschrijving?: LocalizedValue | null
+  foto?: SanityImage
   email?: string | null
   telefoon?: string | null
   linkedinUrl?: string | null
   meetingCalendarUrl?: string | null
-  ctaLabel?: string | null
+  ctaLabel?: LocalizedValue | null
 }
