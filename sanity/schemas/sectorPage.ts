@@ -122,7 +122,7 @@ export const sectorPageSchema = defineType({
           { title: 'English', value: 'en' },
           { title: 'Deutsch', value: 'de' },
         ],
-        layout: 'checkbox',
+        layout: 'tags',
       },
       initialValue: ['nl-be'],
       description: 'Alleen deze talen zijn beschikbaar voor deze sectorpagina. Gebruiker wordt doorgestuurd naar nl-be als de gekozen taal niet beschikbaar is. De teamleden van de team-sectie beheer je onder "Team" in het zijmenu.',
