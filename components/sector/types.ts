@@ -4,7 +4,7 @@ export type LocalizedValue = string | Record<string, string>
 
 export type SanityImage = {
   asset?: { _ref?: string }
-  alt?: string | null
+  alt?: string
 } | null
 
 export type SectorPageData = {
