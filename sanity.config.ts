@@ -1,6 +1,6 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
-import { media } from 'sanity-plugin-media'
+import { cloudinarySchemaPlugin } from 'sanity-plugin-cloudinary'
 import { schemaTypes } from './sanity/schemas'
 import { structure } from './sanity/structure'
 
@@ -11,11 +11,7 @@ export default defineConfig({
   dataset: 'production',
   plugins: [
     structureTool({ structure }),
-    media({
-      // Optional: enable credit line and set max upload size (bytes)
-      creditLine: { enabled: true },
-      directUploads: true,
-    }),
+    cloudinarySchemaPlugin(),
   ],
   schema: { types: schemaTypes },
   basePath: '/studio',
