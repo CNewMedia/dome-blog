@@ -73,3 +73,14 @@ export const getSectorPage = (locale: string) => {
     "seoDescription": seo.description.${l}
   }`
 }
+
+export const getSiteSettings = groq`*[_type == "siteSettings"][0]{
+  _id,
+  logo,
+  companyName,
+  tagline,
+  address,
+  footerLinks,
+  socialLinks,
+  newsletterText
+}`

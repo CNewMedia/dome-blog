@@ -4,6 +4,15 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title('Dome Auctions Blog')
     .items([
+      S.listItem()
+        .title('Site Instellingen')
+        .schemaType('siteSettings')
+        .child(
+          S.editor()
+            .id('siteSettings')
+            .schemaType('siteSettings')
+            .documentId('siteSettings')
+        ),
       S.listItem().title('Blog Posts').schemaType('post').child(
         S.documentList().title('Blog Posts').filter('_type == "post"').defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
       ),

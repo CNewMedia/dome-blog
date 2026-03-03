@@ -8,7 +8,6 @@ import {
   ProcessSteps,
   SuccessStory,
   ContactForm,
-  Footer,
   ContentBlock,
   Reveal,
   type SectorPageData,
@@ -76,8 +75,6 @@ export default function SectorLandingPage({ data }: { data: SectorPageData }) {
           title={ctaFormTitle}
         />
       </Reveal>
-
-      <Footer />
     </div>
   )
 }

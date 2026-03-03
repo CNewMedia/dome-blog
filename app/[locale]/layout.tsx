@@ -3,6 +3,8 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import { client } from '../../sanity/client'
+import { getSiteSettings } from '../../sanity/queries'
 
 const locales = ['nl-be', 'fr-be', 'en', 'de']
 
@@ -15,6 +17,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
   if (!locales.includes(locale)) notFound()
   const messages = await getMessages()
+  const siteSettings = await client.fetch(getSiteSettings)
 
   return (
     <html lang={locale}>
@@ -35,7 +38,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           {children}
-          <Footer />
+          <Footer settings={siteSettings} />
         </NextIntlClientProvider>
       </body>
     </html>
