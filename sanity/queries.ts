@@ -47,13 +47,14 @@ export const getCategories = groq`*[_type == "category"] | order(title asc) {
   _id, title, "slug": slug.current
 }`
 
-/** For language selector: which locales exist for a sector */
+/** For language selector: which locales exist for a sector (new docs) or all if only legacy */
 export const getSectorAvailableLocales = groq`{
   "availableLocales": array::unique(*[_type == "sectorPage" && sector == $sector].locale)
 }`
 
+/** New schema: one document per sector + locale (locale can be "nl-be" or "nl_be" in dataset) */
 export const getSectorPage = (locale: string) => {
-  return groq`*[_type == "sectorPage" && sector == $sector && locale == $locale][0] {
+  return groq`*[_type == "sectorPage" && sector == $sector && (locale == $locale || locale == $localeAlt)][0] {
     _id,
     sector,
     locale,
@@ -77,6 +78,36 @@ export const getSectorPage = (locale: string) => {
     hubspotFormId,
     seoTitle,
     seoDescription
+  }`
+}
+
+/** Legacy schema: one document per sector with localeString fields; use when no new doc exists */
+export const getSectorPageLegacy = (locale: string) => {
+  const l = localeToField(locale)
+  const fallback = 'nl_be'
+  return groq`*[_type == "sectorPage" && sector == $sector && (locale == null || !defined(locale))][0] {
+    _id,
+    sector,
+    "heroTitle": coalesce(heroTitle.${l}, heroTitle.${fallback}),
+    "heroSubtitle": coalesce(heroSubtitle.${l}, heroSubtitle.${fallback}),
+    heroImage,
+    contentImage,
+    "content": coalesce(content.${l}, content.${fallback}),
+    uspBlocks,
+    machines[] {
+      name,
+      description,
+      image
+    },
+    successStory {
+      quote,
+      company,
+      result
+    },
+    "ctaFormTitle": coalesce(ctaFormTitle.${l}, ctaFormTitle.${fallback}),
+    hubspotFormId,
+    "seoTitle": coalesce(seo.title.${l}, seo.title.${fallback}),
+    "seoDescription": coalesce(seo.description.${l}, seo.description.${fallback})
   }`
 }
 
