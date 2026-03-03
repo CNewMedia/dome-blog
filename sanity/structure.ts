@@ -10,4 +10,7 @@ export const structure = (S: StructureBuilder) =>
       S.listItem().title('Categories').schemaType('category').child(
         S.documentList().title('Categories').filter('_type == "category"')
       ),
+      S.listItem().title('Sector Landing Pages').schemaType('sectorPage').child(
+        S.documentList().title('Sector Landing Pages').filter('_type == "sectorPage"')
+      ),
     ])
