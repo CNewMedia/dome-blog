@@ -1,24 +1,46 @@
 'use client'
 
 import { useLocale } from 'next-intl'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { urlFor } from '../sanity/client'
 import { getLocaleString, type SiteSettings } from '../lib/siteSettings'
 
+const SECTORS = ['woodworking', 'metalworking', 'construction', 'agriculture', 'transport']
+const ALL_LOCALES = ['nl-be', 'fr-be', 'en', 'de']
 const locales: Record<string, string> = { en: 'English', 'nl-be': 'Nederlands', 'fr-be': 'Français', de: 'Deutsch' }
 const localeShort: Record<string, string> = { en: 'EN', 'nl-be': 'NL', 'fr-be': 'FR', de: 'DE' }
 
 export default function Navbar({ settings }: { settings?: SiteSettings | null }) {
   const locale = useLocale()
+  const pathname = usePathname()
   const da = locale === 'nl-be' ? 'nl' : locale
   const [langOpen, setLangOpen] = useState(false)
   const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null)
   const [fallbackCatOpen, setFallbackCatOpen] = useState(false)
+  const [pageLocales, setPageLocales] = useState<string[] | null>(null)
   const langRef = useRef<HTMLDivElement>(null)
   const menuRefs = useRef<(HTMLDivElement | null)[]>([])
   const fallbackCatRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const segments = pathname.split('/').filter(Boolean)
+    const sector = segments[1]
+    if (sector && SECTORS.includes(sector)) {
+      fetch(`/api/sector-locales?sector=${encodeURIComponent(sector)}`)
+        .then((res) => res.json())
+        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? ALL_LOCALES))
+        .catch(() => setPageLocales(ALL_LOCALES))
+    } else {
+      setPageLocales(null)
+    }
+  }, [pathname])
+
+  const localesToShow = pageLocales ?? ALL_LOCALES
+  const showLangSelector = localesToShow.length > 1
+  const localeSwitchPath = (code: string) => pathname.replace(/^\/[^/]+/, `/${code}`)
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
@@ -165,28 +187,30 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
             {locale === 'nl-be' ? 'Zoek kavels...' : locale === 'fr-be' ? 'Rechercher...' : locale === 'de' ? 'Suchen...' : 'Search lots...'}
           </div>
 
-          <div ref={langRef} style={{ position: 'relative' }}>
-            <button type="button" className="nav-lang" onClick={() => setLangOpen(!langOpen)}>
-              {localeShort[locale] || 'EN'}
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s' }}>
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-            {langOpen && (
-              <div className="dropdown" style={{ right: 0, minWidth: '160px' }}>
-                {Object.entries(locales).map(([code, label]) => (
-                  <Link key={code} href={`/${code}/blog`} className={`drop-a${code === locale ? ' on' : ''}`} onClick={() => setLangOpen(false)}>
-                    {label}
-                    {code === locale && (
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" strokeWidth="2.5">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    )}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+          {showLangSelector && (
+            <div ref={langRef} style={{ position: 'relative' }}>
+              <button type="button" className="nav-lang" onClick={() => setLangOpen(!langOpen)}>
+                {localeShort[locale] || 'EN'}
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s' }}>
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              {langOpen && (
+                <div className="dropdown" style={{ right: 0, minWidth: '160px' }}>
+                  {localesToShow.map((code) => (
+                    <Link key={code} href={localeSwitchPath(code)} className={`drop-a${code === locale ? ' on' : ''}`} onClick={() => setLangOpen(false)}>
+                      {locales[code] ?? code}
+                      {code === locale && (
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" strokeWidth="2.5">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           <Link href={`https://dome-auctions.com/${da}/login/`} className="nav-btn">
             {locale === 'nl-be' ? 'Inloggen' : locale === 'fr-be' ? 'Se connecter' : locale === 'de' ? 'Einloggen' : 'Sign in'}

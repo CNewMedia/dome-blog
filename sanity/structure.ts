@@ -22,5 +22,14 @@ export const structure = (S: StructureBuilder) =>
       S.listItem().title('Sector Landing Pages').schemaType('sectorPage').child(
         S.documentList().title('Sector Landing Pages').filter('_type == "sectorPage"')
       ),
+      S.listItem()
+        .title('Team')
+        .schemaType('teamMember')
+        .child(
+          S.documentList()
+            .title('Team')
+            .filter('_type == "teamMember"')
+            .defaultOrdering([{ field: 'volgorde', direction: 'asc' }])
+        ),
       S.listItem().title('Media Library').id('media'),
     ])

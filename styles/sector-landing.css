@@ -190,6 +190,32 @@
   border-bottom: 1px solid var(--sector-border);
 }
 
+.sector-content-inner {
+  display: block;
+}
+
+.sector-content-inner.sector-content-with-image {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.sector-content-image-wrap {
+  position: relative;
+  border-radius: var(--sector-radius-sm);
+  overflow: hidden;
+  background: var(--sector-off);
+  border: 1px solid var(--sector-border);
+}
+
+.sector-content-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: middle;
+}
+
 .sector-content {
   font-family: var(--sector-font-sans);
   font-size: 1.0625rem;
@@ -201,6 +227,10 @@
   border-radius: var(--sector-radius-sm);
   border: 1px solid var(--sector-border);
   box-shadow: 0 2px 16px rgba(15, 15, 15, 0.04);
+}
+
+.sector-content-with-image .sector-content {
+  max-width: none;
 }
 
 .sector-content p {
@@ -472,45 +502,61 @@
   color: var(--sector-white);
 }
 
-.sector-team-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+.sector-team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .sector-team-card {
-  padding: 2.25rem;
-  background: rgba(26, 25, 24, 0.8);
-  border: 1px solid rgba(255, 214, 0, 0.2);
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 3rem;
+  align-items: start;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(255, 214, 0, 0.15);
+}
+
+.sector-team-card:last-child {
+  border-bottom: none;
+}
+
+.sector-team-photo-wrap {
+  position: relative;
+  aspect-ratio: 4/3;
   border-radius: var(--sector-radius-sm);
-  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  overflow: hidden;
+  background: rgba(26, 25, 24, 0.9);
 }
 
-.sector-team-card:hover {
-  border-color: var(--sector-gold-acc);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
+.sector-team-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.sector-team-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: var(--sector-gold);
-  color: var(--sector-black);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+.sector-team-photo-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  background: var(--sector-gold);
+  color: var(--sector-black);
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   font-family: var(--sector-font-sans);
 }
 
+.sector-team-body {
+  min-width: 0;
+}
+
 .sector-team-name {
-  font-size: 1.0625rem;
-  font-weight: 700;
+  font-family: var(--sector-font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
   color: var(--sector-white);
   margin-bottom: 0.35rem;
 }
@@ -521,13 +567,59 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--sector-gold);
-  margin-bottom: 0.875rem;
+  margin-bottom: 1rem;
 }
 
 .sector-team-desc {
-  font-size: 0.9rem;
-  color: rgba(247, 246, 244, 0.8);
+  font-size: 0.9375rem;
+  color: rgba(247, 246, 244, 0.85);
   line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.sector-team-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sector-team-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  font-family: var(--sector-font-sans);
+}
+
+.sector-team-btn-primary {
+  background: var(--sector-gold);
+  color: var(--sector-black);
+}
+
+.sector-team-btn-primary:hover {
+  background: #e6c200;
+  transform: translateY(-1px);
+}
+
+.sector-team-btn-linkedin {
+  background: transparent;
+  color: rgba(247, 246, 244, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  padding: 0.6rem;
+}
+
+.sector-team-btn-linkedin:hover {
+  color: var(--sector-white);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
 }
 
 /* ----- Process steps ----- */
@@ -819,12 +911,26 @@
   .sector-process-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .sector-team-grid {
+  .sector-team-card {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .sector-team-photo-wrap {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
+  .sector-content-inner.sector-content-with-image {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .sector-content-image-wrap {
+    order: -1;
+  }
+
   .sector-hero-in,
   .sector-content-wrap,
   .sector-usp-in,

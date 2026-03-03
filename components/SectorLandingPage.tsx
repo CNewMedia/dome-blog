@@ -11,22 +11,32 @@ import {
   ContentBlock,
   Reveal,
   type SectorPageData,
+  type TeamMember,
 } from './sector'
 
-export type { SectorPageData }
+export type { SectorPageData, TeamMember }
 
-export default function SectorLandingPage({ data }: { data: SectorPageData }) {
+export default function SectorLandingPage({
+  data,
+  teamMembers = [],
+}: {
+  data: SectorPageData
+  teamMembers?: TeamMember[]
+}) {
   const {
     heroTitle,
     heroSubtitle,
     heroImage,
     content,
+    contentImage,
     uspBlocks,
     machines,
     successStory,
     ctaFormTitle,
     hubspotFormId,
   } = data
+
+  const contentBlockImage = contentImage ?? heroImage
 
   return (
     <div className="sector-lp">
@@ -39,7 +49,7 @@ export default function SectorLandingPage({ data }: { data: SectorPageData }) {
 
       {content && Array.isArray(content) && content.length > 0 && (
         <Reveal>
-          <ContentBlock content={content} />
+          <ContentBlock content={content} image={contentBlockImage} />
         </Reveal>
       )}
 
@@ -67,7 +77,7 @@ export default function SectorLandingPage({ data }: { data: SectorPageData }) {
         />
       )}
 
-      <TeamSection />
+      <TeamSection teamMembers={teamMembers} />
 
       <Reveal>
         <ContactForm

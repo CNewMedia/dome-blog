@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { client } from '../../../sanity/client'
-import { getSectorPage } from '../../../sanity/queries'
+import { getSectorPage, getTeamMembers } from '../../../sanity/queries'
 import SectorLandingPage from '../../../components/SectorLandingPage'
 
 const SECTORS = ['woodworking', 'metalworking', 'construction', 'agriculture', 'transport'] as const
@@ -14,10 +14,13 @@ export default async function SectorPage({ params }: Props) {
   const { locale, sector } = await params
   if (!SECTORS.includes(sector as (typeof SECTORS)[number])) notFound()
 
-  const data = await client.fetch(getSectorPage(locale), { sector })
+  const [data, teamMembers] = await Promise.all([
+    client.fetch(getSectorPage(locale), { sector }),
+    client.fetch(getTeamMembers(locale)),
+  ])
   if (!data) notFound()
 
-  return <SectorLandingPage data={data} />
+  return <SectorLandingPage data={data} teamMembers={teamMembers ?? []} />
 }
 
 export async function generateMetadata({ params }: Props) {
