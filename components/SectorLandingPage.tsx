@@ -77,7 +77,7 @@ export default function SectorLandingPage({
         />
       )}
 
-      <TeamSection teamMembers={teamMembers} />
+<TeamSection teamMembers={teamMembers} locale={data.language || 'nl-be'} />
 
       <Reveal>
         <ContactForm

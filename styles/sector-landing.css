@@ -503,28 +503,28 @@
 }
 
 .sector-team-list {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
 }
 
 .sector-team-card {
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 3rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   align-items: start;
-  padding: 2rem 0;
-  border-bottom: 1px solid rgba(255, 214, 0, 0.15);
-}
-
-.sector-team-card:last-child {
-  border-bottom: none;
+  padding: 0;
+  border: none;
+  border-radius: var(--sector-radius-sm);
+  overflow: hidden;
+  background: rgba(26, 25, 24, 0.6);
+  border: 1px solid rgba(255, 214, 0, 0.12);
 }
 
 .sector-team-photo-wrap {
   position: relative;
   aspect-ratio: 4/3;
-  border-radius: var(--sector-radius-sm);
+  border-radius: var(--sector-radius-sm) var(--sector-radius-sm) 0 0;
   overflow: hidden;
   background: rgba(26, 25, 24, 0.9);
 }
@@ -551,6 +551,7 @@
 
 .sector-team-body {
   min-width: 0;
+  padding: 0 1.25rem 1.5rem;
 }
 
 .sector-team-name {
@@ -620,6 +621,19 @@
   color: var(--sector-white);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-1px);
+}
+
+@media (min-width: 768px) {
+  .sector-team-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sector-team-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
 }
 
 /* ----- Process steps ----- */
@@ -910,10 +924,6 @@
   }
   .sector-process-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-  .sector-team-card {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
 
   .sector-team-photo-wrap {

@@ -93,16 +93,20 @@ export const getSectorPageLegacy = (locale: string) => {
     heroImage,
     contentImage,
     "content": coalesce(content.${l}, content.${fallback}),
-    uspBlocks,
-    machines[] {
-      name,
-      description,
+    "uspBlocks": uspBlocks[] {
+      icon,
+      "title": coalesce(title.${l}, title.${fallback}, title),
+      "description": coalesce(description.${l}, description.${fallback}, description)
+    },
+    "machines": machines[] {
+      "name": coalesce(name.${l}, name.${fallback}, name),
+      "description": coalesce(description.${l}, description.${fallback}, description),
       image
     },
-    successStory {
-      quote,
-      company,
-      result
+    "successStory": successStory {
+      "quote": coalesce(quote.${l}, quote.${fallback}, quote),
+      "company": coalesce(company.${l}, company.${fallback}, company),
+      "result": coalesce(result.${l}, result.${fallback}, result)
     },
     "ctaFormTitle": coalesce(ctaFormTitle.${l}, ctaFormTitle.${fallback}),
     hubspotFormId,
