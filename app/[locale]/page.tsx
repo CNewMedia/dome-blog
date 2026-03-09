@@ -1,8 +1,2 @@
-import { redirect } from 'next/navigation'
+export { default } from './insights/page'
 
-type Props = { params: Promise<{ locale: string }> }
-
-export default async function LocaleHome({ params }: Props) {
-  const { locale } = await params
-  redirect(`/${locale}/insights`)
-}

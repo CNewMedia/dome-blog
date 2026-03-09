@@ -101,7 +101,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
               {menuItems.map((item, idx) => {
                 const label = getLocaleString(item.label, locale)
                 const hasSub = item.submenu && item.submenu.length > 0
-                const isInsights = item.url === `/${locale}/insights` || item.url?.endsWith('/insights')
+                const isInsights = item.url === `/${locale}` || item.url?.endsWith(`/${locale}`) || item.url?.endsWith('/insights')
                 if (hasSub) {
                   return (
                     <div key={idx} ref={(el) => { menuRefs.current[idx] = el }} style={{ position: 'relative' }}>
@@ -171,7 +171,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
                   </div>
                 )}
               </div>
-              <Link href={`/${locale}/insights`} className="nav-a on">
+              <Link href={`/${locale}`} className="nav-a on">
                 Insights
               </Link>
             </>

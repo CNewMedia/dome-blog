@@ -6,7 +6,7 @@ type Props = { params: Promise<{ locale: string }> }
 
 const categories = ['All', 'Market trends', 'Buying guides', 'Metalworking', 'Agricultural', 'Construction', 'Transport', 'Finance']
 
-export default async function InsightsPage({ params }: Props) {
+export default async function LocaleHome({ params }: Props) {
   const { locale } = await params
   const query = getInsights(locale)
   const posts: any[] = await client.fetch(query, { locale }).catch(() => [])
@@ -102,7 +102,7 @@ export default async function InsightsPage({ params }: Props) {
               <h2 className="hero-feat-title">{featured.title}</h2>
               <div className="hero-feat-meta">
                 <span>{new Date(featured.publishedAt).toLocaleDateString(locale, {year:'numeric',month:'long',day:'numeric'})}</span>
-                <Link href={`/${locale}/insights/${featured.slug}`} className="hero-read">Read →</Link>
+                <Link href={`/${locale}/articles/${featured.slug}`} className="hero-read">Read →</Link>
               </div>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default async function InsightsPage({ params }: Props) {
           <>
             {posts.length >= 2 && (
               <div className="grid-top">
-                <Link href={`/${locale}/insights/${featured.slug}`} className="card-big">
+                <Link href={`/${locale}/articles/${featured.slug}`} className="card-big">
                   <div className="card-big-img">🏭</div>
                   <div className="card-big-body">
                     <span className="ctag">Featured</span>
@@ -147,7 +147,7 @@ export default async function InsightsPage({ params }: Props) {
                   </div>
                 </Link>
                 {posts.slice(1,3).map((post: any, i: number) => (
-                  <Link key={post._id} href={`/${locale}/insights/${post.slug}`} className="card-sm" style={i===1?{borderTop:'1.5px solid #e0dbd0'}:{}}>
+                  <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-sm" style={i===1?{borderTop:'1.5px solid #e0dbd0'}:{}}>
                     <div className="card-sm-img">📰</div>
                     <span className="ctag">Insight</span>
                     <h3 className="ctitle ctitle-sm">{post.title}</h3>
@@ -165,7 +165,7 @@ export default async function InsightsPage({ params }: Props) {
                 <div className="sect-lbl">All insights</div>
                 <div className="grid-3">
                   {rest.slice(2).map((post: any) => (
-                    <Link key={post._id} href={`/${locale}/insights/${post.slug}`} className="card-reg">
+                    <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-reg">
                       <div className="card-reg-img">📄</div>
                       <div className="card-reg-body">
                         <span className="ctag">Insight</span>

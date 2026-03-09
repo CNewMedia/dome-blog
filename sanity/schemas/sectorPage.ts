@@ -9,8 +9,20 @@ export const sectorPageSchema = defineType({
       name: 'sector',
       title: 'Page slug',
       type: 'string',
-      description: 'URL segment for this landing page, for example woodworking or metalworking.',
-      validation: (Rule) => Rule.required(),
+      description: 'URL segment for this landing page in this language, for example woodworking or metalworking.',
+      validation: (Rule) =>
+        Rule.required().custom((value) => {
+          if (value === 'articles') {
+            return '"articles" is reserved for insight detail URLs. Please choose a different slug.'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'translationKey',
+      title: 'Translation group',
+      type: 'string',
+      description: 'Optional ID to link this landing page to its other language versions.',
     }),
     defineField({
       name: 'locale',

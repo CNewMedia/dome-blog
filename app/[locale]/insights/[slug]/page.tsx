@@ -34,7 +34,7 @@ export default async function InsightPage({ params }: Props) {
       )}
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '3rem 2rem 5rem', display: 'grid', gridTemplateColumns: '1fr 320px', gap: '4rem', alignItems: 'start' }}>
         <main>
-          <Link href={`/${locale}/insights`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#000', textDecoration: 'none', marginBottom: '2rem' }}>
+          <Link href={`/${locale}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#000', textDecoration: 'none', marginBottom: '2rem' }}>
             ← {t('backToInsights')}
           </Link>
           <header style={{ borderBottom: '2px solid #000', paddingBottom: '1.5rem', marginBottom: '2.5rem' }}>
@@ -61,7 +61,7 @@ export default async function InsightPage({ params }: Props) {
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {recentPosts.filter((p: any) => p.slug !== slug).slice(0, 4).map((p: any, i: number, arr: any[]) => (
                   <li key={p._id} style={{ paddingBottom: i < arr.length - 1 ? '0.75rem' : 0, marginBottom: i < arr.length - 1 ? '0.75rem' : 0, borderBottom: i < arr.length - 1 ? '1px solid #e0e0e0' : 'none' }}>
-                    <Link href={`/${locale}/insights/${p.slug}`} style={{ fontSize: '0.875rem', fontWeight: 600, lineHeight: 1.4, display: 'block', marginBottom: '0.2rem', color: '#000', textDecoration: 'none' }}>{p.title}</Link>
+                    <Link href={`/${locale}/articles/${p.slug}`} style={{ fontSize: '0.875rem', fontWeight: 600, lineHeight: 1.4, display: 'block', marginBottom: '0.2rem', color: '#000', textDecoration: 'none' }}>{p.title}</Link>
                     <span style={{ fontSize: '0.75rem', color: '#999' }}>{p.publishedAt ? formatDate(p.publishedAt, locale) : ''}</span>
                   </li>
                 ))}

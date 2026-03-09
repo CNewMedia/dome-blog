@@ -60,7 +60,7 @@ export const postSchema = defineType({
         const slug = context?.document?.slug?.current
 
         if (locale && slug) {
-          return `Final URL: /${locale}/insights/${slug}`
+          return `Final URL: /${locale}/articles/${slug}`
         }
 
         return 'Fill in locale and slug to see the final URL.'
@@ -116,7 +116,7 @@ export const postSchema = defineType({
     prepare({ title, locale, slug, media }) {
       const url =
         locale && slug
-          ? `Example URL: /${locale}/insights/${slug}`
+          ? `Example URL: /${locale}/articles/${slug}`
           : 'Fill in locale and slug to see the final URL.'
       return {
         title: title || 'Untitled',
