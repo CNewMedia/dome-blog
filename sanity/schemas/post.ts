@@ -18,35 +18,35 @@ export const postSchema = defineType({
         ],
         layout: 'dropdown',
       },
-      description: 'Locale for this blog post (e.g. nl-be, fr-be, en-be).',
+      description: 'Choose the language and region for this article (for example nl-be, fr-be or en-be).',
     }),
     defineField({
       name: 'translationKey',
       title: 'Translation group',
       type: 'string',
-      description: 'Optional ID shared by all language versions of the same article.',
+      description: 'Optional ID to link this article to its other language versions.',
     }),
     defineField({
       name: 'titlePlain',
       title: 'Title (per-locale)',
       type: 'string',
-      description: 'Title for this locale. Shown on the blog listing and detail page.',
+      description: 'Headline for this article in the selected language.',
     }),
     defineField({
       name: 'excerptPlain',
       title: 'Excerpt (per-locale)',
       type: 'text',
       rows: 3,
-      description: 'Short summary for this locale. Used on the blog listing and meta tags.',
+      description: 'Short intro that appears in blog lists and previews.',
     }),
     defineField({
       name: 'slugPlain',
-      title: 'Slug (per-locale)',
+      title: 'Slug (per locale)',
       type: 'slug',
       options: {
         source: 'titlePlain',
       },
-      description: 'URL segment for this locale. Final URL is /{locale}/blog/{slug}.',
+      description: 'This becomes the URL of the blog post.',
     }),
     defineField({
       name: 'bodyPlain',
@@ -109,8 +109,8 @@ export const postSchema = defineType({
     prepare({ titlePlain, locale, slug, media }) {
       const url =
         locale && slug
-          ? `/${locale}/blog/${slug}`
-          : 'Set locale and slug to see final URL'
+          ? `Example URL: /${locale}/blog/${slug}`
+          : 'Fill in locale and slug to see the final URL.'
       return {
         title: titlePlain || 'Untitled',
         subtitle: url,
