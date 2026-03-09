@@ -66,10 +66,12 @@ function normalizeLocalizedValue(value: unknown, locale: string): unknown {
   )
 }
 
-async function getSectorData(sector: string, locale: AppLocale): Promise<SectorPageData | null> {
+async function getSectorData(slug: string, locale: AppLocale): Promise<SectorPageData | null> {
   const localeAlt = locale.replace('-', '_')
 
-  const next = await client.fetch(getSectorPage(locale), { sector, locale, localeAlt })
+  const normalizedSlug = slug.toLowerCase()
+
+  const next = await client.fetch(getSectorPage(locale), { slug: normalizedSlug, locale, localeAlt })
   if (isSectorPageData(next)) return next
 
   if (next) {
@@ -77,7 +79,7 @@ async function getSectorData(sector: string, locale: AppLocale): Promise<SectorP
     if (isSectorPageData(normalizedNext)) return normalizedNext
   }
 
-  const legacy = await client.fetch(getSectorPageLegacy(locale), { sector })
+  const legacy = await client.fetch(getSectorPageLegacy(locale), { slug: normalizedSlug })
   if (!legacy) return null
 
   const normalizedLegacy = normalizeLocalizedValue(legacy, locale)
@@ -126,17 +128,17 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const pages = (await client.fetch(getSectorSlugs)) as { sector?: string; locale?: string }[]
+  const pages = (await client.fetch(getSectorSlugs)) as { slug?: string; locale?: string }[]
 
   const validPages = pages.filter(
     (page) =>
-      typeof page.sector === 'string' &&
+      typeof page.slug === 'string' &&
       typeof page.locale === 'string' &&
       activeLocales.includes(page.locale as (typeof activeLocales)[number])
   )
 
   return validPages.map((page) => ({
     locale: page.locale as string,
-    sector: page.sector as string,
+    sector: page.slug as string,
   }))
 }

@@ -39,22 +39,30 @@ export const getRecentInsights = (locale: string) => {
   }`
 }
 
-/** For language selector: which locales exist for a sector (new docs) or all if only legacy */
+/** For language selector: which locales exist for a landing page slug */
 export const getSectorAvailableLocales = groq`{
-  "availableLocales": array::unique(*[_type == "sectorPage" && sector == $sector].locale)
+  "availableLocales": array::unique(
+    *[_type == "sectorPage" && (
+      slug.current == $slug ||
+      (!defined(slug.current) && lower(sector) == $slug)
+    )].locale
+  )
 }`
 
-/** All sector landing page slugs/locales for static generation */
-export const getSectorSlugs = groq`*[_type == "sectorPage" && defined(sector) && defined(locale)]{
-  "sector": sector,
+/** All landing page slugs/locales for static generation */
+export const getSectorSlugs = groq`*[_type == "sectorPage" && defined(locale) && (defined(slug.current) || defined(sector))]{
+  "slug": coalesce(slug.current, lower(sector)),
   "locale": locale
 }`
 
-/** New schema: one document per sector + locale (locale can be "nl-be" or "nl_be" in dataset) */
+/** New schema: one document per slug + locale */
 export const getSectorPage = (locale: string) => {
-  return groq`*[_type == "sectorPage" && sector == $sector && (locale == $locale || locale == $localeAlt)][0] {
+  return groq`*[_type == "sectorPage" && (
+      slug.current == $slug ||
+      (!defined(slug.current) && lower(sector) == $slug)
+    ) && (locale == $locale || locale == $localeAlt)][0] {
     _id,
-    sector,
+    "slug": coalesce(slug.current, lower(sector)),
     locale,
     heroTitle,
     heroSubtitle,
@@ -83,9 +91,9 @@ export const getSectorPage = (locale: string) => {
 export const getSectorPageLegacy = (locale: string) => {
   const l = localeToField(locale)
   const fallback = 'nl_be'
-  return groq`*[_type == "sectorPage" && sector == $sector && (locale == null || !defined(locale))][0] {
+  return groq`*[_type == "sectorPage" && lower(sector) == $slug && (locale == null || !defined(locale))][0] {
     _id,
-    sector,
+    "slug": lower(sector),
     "heroTitle": coalesce(heroTitle.${l}, heroTitle.${fallback}),
     "heroSubtitle": coalesce(heroSubtitle.${l}, heroSubtitle.${fallback}),
     heroImage,

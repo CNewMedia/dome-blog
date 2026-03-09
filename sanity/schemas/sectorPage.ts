@@ -6,15 +6,25 @@ export const sectorPageSchema = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'sector',
-      title: 'Page slug',
-      type: 'string',
-      description: 'URL segment for this landing page in this language, for example woodworking or metalworking.',
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'URL segment for this landing page in this language, for example woodworking or metalworking. Lowercase and hyphen-separated.',
+      options: {
+        source: 'heroTitle',
+        slugify: (input: string) =>
+          input
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, ''),
+      },
       validation: (Rule) =>
         Rule.required().custom((value) => {
-          if (value === 'articles') {
-            return '"articles" is reserved for insight detail URLs. Please choose a different slug.'
-          }
+          const v = value?.current
+          if (!v) return 'Slug is required.'
+          if (v !== v.toLowerCase()) return 'Slug must be lowercase.'
+          if (v === 'articles') return '"articles" is reserved for insight detail URLs. Please choose a different slug.'
           return true
         }),
     }),
@@ -194,14 +204,13 @@ export const sectorPageSchema = defineType({
   ],
   preview: {
     select: {
-      sector: 'sector',
+      slug: 'slug.current',
       locale: 'locale',
       heroTitle: 'heroTitle',
     },
-    prepare({ sector, locale, heroTitle }) {
-      const title = heroTitle || sector || 'Untitled landing page'
+    prepare({ slug, locale, heroTitle }) {
+      const title = heroTitle || slug || 'Untitled landing page'
       const loc = locale || 'no-locale'
-      const slug = sector || 'no-slug'
       return {
         title,
         subtitle: `${loc} · /${loc}/${slug}`,
