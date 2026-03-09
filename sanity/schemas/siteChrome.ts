@@ -11,10 +11,9 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          {title: 'NL', value: 'nl'},
-          {title: 'NL-BE', value: 'nl-be'},
-          {title: 'FR-BE', value: 'fr-be'},
-          {title: 'EN', value: 'en'},
+          {title: 'Nederlands (België)', value: 'nl-be'},
+          {title: 'Français (Belgique)', value: 'fr-be'},
+          {title: 'English (Belgium)', value: 'en-be'},
         ],
       },
       validation: (Rule) => Rule.required(),
