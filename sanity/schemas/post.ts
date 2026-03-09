@@ -18,7 +18,7 @@ export const postSchema = defineType({
         ],
         layout: 'dropdown',
       },
-      description: 'Choose the language and region for this article (for example nl-be, fr-be or en-be).',
+      description: 'Language and region for this article (for example nl-be, fr-be or en-be).',
     }),
     defineField({
       name: 'translationKey',
@@ -28,20 +28,20 @@ export const postSchema = defineType({
     }),
     defineField({
       name: 'titlePlain',
-      title: 'Title (per-locale)',
+      title: 'Title',
       type: 'string',
-      description: 'Headline for this article in the selected language.',
+      description: 'Headline for this article in this language.',
     }),
     defineField({
       name: 'excerptPlain',
-      title: 'Excerpt (per-locale)',
+      title: 'Excerpt',
       type: 'text',
       rows: 3,
       description: 'Short intro that appears in blog lists and previews.',
     }),
     defineField({
       name: 'slugPlain',
-      title: 'Slug (per locale)',
+      title: 'Slug',
       type: 'slug',
       options: {
         source: 'titlePlain',
@@ -50,7 +50,7 @@ export const postSchema = defineType({
     }),
     defineField({
       name: 'bodyPlain',
-      title: 'Body (per-locale)',
+      title: 'Body',
       type: 'array',
       of: [
         { type: 'block' },
@@ -60,7 +60,7 @@ export const postSchema = defineType({
           fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
         },
       ],
-      description: 'New per-locale body. Legacy localized body fields remain available below.',
+      description: 'Main content of the article in this language.',
     }),
     defineField({
       name: 'mainImage',
@@ -87,16 +87,16 @@ export const postSchema = defineType({
     }),
     defineField({
       name: 'seoTitlePlain',
-      title: 'SEO Title (per-locale)',
+      title: 'SEO title',
       type: 'string',
-      description: 'New per-locale SEO title. Legacy localized SEO fields remain available below.',
+      description: 'Title used for search engines and browser tabs. If empty, the regular title may be used.',
     }),
     defineField({
       name: 'seoDescriptionPlain',
-      title: 'SEO Description (per-locale)',
+      title: 'SEO description',
       type: 'text',
       rows: 3,
-      description: 'New per-locale SEO description. Legacy localized SEO fields remain available below.',
+      description: 'Short description for search engines and link previews.',
     }),
   ],
   preview: {
