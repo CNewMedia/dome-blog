@@ -199,18 +199,12 @@ export const sectorPageSchema = defineType({
       heroTitle: 'heroTitle',
     },
     prepare({ sector, locale, heroTitle }) {
-      const labels: Record<string, string> = {
-        woodworking: 'Woodworking',
-        metalworking: 'Metalworking',
-        construction: 'Construction',
-        agriculture: 'Agriculture',
-        transport: 'Transport',
-      }
-      const sectorLabel = labels[sector] || sector || 'Sector page'
-      const localeLabel = locale ? String(locale).toUpperCase() : ''
+      const title = heroTitle || sector || 'Untitled landing page'
+      const loc = locale || 'no-locale'
+      const slug = sector || 'no-slug'
       return {
-        title: `${sectorLabel}${localeLabel ? ` — ${localeLabel}` : ''}`,
-        subtitle: heroTitle || undefined,
+        title,
+        subtitle: `${loc} · /${loc}/${slug}`,
       }
     },
   },

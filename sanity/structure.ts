@@ -59,47 +59,13 @@ export const structure = (S: StructureBuilder) =>
         ),
       S.listItem()
         .title('Landing Pages')
+        .schemaType('sectorPage')
         .child(
-          S.list()
+          S.documentList()
             .title('Landing Pages')
-            .items([
-              S.listItem()
-                .title('All landing pages')
-                .child(
-                  S.documentList()
-                    .title('All landing pages')
-                    .schemaType('sectorPage')
-                    .filter('_type == "sectorPage"')
-                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
-                ),
-              S.listItem()
-                .title('Landing pages – NL-BE')
-                .child(
-                  S.documentList()
-                    .title('Landing pages – NL-BE')
-                    .schemaType('sectorPage')
-                    .filter('_type == "sectorPage" && locale == \"nl-be\"')
-                    .defaultOrdering([{ field: 'sector', direction: 'asc' }])
-                ),
-              S.listItem()
-                .title('Landing pages – FR-BE')
-                .child(
-                  S.documentList()
-                    .title('Landing pages – FR-BE')
-                    .schemaType('sectorPage')
-                    .filter('_type == \"sectorPage\" && locale == \"fr-be\"')
-                    .defaultOrdering([{ field: 'sector', direction: 'asc' }])
-                ),
-              S.listItem()
-                .title('Landing pages – EN-BE')
-                .child(
-                  S.documentList()
-                    .title('Landing pages – EN-BE')
-                    .schemaType('sectorPage')
-                    .filter('_type == \"sectorPage\" && locale == \"en-be\"')
-                    .defaultOrdering([{ field: 'sector', direction: 'asc' }])
-                ),
-            ])
+            .schemaType('sectorPage')
+            .filter('_type == "sectorPage"')
+            .defaultOrdering([{ field: 'locale', direction: 'asc' }, { field: 'sector', direction: 'asc' }])
         ),
       S.listItem()
         .title('Team')
