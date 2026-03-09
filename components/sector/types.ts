@@ -27,7 +27,7 @@ export type SuccessStory = {
 
 export type SectorPageData = {
   _id: string
-  sector: string
+  slug: string
   locale?: string
   language?: string
   heroTitle?: string

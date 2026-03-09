@@ -22,7 +22,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isSectorPageData(value: unknown): value is SectorPageData {
   if (!isRecord(value)) return false
-  return typeof value._id === 'string' && typeof value.sector === 'string'
+  return typeof value._id === 'string' && typeof value.slug === 'string'
 }
 
 function normalizeLocalizedValue(value: unknown, locale: string): unknown {
