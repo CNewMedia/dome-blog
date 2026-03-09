@@ -84,16 +84,18 @@ export default defineType({
 
     defineField({
       name: 'footerColumns',
-      title: 'Footer kolommen',
+      title: 'Primary footer links',
       type: 'array',
       of: [{type: 'footerColumn'}],
+      description: 'e.g. one column "Links" with About us, FAQ, Contact. Label and URL per link (this document is per locale).',
     }),
 
     defineField({
       name: 'footerBottomLinks',
-      title: 'Footer bottom links',
+      title: 'Legal footer links',
       type: 'array',
       of: [{type: 'footerBottomLink'}],
+      description: 'e.g. Terms and conditions, Privacy policy. Label and URL per link (this document is per locale).',
     }),
 
     defineField({

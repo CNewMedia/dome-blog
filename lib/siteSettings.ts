@@ -70,6 +70,11 @@ export type SiteChrome = {
   copyrightText?: string
 }
 
+export type FooterBottomLinkSetting = {
+  label?: string
+  url?: string
+}
+
 export type SiteSettings = {
   _id?: string
   logo?: { asset?: { _ref?: string }; [key: string]: unknown }
@@ -78,10 +83,13 @@ export type SiteSettings = {
   tagline?: LocaleString
   headerMenu?: HeaderMenuItem[]
   footerKolommen?: FooterKolom[]
+  footerBottomLinks?: FooterBottomLinkSetting[]
   socialLinks?: SocialLink[]
   adres?: string
   copyrightTekst?: LocaleString
   nieuwsbriefTitel?: LocaleString
+  newsletterPlaceholder?: string
+  newsletterButtonLabel?: string
 }
 
 const LOCALE_MAP: Record<string, keyof LocaleString> = {
@@ -141,7 +149,7 @@ export function buildSiteSettingsFromChrome(
     }))
   }
 
-  // Footer columns
+  // Footer columns (primary links: About, FAQ, Contact – editors add one column with label + url per link)
   if (chrome.footerColumns && chrome.footerColumns.length > 0) {
     settings.footerKolommen = chrome.footerColumns.map((col) => ({
       titel: makeLocaleString(col.title, locale),
@@ -152,6 +160,18 @@ export function buildSiteSettingsFromChrome(
         })) ?? [],
     }))
   }
+
+  // Footer bottom links (legal: Terms, Privacy – label + url per locale)
+  if (chrome.footerBottomLinks && chrome.footerBottomLinks.length > 0) {
+    settings.footerBottomLinks = chrome.footerBottomLinks.map((link) => ({
+      label: link.label ?? '',
+      url: link.href ?? '',
+    }))
+  }
+
+  // Newsletter strings (per-locale from Site Chrome doc)
+  if (chrome.newsletterPlaceholder != null) settings.newsletterPlaceholder = chrome.newsletterPlaceholder
+  if (chrome.newsletterButtonLabel != null) settings.newsletterButtonLabel = chrome.newsletterButtonLabel
 
   // Social links
   if (chrome.socialLinks && chrome.socialLinks.length > 0) {
