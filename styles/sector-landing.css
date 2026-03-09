@@ -541,6 +541,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   transition: transform 0.4s ease;
 }
 
@@ -565,6 +566,43 @@
 .sector-team-body {
   min-width: 0;
   padding: 0.75rem 0.875rem 0.875rem;
+}
+
+/* Mobile: small circular portrait above text — text gets visual priority */
+@media (max-width: 767px) {
+  .sector-team-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .sector-team-photo-wrap {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sector-team-photo-placeholder {
+    border-radius: 50%;
+  }
+
+  .sector-team-body {
+    padding: 1rem 0.875rem 1.125rem;
+    text-align: left;
+  }
+
+  .sector-team-meta {
+    align-items: flex-start;
+  }
+}
+
+/* Tablet/desktop: refined card with square photo, less image-heavy */
+@media (min-width: 768px) {
+  .sector-team-photo-wrap {
+    aspect-ratio: 1 / 1;
+  }
 }
 
 .sector-team-name {
