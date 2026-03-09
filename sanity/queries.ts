@@ -7,11 +7,12 @@ const localeToField = (locale: string) => {
 
 export const getPosts = (locale: string) => {
   const l = localeToField(locale)
-  return groq`*[_type == "post"] | order(publishedAt desc) {
+  return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) {
     _id,
-    "title": title.${l},
-    "excerpt": excerpt.${l},
-    "slug": slug.${l}.current,
+    // Prefer new per-locale fields, fall back to legacy localized fields for safety
+    "title": coalesce(titlePlain, title.${l}),
+    "excerpt": coalesce(excerptPlain, excerpt.${l}),
+    "slug": coalesce(slugPlain.current, slug.${l}.current),
     mainImage,
     publishedAt,
     author,
@@ -21,27 +22,27 @@ export const getPosts = (locale: string) => {
 
 export const getPost = (locale: string) => {
   const l = localeToField(locale)
-  return groq`*[_type == "post" && slug.${l}.current == $slug][0] {
+  return groq`*[_type == "post" && locale == $locale && slugPlain.current == $slug][0] {
     _id,
-    "title": title.${l},
-    "excerpt": excerpt.${l},
-    "body": body.${l},
-    "slug": slug.${l}.current,
+    "title": coalesce(titlePlain, title.${l}),
+    "excerpt": coalesce(excerptPlain, excerpt.${l}),
+    "body": coalesce(bodyPlain, body.${l}),
+    "slug": coalesce(slugPlain.current, slug.${l}.current),
     mainImage,
     publishedAt,
     author,
     "categories": categories[]->{ title, "slug": slug.current },
-    "seoTitle": seoTitle.${l},
-    "seoDescription": seoDescription.${l}
+    "seoTitle": coalesce(seoTitlePlain, seoTitle.${l}),
+    "seoDescription": coalesce(seoDescriptionPlain, seoDescription.${l})
   }`
 }
 
 export const getRecentPosts = (locale: string) => {
   const l = localeToField(locale)
-  return groq`*[_type == "post"] | order(publishedAt desc) [0..4] {
+  return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) [0..4] {
     _id,
-    "title": title.${l},
-    "slug": slug.${l}.current,
+    "title": coalesce(titlePlain, title.${l}),
+    "slug": coalesce(slugPlain.current, slug.${l}.current),
     publishedAt
   }`
 }

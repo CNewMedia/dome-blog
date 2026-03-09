@@ -55,15 +55,6 @@ export const structure = (S: StructureBuilder) =>
                     .filter('_type == "post" && locale == "en-be"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
                 ),
-              S.listItem()
-                .title('Legacy (multi-locale)')
-                .child(
-                  S.documentList()
-                    .title('Legacy Blog Posts')
-                    .schemaType('post')
-                    .filter('_type == "post" && !defined(locale)')
-                    .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
-                ),
             ])
         ),
       S.listItem().title('Categories').schemaType('category').child(
