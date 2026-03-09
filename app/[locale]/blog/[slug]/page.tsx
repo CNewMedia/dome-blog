@@ -19,8 +19,8 @@ export default async function BlogPostPage({ params }: Props) {
   const { locale, slug } = await params
   const t = await getTranslations('blog')
   const [post, recentPosts, categories] = await Promise.all([
-    client.fetch(getPost(locale), { slug }),
-    client.fetch(getRecentPosts(locale)),
+    client.fetch(getPost(locale), { slug, locale }),
+    client.fetch(getRecentPosts(locale), { locale }),
     client.fetch(getCategories),
   ])
 

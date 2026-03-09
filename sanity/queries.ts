@@ -6,13 +6,11 @@ const localeToField = (locale: string) => {
 }
 
 export const getPosts = (locale: string) => {
-  const l = localeToField(locale)
   return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) {
     _id,
-    // Prefer new per-locale fields, fall back to legacy localized fields for safety
-    "title": coalesce(titlePlain, title.${l}),
-    "excerpt": coalesce(excerptPlain, excerpt.${l}),
-    "slug": coalesce(slugPlain.current, slug.${l}.current),
+    "title": titlePlain,
+    "excerpt": excerptPlain,
+    "slug": slugPlain.current,
     mainImage,
     publishedAt,
     author,
@@ -21,28 +19,26 @@ export const getPosts = (locale: string) => {
 }
 
 export const getPost = (locale: string) => {
-  const l = localeToField(locale)
   return groq`*[_type == "post" && locale == $locale && slugPlain.current == $slug][0] {
     _id,
-    "title": coalesce(titlePlain, title.${l}),
-    "excerpt": coalesce(excerptPlain, excerpt.${l}),
-    "body": coalesce(bodyPlain, body.${l}),
-    "slug": coalesce(slugPlain.current, slug.${l}.current),
+    "title": titlePlain,
+    "excerpt": excerptPlain,
+    "body": bodyPlain,
+    "slug": slugPlain.current,
     mainImage,
     publishedAt,
     author,
     "categories": categories[]->{ title, "slug": slug.current },
-    "seoTitle": coalesce(seoTitlePlain, seoTitle.${l}),
-    "seoDescription": coalesce(seoDescriptionPlain, seoDescription.${l})
+    "seoTitle": seoTitlePlain,
+    "seoDescription": seoDescriptionPlain
   }`
 }
 
 export const getRecentPosts = (locale: string) => {
-  const l = localeToField(locale)
   return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) [0..4] {
     _id,
-    "title": coalesce(titlePlain, title.${l}),
-    "slug": coalesce(slugPlain.current, slug.${l}.current),
+    "title": titlePlain,
+    "slug": slugPlain.current,
     publishedAt
   }`
 }

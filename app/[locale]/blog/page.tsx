@@ -9,7 +9,7 @@ const categories = ['All', 'Market trends', 'Buying guides', 'Metalworking', 'Ag
 export default async function BlogPage({ params }: Props) {
   const { locale } = await params
   const query = getPosts(locale)
-  const posts: any[] = await client.fetch(query).catch(() => [])
+  const posts: any[] = await client.fetch(query, { locale }).catch(() => [])
   const featured = posts[0]
   const rest = posts.slice(1)
 

@@ -1,77 +1,11 @@
 import { defineType, defineField } from 'sanity'
 
-const locales = ['en', 'nl-be', 'fr-be', 'de']
-
-const localizedString = (name: string, title: string) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    fields: locales.map((locale) => ({
-      name: locale.replace('-', '_'),
-      title: locale.toUpperCase(),
-      type: 'string',
-    })),
-    // Hide legacy multi-locale fields on new per-locale documents
-    hidden: ({ document }) => Boolean(document?.locale),
-  })
-
-const localizedText = (name: string, title: string) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    fields: locales.map((locale) => ({
-      name: locale.replace('-', '_'),
-      title: locale.toUpperCase(),
-      type: 'text',
-      rows: 3,
-    })),
-    hidden: ({ document }) => Boolean(document?.locale),
-  })
-
-const localizedBody = (name: string, title: string) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    fields: locales.map((locale) => ({
-      name: locale.replace('-', '_'),
-      title: locale.toUpperCase(),
-      type: 'array',
-      of: [
-        { type: 'block' },
-        {
-          type: 'image',
-          options: { hotspot: true },
-          fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
-        },
-      ],
-    })),
-    hidden: ({ document }) => Boolean(document?.locale),
-  })
-
 export const postSchema = defineType({
   name: 'post',
   title: 'Blog Post',
   type: 'document',
   fields: [
-    localizedString('title', 'Title'),
-    localizedText('excerpt', 'Excerpt'),
-    localizedBody('body', 'Body'),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'object',
-      fields: locales.map((locale) => ({
-        name: locale.replace('-', '_'),
-        title: locale.toUpperCase(),
-        type: 'slug',
-        options: { source: `title.${locale.replace('-', '_')}` },
-      })),
-      hidden: ({ document }) => Boolean(document?.locale),
-    }),
-    // New per-locale model (one document per locale)
+    // Per-locale model: one document per locale
     defineField({
       name: 'locale',
       title: 'Locale',
@@ -151,8 +85,6 @@ export const postSchema = defineType({
       title: 'Author',
       type: 'string',
     }),
-    localizedString('seoTitle', 'SEO Title'),
-    localizedText('seoDescription', 'SEO Description'),
     defineField({
       name: 'seoTitlePlain',
       title: 'SEO Title (per-locale)',
@@ -168,9 +100,9 @@ export const postSchema = defineType({
     }),
   ],
   preview: {
-    select: { titlePlain: 'titlePlain', legacyTitle: 'title.en', media: 'mainImage' },
-    prepare({ titlePlain, legacyTitle, media }) {
-      return { title: titlePlain || legacyTitle || 'Untitled', media }
+    select: { titlePlain: 'titlePlain', media: 'mainImage' },
+    prepare({ titlePlain, media }) {
+      return { title: titlePlain || 'Untitled', media }
     },
   },
   orderings: [
