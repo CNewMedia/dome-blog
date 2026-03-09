@@ -481,7 +481,7 @@
 /* ----- Team section (dark Dome brand: #0f0f0f, gold accents) ----- */
 .sector-team-wrap {
   background: var(--sector-black);
-  padding: 3.5rem 2rem;
+  padding: 3rem 2rem;
 }
 
 .sector-team-in {
@@ -505,7 +505,7 @@
 .sector-team-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1.25rem;
   max-width: 72rem;
   margin: 0 auto;
 }
@@ -516,23 +516,23 @@
   gap: 0;
   align-items: start;
   padding: 0;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
   background: rgba(26, 25, 24, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-top: 2px solid rgba(255, 214, 0, 0.25);
+  border-top: 2px solid rgba(255, 214, 0, 0.22);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .sector-team-card:hover {
   border-color: rgba(255, 255, 255, 0.1);
-  border-top-color: rgba(255, 214, 0, 0.45);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  border-top-color: rgba(255, 214, 0, 0.4);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
 
 .sector-team-photo-wrap {
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: rgba(26, 25, 24, 0.9);
 }
@@ -554,9 +554,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, rgba(255, 214, 0, 0.15), rgba(200, 168, 75, 0.2));
-  color: rgba(255, 214, 0, 0.9);
-  font-size: 1.5rem;
+  background: linear-gradient(145deg, rgba(255, 214, 0, 0.12), rgba(200, 168, 75, 0.18));
+  color: rgba(255, 214, 0, 0.85);
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   font-family: var(--sector-font-sans);
@@ -564,34 +564,34 @@
 
 .sector-team-body {
   min-width: 0;
-  padding: 1rem 1rem 1.25rem;
+  padding: 0.75rem 0.875rem 0.875rem;
 }
 
 .sector-team-name {
   font-family: var(--sector-font-serif);
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--sector-white);
-  margin-bottom: 0.2rem;
-  letter-spacing: 0.01em;
+  margin-bottom: 0.15rem;
+  letter-spacing: 0.02em;
 }
 
 .sector-team-role {
-  font-size: 0.625rem;
+  font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 214, 0, 0.85);
-  margin-bottom: 0.6rem;
+  color: rgba(255, 214, 0, 0.82);
+  margin-bottom: 0.4rem;
 }
 
 .sector-team-desc {
-  font-size: 0.8125rem;
-  color: rgba(247, 246, 244, 0.72);
-  line-height: 1.55;
-  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  color: rgba(247, 246, 244, 0.68);
+  line-height: 1.5;
+  margin-bottom: 0.65rem;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -599,36 +599,36 @@
 .sector-team-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
+  gap: 0.25rem;
+  margin-bottom: 0.65rem;
 }
 
 .sector-team-email,
 .sector-team-phone {
-  font-size: 0.75rem;
-  color: rgba(247, 246, 244, 0.7);
+  font-size: 0.6875rem;
+  color: rgba(247, 246, 244, 0.5);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .sector-team-email:hover,
 .sector-team-phone:hover {
-  color: rgba(255, 214, 0, 0.9);
+  color: rgba(255, 214, 0, 0.85);
 }
 
 .sector-team-ctas {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .sector-team-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.45rem 1rem;
-  font-size: 0.7rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -639,7 +639,7 @@
 }
 
 .sector-team-btn-primary {
-  background: rgba(255, 214, 0, 0.95);
+  background: rgba(255, 214, 0, 0.92);
   color: var(--sector-black);
 }
 
@@ -650,28 +650,28 @@
 
 .sector-team-btn-linkedin {
   background: transparent;
-  color: rgba(247, 246, 244, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 0.45rem;
+  color: rgba(247, 246, 244, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.35rem;
 }
 
 .sector-team-btn-linkedin:hover {
-  color: rgba(255, 214, 0, 0.9);
-  border-color: rgba(255, 214, 0, 0.35);
+  color: rgba(255, 214, 0, 0.85);
+  border-color: rgba(255, 214, 0, 0.3);
   transform: translateY(-1px);
 }
 
 @media (min-width: 768px) {
   .sector-team-list {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem;
+    gap: 1.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .sector-team-list {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 1.75rem;
   }
 }
 

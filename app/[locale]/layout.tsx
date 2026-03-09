@@ -3,8 +3,9 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import { buildSiteSettingsFromChrome } from '../../lib/siteSettings'
 import { client } from '../../sanity/client'
-import { getSiteSettings } from '../../sanity/queries'
+import { getSiteChrome, getSiteSettings } from '../../sanity/queries'
 
 const locales = ['nl-be', 'fr-be', 'en', 'de']
 
@@ -17,7 +18,12 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
   if (!locales.includes(locale)) notFound()
   const messages = await getMessages()
-  const siteSettings = await client.fetch(getSiteSettings)
+  const [siteChrome, siteSettings] = await Promise.all([
+    client.fetch(getSiteChrome(locale), { locale }),
+    client.fetch(getSiteSettings),
+  ])
+  const chromeSettings = buildSiteSettingsFromChrome(siteChrome, locale)
+  const effectiveSettings = chromeSettings ?? siteSettings
 
   return (
     <html lang={locale}>
@@ -36,9 +42,9 @@ export default async function LocaleLayout({ children, params }: Props) {
       </head>
       <body style={{ paddingTop: '60px' }}>
         <NextIntlClientProvider messages={messages}>
-          <Navbar settings={siteSettings} />
+          <Navbar settings={effectiveSettings} />
           {children}
-          <Footer settings={siteSettings} />
+          <Footer settings={effectiveSettings} />
         </NextIntlClientProvider>
       </body>
     </html>
