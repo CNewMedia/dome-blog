@@ -37,33 +37,37 @@ export default function TeamSection({ teamMembers, locale }: TeamSectionProps) {
 
             return (
               <article key={member._id} className="sector-team-card">
-                <div className="sector-team-photo-wrap">
-                  {member.foto ? (
-                    <Image
-                      src={urlFor(member.foto).width(360).height(270).fit('crop').url()}
-                      alt={fotoAlt}
-                      width={360}
-                      height={270}
-                      className="sector-team-photo"
-                    />
-                  ) : (
-                    <div className="sector-team-photo-placeholder" aria-hidden>
-                      {naam
-                        .split(/\s+/)
-                        .map((w) => w[0])
-                        .join('')
-                        .slice(0, 2)
-                        .toUpperCase()}
-                    </div>
-                  )}
-                </div>
-
                 <div className="sector-team-body">
-                  <h3 className="sector-team-name">{naam}</h3>
+                  <div className="sector-team-header">
+                    <div className="sector-team-photo-wrap">
+                      {member.foto ? (
+                        <Image
+                          src={urlFor(member.foto).width(320).height(320).fit('crop').url()}
+                          alt={fotoAlt}
+                          width={320}
+                          height={320}
+                          className="sector-team-photo"
+                        />
+                      ) : (
+                        <div className="sector-team-photo-placeholder" aria-hidden>
+                          {naam
+                            .split(/\s+/)
+                            .map((w) => w[0])
+                            .join('')
+                            .slice(0, 2)
+                            .toUpperCase()}
+                        </div>
+                      )}
+                    </div>
 
-                  {functie && (
-                    <p className="sector-team-role">{functie}</p>
-                  )}
+                    <div className="sector-team-heading">
+                      <h3 className="sector-team-name">{naam}</h3>
+
+                      {functie && (
+                        <p className="sector-team-role">{functie}</p>
+                      )}
+                    </div>
+                  </div>
 
                   {beschrijving && (
                     <p className="sector-team-desc">{beschrijving}</p>
