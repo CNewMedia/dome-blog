@@ -65,7 +65,7 @@ export const structure = (S: StructureBuilder) =>
             .title('Landing Pages')
             .schemaType('sectorPage')
             .filter('_type == "sectorPage"')
-            .defaultOrdering([{ field: 'locale', direction: 'asc' }, { field: 'sector', direction: 'asc' }])
+            .defaultOrdering([{ field: 'locale', direction: 'asc' }, { field: 'slug.current', direction: 'asc' }])
         ),
       S.listItem()
         .title('Team')
