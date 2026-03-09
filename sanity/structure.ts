@@ -58,60 +58,46 @@ export const structure = (S: StructureBuilder) =>
             ])
         ),
       S.listItem()
-        .title('Sector Landing Pages')
+        .title('Landing Pages')
         .child(
           S.list()
-            .title('Sector Landing Pages')
+            .title('Landing Pages')
             .items([
               S.listItem()
-                .title('Woodworking')
-                .id('sector-woodworking')
+                .title('All landing pages')
                 .child(
                   S.documentList()
-                    .title('Woodworking')
+                    .title('All landing pages')
                     .schemaType('sectorPage')
-                    .filter('_type == "sectorPage" && sector == "woodworking"')
+                    .filter('_type == "sectorPage"')
                     .defaultOrdering([{ field: 'locale', direction: 'asc' }])
                 ),
               S.listItem()
-                .title('Metalworking')
-                .id('sector-metalworking')
+                .title('Landing pages – NL-BE')
                 .child(
                   S.documentList()
-                    .title('Metalworking')
+                    .title('Landing pages – NL-BE')
                     .schemaType('sectorPage')
-                    .filter('_type == "sectorPage" && sector == "metalworking"')
-                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                    .filter('_type == "sectorPage" && locale == \"nl-be\"')
+                    .defaultOrdering([{ field: 'sector', direction: 'asc' }])
                 ),
               S.listItem()
-                .title('Construction')
-                .id('sector-construction')
+                .title('Landing pages – FR-BE')
                 .child(
                   S.documentList()
-                    .title('Construction')
+                    .title('Landing pages – FR-BE')
                     .schemaType('sectorPage')
-                    .filter('_type == "sectorPage" && sector == "construction"')
-                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                    .filter('_type == \"sectorPage\" && locale == \"fr-be\"')
+                    .defaultOrdering([{ field: 'sector', direction: 'asc' }])
                 ),
               S.listItem()
-                .title('Agriculture')
-                .id('sector-agriculture')
+                .title('Landing pages – EN-BE')
                 .child(
                   S.documentList()
-                    .title('Agriculture')
+                    .title('Landing pages – EN-BE')
                     .schemaType('sectorPage')
-                    .filter('_type == "sectorPage" && sector == "agriculture"')
-                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
-                ),
-              S.listItem()
-                .title('Transport')
-                .id('sector-transport')
-                .child(
-                  S.documentList()
-                    .title('Transport')
-                    .schemaType('sectorPage')
-                    .filter('_type == "sectorPage" && sector == "transport"')
-                    .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+                    .filter('_type == \"sectorPage\" && locale == \"en-be\"')
+                    .defaultOrdering([{ field: 'sector', direction: 'asc' }])
                 ),
             ])
         ),
