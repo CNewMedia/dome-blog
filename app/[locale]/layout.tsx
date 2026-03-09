@@ -29,12 +29,12 @@ export default async function LocaleLayout({ children, params }: Props) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
         <style>{`
+          :root {
+            --font-body: 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+          }
           *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-          body { font-family: 'DM Sans', -apple-system, sans-serif; background: #f7f5f0; color: #0c0c0b; -webkit-font-smoothing: antialiased; }
+          body { font-family: var(--font-body); background: #f7f5f0; color: #0c0c0b; -webkit-font-smoothing: antialiased; }
           a { color: inherit; }
           img { max-width: 100%; }
         `}</style>

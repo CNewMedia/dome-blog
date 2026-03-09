@@ -30,7 +30,7 @@ const OVERRIDE_CSS = `
   .sector-cta-form-box .hs-form textarea,
   .sector-cta-form-box .hs-form select,
   .sector-cta-form-box .hs-form button {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-family: 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
   }
   .sector-cta-form-box .hs-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
   .sector-cta-form-box .hs-form textarea,
@@ -46,7 +46,7 @@ const OVERRIDE_CSS = `
   .sector-cta-form-box .hs-form .hs-button,
   .sector-cta-form-box .hs-form input[type="submit"].primary,
   .sector-cta-form-box .hs-form button[type="submit"] {
-    font-family: 'DM Sans', sans-serif !important;
+    font-family: 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
     font-size: 0.875rem !important;
     font-weight: 700 !important;
     background: #FFD600 !important;
@@ -60,7 +60,7 @@ const OVERRIDE_CSS = `
   .sector-cta-form-box .hs-form .legal-consent-container,
   .sector-cta-form-box .hs-form .hs-legal,
   .sector-cta-form-box .hs-form .hs-richtext.hs-legal {
-    font-family: 'DM Sans', sans-serif !important;
+    font-family: 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
     font-size: 0.7rem !important;
     color: #6b6760 !important;
   }

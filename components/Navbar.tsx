@@ -8,10 +8,7 @@ import { useState, useRef, useEffect } from 'react'
 import { urlFor } from '../sanity/client'
 import { getLocaleString, type SiteSettings } from '../lib/siteSettings'
 import { activeLocales } from '../i18n/locales'
-
-const ALL_LOCALES = ['nl-be', 'fr-be', 'en', 'de']
-const locales: Record<string, string> = { en: 'English', 'nl-be': 'Nederlands', 'fr-be': 'Français', de: 'Deutsch' }
-const localeShort: Record<string, string> = { en: 'EN', 'nl-be': 'NL', 'fr-be': 'FR', de: 'DE' }
+import { getLocaleDisplayLabel, getLocaleShortLabel } from '../i18n/localeLabels'
 
 export default function Navbar({ settings }: { settings?: SiteSettings | null }) {
   const locale = useLocale()
@@ -86,7 +83,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
         .nav { position:fixed;top:0;left:0;right:0;z-index:200;height:60px;background:rgba(247,245,240,0.92);backdrop-filter:blur(20px);border-bottom:1px solid #e0dbd0; }
         .nav-in { max-width:1400px;margin:0 auto;padding:0 2.5rem;height:100%;display:flex;align-items:center;gap:.25rem; }
         .nav-logo { font-size:.95rem;font-weight:800;letter-spacing:.08em;text-decoration:none;color:#0c0c0b;margin-right:2rem;white-space:nowrap;display:flex;align-items:center; }
-        .nav-logo img { height:28px;width:auto; }
+        .nav-logo img { height:auto;width:auto;max-height:32px;max-width:min(200px,85vw);object-fit:contain; }
         .nav-a { font-size:.8rem;font-weight:500;color:#8a8680;text-decoration:none;padding:.4rem .7rem;border-radius:6px;transition:color .15s,background .15s;white-space:nowrap;background:none;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.3rem; }
         .nav-a:hover { color:#0c0c0b;background:#efe9d8; }
         .nav-a.on { color:#0c0c0b;font-weight:600; }
@@ -101,18 +98,18 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
         .drop-a { display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem;font-size:.875rem;color:#0c0c0b;text-decoration:none;border-radius:8px;font-weight:400;white-space:nowrap; }
         .drop-a:hover { background:#f7f5f0; }
         .drop-a.on { font-weight:600;background:#f7f5f0; }
-        @media(max-width:768px) { .nav-a:not(.on):not(.cat-btn) { display:none; } .nav-search { display:none; } .nav-in { padding:0 1.25rem; } .nav-logo { margin-right:.5rem;font-size:.85rem; } .nav-logo img { height:24px; } }
+        @media(min-width:769px) { .nav-logo img { max-height:48px;max-width:200px; } }
+        @media(max-width:768px) { .nav-a:not(.on):not(.cat-btn) { display:none; } .nav-search { display:none; } .nav-in { padding:0 1.25rem; } .nav-logo { margin-right:.5rem;font-size:.85rem; } .nav-logo img { max-height:28px;max-width:140px; } }
       `}</style>
       <nav className="nav">
         <div className="nav-in">
           <Link href={`https://dome-auctions.com/${da}/`} className="nav-logo">
             {settings?.logo ? (
               <Image
-                src={urlFor(settings.logo).width(160).height(40).fit('max').url()}
+                src={urlFor(settings.logo).width(400).height(100).fit('max').url()}
                 alt={logoAlt}
-                width={160}
-                height={40}
-                style={{ height: 28, width: 'auto' }}
+                width={400}
+                height={100}
               />
             ) : (
               companyName
@@ -190,7 +187,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
           {showLangSelector && (
             <div ref={langRef} style={{ position: 'relative' }}>
               <button type="button" className="nav-lang" onClick={() => setLangOpen(!langOpen)}>
-                {localeShort[locale] || 'EN'}
+                {getLocaleShortLabel(locale)}
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s' }}>
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
@@ -204,7 +201,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
                       className={`drop-a${code === locale ? ' on' : ''}`}
                       onClick={() => setLangOpen(false)}
                     >
-                      {locales[code] ?? code}
+                      {getLocaleDisplayLabel(code)}
                       {code === locale && (
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" strokeWidth="2.5">
                           <polyline points="20 6 9 17 4 12" />

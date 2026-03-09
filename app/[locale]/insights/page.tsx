@@ -21,7 +21,7 @@ export default async function LocaleHome({ params }: Props) {
         .hero-left::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 10% 80%,rgba(232,184,75,.1) 0%,transparent 70%);pointer-events:none; }
         .hero-eyebrow { font-size:.68rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#e8b84b;margin-bottom:1.75rem;display:flex;align-items:center;gap:1rem; }
         .hero-eyebrow::after { content:'';flex:1;height:1px;background:#e8b84b;opacity:.4;max-width:60px; }
-        .hero-h1 { font-family:'Instrument Serif',Georgia,serif;font-size:clamp(3.5rem,6vw,7rem);font-weight:400;line-height:1;letter-spacing:-.02em;color:#f7f5f0;margin-bottom:2rem; }
+        .hero-h1 { font-family:'Melody',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:clamp(3.5rem,6vw,7rem);font-weight:400;line-height:1;letter-spacing:-.02em;color:#f7f5f0;margin-bottom:2rem; }
         .hero-h1 i { color:#e8b84b;font-style:italic; }
         .hero-sub { font-size:1rem;color:rgba(247,245,240,.45);line-height:1.7;max-width:360px;margin-bottom:3rem; }
         .hero-stats { display:flex;gap:3rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.1); }
@@ -32,7 +32,7 @@ export default async function LocaleHome({ params }: Props) {
         .hero-feat-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,11,.95) 0%,rgba(12,12,11,.2) 60%,transparent 100%); }
         .hero-feat-body { position:absolute;bottom:0;left:0;right:0;padding:3rem; }
         .hero-tag { display:inline-block;background:#e8b84b;color:#0c0c0b;font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .75rem;border-radius:999px;margin-bottom:1rem; }
-        .hero-feat-title { font-family:'Instrument Serif',Georgia,serif;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:400;color:#f7f5f0;line-height:1.25;margin-bottom:1.25rem; }
+        .hero-feat-title { font-family:'Melody',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:400;color:#f7f5f0;line-height:1.25;margin-bottom:1.25rem; }
         .hero-feat-meta { display:flex;align-items:center;gap:1rem;font-size:.78rem;color:rgba(247,245,240,.45);flex-wrap:wrap; }
         .hero-read { display:inline-flex;align-items:center;gap:.5rem;background:#f7f5f0;color:#0c0c0b;font-size:.78rem;font-weight:700;padding:.6rem 1.25rem;border-radius:999px;text-decoration:none;margin-left:auto;transition:background .15s; }
         .hero-read:hover { background:#e8b84b; }
@@ -59,7 +59,7 @@ export default async function LocaleHome({ params }: Props) {
         .card-sm:hover { background:#efe9d8; }
         .card-sm-img { width:100%;height:140px;border-radius:10px;background:linear-gradient(135deg,#1c1a17,#2e2a22);margin-bottom:1.25rem;display:flex;align-items:center;justify-content:center;font-size:3rem; }
         .ctag { display:inline-flex;align-items:center;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .65rem;border-radius:999px;border:1px solid #c0bbb0;margin-bottom:.875rem;color:#8a8680; }
-        .ctitle { font-family:'Instrument Serif',Georgia,serif;font-weight:400;line-height:1.25;letter-spacing:-.01em;color:#0c0c0b; }
+        .ctitle { font-family:'Melody',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;line-height:1.25;letter-spacing:-.01em;color:#0c0c0b; }
         .ctitle-lg { font-size:clamp(1.3rem,2vw,1.75rem);margin-bottom:.75rem; }
         .ctitle-sm { font-size:1.05rem;margin-bottom:.5rem; }
         .cexcerpt { font-size:.875rem;color:#8a8680;line-height:1.7;flex:1; }

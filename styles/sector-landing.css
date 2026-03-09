@@ -1,7 +1,7 @@
 /**
  * Sector landing pages — single stylesheet for all 5 sectors.
  * Uses Dome Auctions brand: #0f0f0f, #FFD600, #c8a84b, #f7f6f4.
- * Fonts: same as app/[locale]/layout.tsx — Instrument Serif + DM Sans (loaded in layout head).
+ * Typography: Melody brand font via global --font-body variable.
  */
 .sector-lp {
   --sector-black: #0f0f0f;
@@ -15,9 +15,9 @@
   --sector-container: 1400px;
   --sector-radius: 14px;
   --sector-radius-sm: 12px;
-  /* Match layout.tsx body font stack exactly */
-  --sector-font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --sector-font-serif: 'Instrument Serif', Georgia, serif;
+  /* Inherit Melody brand font from global --font-body, with safe fallback */
+  --sector-font-sans: var(--font-body, 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif);
+  --sector-font-serif: var(--font-body, 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif);
 }
 
 .sector-lp {

@@ -23,8 +23,8 @@ export const BRAND = {
 } as const
 
 export const FONTS = {
-  sans: "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif",
-  serif: "'Instrument Serif', Georgia, serif",
+  sans: "'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+  serif: "'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
 } as const
 
 export const SPACING = {
