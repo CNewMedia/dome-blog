@@ -46,7 +46,16 @@ export const postSchema = defineType({
       options: {
         source: 'titlePlain',
       },
-      description: 'This becomes the URL of the blog post.',
+      description: ((context: any) => {
+        const locale = context?.document?.locale
+        const slug = context?.document?.slugPlain?.current
+
+        if (locale && slug) {
+          return `Final URL: /${locale}/blog/${slug}`
+        }
+
+        return 'Fill in locale and slug to see the final URL.'
+      }) as any,
     }),
     defineField({
       name: 'bodyPlain',
