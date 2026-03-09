@@ -70,6 +70,7 @@ export type FooterLinkSetting = {
 export type SiteSettings = {
   _id?: string
   logo?: { asset?: { _ref?: string }; [key: string]: unknown }
+  footerLogo?: { asset?: { _ref?: string }; [key: string]: unknown }
   logoAlt?: string
   bedrijfsnaam?: string
   tagline?: LocaleString // legacy / unused in new footer
@@ -119,8 +120,11 @@ export function buildSiteSettingsFromChrome(
   const settings: SiteSettings = {}
 
   // Branding / logos
-  if (chrome.headerLogo || chrome.footerLogo) {
-    settings.logo = chrome.headerLogo ?? chrome.footerLogo
+  if (chrome.headerLogo) {
+    settings.logo = chrome.headerLogo
+  }
+  if (chrome.footerLogo) {
+    settings.footerLogo = chrome.footerLogo
   }
   if (chrome.logoAlt) {
     settings.logoAlt = chrome.logoAlt

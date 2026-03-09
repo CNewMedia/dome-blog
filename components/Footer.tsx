@@ -11,7 +11,7 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
   const t = useTranslations('footer')
   const [email, setEmail] = useState('')
 
-  const logo = settings?.logo
+  const logo = settings?.footerLogo
   const logoAlt = settings?.logoAlt || 'Dome Auctions'
 
   const newsletterTitle = settings?.nieuwsbriefTitel ? t('newsletter') : ''
@@ -28,8 +28,8 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
         .foot-inner { max-width:1400px;margin:0 auto;padding:3rem 1.5rem 2.25rem; }
         .foot-main { display:grid;gap:2.25rem;align-items:flex-start; }
 
-        .foot-logo { }
-        .foot-logo img { display:block;height:34px;width:auto; }
+        .foot-logo { margin-bottom:1.25rem; }
+        .foot-logo img { display:block;width:auto;max-height:32px; }
 
         .foot-newsletter { }
         .foot-nl-title { font-size:.75rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#f5f3ec;margin-bottom:1rem; }
@@ -53,11 +53,13 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
         @media (min-width: 768px) {
           .foot-main { grid-template-columns:1fr 1.2fr;column-gap:3rem;row-gap:2.5rem; }
           .foot-links-wrap { justify-self:flex-end; }
+          .foot-logo img { max-height:38px; }
         }
 
         @media (min-width: 1024px) {
           .foot-inner { padding:4rem 2.5rem 2.5rem; }
           .foot-main { grid-template-columns:1.1fr 1.2fr 1.1fr;column-gap:3.5rem; }
+          .foot-logo img { max-height:46px; }
         }
       `}</style>
       <footer className="footer">
@@ -67,11 +69,10 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
             <div className="foot-logo">
               {logo && (
                 <Image
-                  src={urlFor(logo).width(180).height(40).fit('max').url()}
+                  src={urlFor(logo).width(220).height(60).fit('max').url()}
                   alt={logoAlt}
                   width={180}
                   height={40}
-                  style={{ height: 34, width: 'auto' }}
                 />
               )}
             </div>
