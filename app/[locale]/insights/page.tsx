@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import { client } from '../../../sanity/client'
-import { getPosts } from '../../../sanity/queries'
+import { getInsights } from '../../../sanity/queries'
 
 type Props = { params: Promise<{ locale: string }> }
 
 const categories = ['All', 'Market trends', 'Buying guides', 'Metalworking', 'Agricultural', 'Construction', 'Transport', 'Finance']
 
-export default async function BlogPage({ params }: Props) {
+export default async function InsightsPage({ params }: Props) {
   const { locale } = await params
-  const query = getPosts(locale)
+  const query = getInsights(locale)
   const posts: any[] = await client.fetch(query, { locale }).catch(() => [])
   const featured = posts[0]
   const rest = posts.slice(1)
@@ -102,7 +102,7 @@ export default async function BlogPage({ params }: Props) {
               <h2 className="hero-feat-title">{featured.title}</h2>
               <div className="hero-feat-meta">
                 <span>{new Date(featured.publishedAt).toLocaleDateString(locale, {year:'numeric',month:'long',day:'numeric'})}</span>
-                <Link href={`/${locale}/blog/${featured.slug}`} className="hero-read">Read →</Link>
+                <Link href={`/${locale}/insights/${featured.slug}`} className="hero-read">Read →</Link>
               </div>
             </div>
           </div>
@@ -127,14 +127,14 @@ export default async function BlogPage({ params }: Props) {
       <main className="main">
         {posts.length === 0 ? (
           <div className="no-posts">
-            <h2 className="hero-h1" style={{color:'#0c0c0b',fontSize:'2rem'}}>No articles yet</h2>
-            <p>Check back soon for industry insights.</p>
+            <h2 className="hero-h1" style={{color:'#0c0c0b',fontSize:'2rem'}}>No insights yet</h2>
+            <p>Check back soon for new industry insights.</p>
           </div>
         ) : (
           <>
             {posts.length >= 2 && (
               <div className="grid-top">
-                <Link href={`/${locale}/blog/${featured.slug}`} className="card-big">
+                <Link href={`/${locale}/insights/${featured.slug}`} className="card-big">
                   <div className="card-big-img">🏭</div>
                   <div className="card-big-body">
                     <span className="ctag">Featured</span>
@@ -147,9 +147,9 @@ export default async function BlogPage({ params }: Props) {
                   </div>
                 </Link>
                 {posts.slice(1,3).map((post: any, i: number) => (
-                  <Link key={post._id} href={`/${locale}/blog/${post.slug}`} className="card-sm" style={i===1?{borderTop:'1.5px solid #e0dbd0'}:{}}>
+                  <Link key={post._id} href={`/${locale}/insights/${post.slug}`} className="card-sm" style={i===1?{borderTop:'1.5px solid #e0dbd0'}:{}}>
                     <div className="card-sm-img">📰</div>
-                    <span className="ctag">Article</span>
+                    <span className="ctag">Insight</span>
                     <h3 className="ctitle ctitle-sm">{post.title}</h3>
                     <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.4rem'}}>{post.excerpt?.substring(0,100)}{post.excerpt?.length > 100 ? '...' : ''}</p>
                     <div className="cmeta" style={{marginTop:'1rem',paddingTop:'.875rem',borderTop:'1px solid #e0dbd0'}}>
@@ -162,13 +162,13 @@ export default async function BlogPage({ params }: Props) {
             )}
             {rest.length > 2 && (
               <>
-                <div className="sect-lbl">All articles</div>
+                <div className="sect-lbl">All insights</div>
                 <div className="grid-3">
                   {rest.slice(2).map((post: any) => (
-                    <Link key={post._id} href={`/${locale}/blog/${post.slug}`} className="card-reg">
+                    <Link key={post._id} href={`/${locale}/insights/${post.slug}`} className="card-reg">
                       <div className="card-reg-img">📄</div>
                       <div className="card-reg-body">
-                        <span className="ctag">Article</span>
+                        <span className="ctag">Insight</span>
                         <h3 className="ctitle ctitle-sm">{post.title}</h3>
                         <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.5rem'}}>{post.excerpt?.substring(0,120)}{post.excerpt?.length > 120 ? '...' : ''}</p>
                         <div className="card-reg-foot">
@@ -187,3 +187,4 @@ export default async function BlogPage({ params }: Props) {
     </>
   )
 }
+

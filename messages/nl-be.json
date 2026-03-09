@@ -2,23 +2,23 @@
   "nav": {
     "allAuctions": "Alle veilingen",
     "categories": "Categorieën",
-    "blog": "Blog",
+    "blog": "Insights",
     "about": "Over ons",
     "contact": "Contact",
     "login": "Inloggen"
   },
-  "blog": {
-    "title": "Blog",
+  "insights": {
+    "title": "Insights",
     "subtitle": "Inzichten, nieuws en updates van Dome Auctions",
-    "backToBlog": "Terug naar blog",
+    "backToInsights": "Terug naar insights",
     "readMore": "Artikel lezen",
     "minRead": "min lezen",
-    "featuredArticle": "Uitgelicht artikel",
-    "allArticles": "Alle artikelen",
-    "recentArticles": "Recente artikelen",
+    "featuredArticle": "Uitgelicht insight",
+    "allArticles": "Alle insights",
+    "recentArticles": "Recente insights",
     "topics": "Onderwerpen",
     "share": "Delen",
-    "noArticles": "Geen artikelen gevonden.",
+    "noArticles": "Geen insights gevonden.",
     "viewAuctions": "Bekijk onze veilingen",
     "viewAuctionsText": "Ontdek industriële machines aan competitieve prijzen.",
     "viewAllAuctions": "Alle veilingen bekijken"

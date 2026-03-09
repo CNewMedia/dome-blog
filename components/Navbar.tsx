@@ -101,7 +101,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
               {menuItems.map((item, idx) => {
                 const label = getLocaleString(item.label, locale)
                 const hasSub = item.submenu && item.submenu.length > 0
-                const isBlog = item.url === `/${locale}/blog` || item.url?.endsWith('/blog')
+                const isInsights = item.url === `/${locale}/insights` || item.url?.endsWith('/insights')
                 if (hasSub) {
                   return (
                     <div key={idx} ref={(el) => { menuRefs.current[idx] = el }} style={{ position: 'relative' }}>
@@ -136,7 +136,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
                   <Link
                     key={idx}
                     href={item.url || '#'}
-                    className={`nav-a${isBlog ? ' on' : ''}`}
+                    className={`nav-a${isInsights ? ' on' : ''}`}
                   >
                     {label}
                   </Link>
@@ -171,8 +171,8 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
                   </div>
                 )}
               </div>
-              <Link href={`/${locale}/blog`} className="nav-a on">
-                Blog
+              <Link href={`/${locale}/insights`} className="nav-a on">
+                Insights
               </Link>
             </>
           )}
@@ -198,7 +198,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
               {langOpen && (
                 <div className="dropdown" style={{ right: 0, minWidth: '160px' }}>
                   {localesToShow.map((code) => (
-                    <Link key={code} href={localeSwitchPath(code)} className={`drop-a${code === locale ? ' on' : ''}`} onClick={() => setLangOpen(false)}>
+                    <Link key={code} href={localeSwitchPath(code).replace('/blog', '/insights')} className={`drop-a${code === locale ? ' on' : ''}`} onClick={() => setLangOpen(false)}>
                       {locales[code] ?? code}
                       {code === locale && (
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" strokeWidth="2.5">

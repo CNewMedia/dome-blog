@@ -1,11 +1,11 @@
 import { defineType, defineField } from 'sanity'
+import { InsightsTranslationPanel } from '../components/InsightsTranslationPanel'
 
 export const postSchema = defineType({
   name: 'post',
-  title: 'Blog Post',
+  title: 'Insight',
   type: 'document',
   fields: [
-    // Per-locale model: one document per locale
     defineField({
       name: 'locale',
       title: 'Locale',
@@ -21,44 +21,53 @@ export const postSchema = defineType({
       description: 'Language and region for this article (for example nl-be, fr-be or en-be).',
     }),
     defineField({
+      name: 'translations',
+      title: 'Translations',
+      type: 'string',
+      readOnly: true,
+      components: {
+        field: InsightsTranslationPanel as any,
+      },
+    }),
+    defineField({
       name: 'translationKey',
       title: 'Translation group',
       type: 'string',
       description: 'Optional ID to link this article to its other language versions.',
     }),
     defineField({
-      name: 'titlePlain',
+      name: 'title',
       title: 'Title',
       type: 'string',
       description: 'Headline for this article in this language.',
     }),
     defineField({
-      name: 'excerptPlain',
+      name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
       rows: 3,
-      description: 'Short intro that appears in blog lists and previews.',
+      description: 'Short intro that appears in insights lists and previews.',
     }),
     defineField({
-      name: 'slugPlain',
+      name: 'slug',
       title: 'Slug',
       type: 'slug',
       options: {
-        source: 'titlePlain',
+        source: 'title',
       },
       description: ((context: any) => {
         const locale = context?.document?.locale
-        const slug = context?.document?.slugPlain?.current
+        const slug = context?.document?.slug?.current
 
         if (locale && slug) {
-          return `Final URL: /${locale}/blog/${slug}`
+          return `Final URL: /${locale}/insights/${slug}`
         }
 
         return 'Fill in locale and slug to see the final URL.'
       }) as any,
     }),
     defineField({
-      name: 'bodyPlain',
+      name: 'body',
       title: 'Body',
       type: 'array',
       of: [
@@ -79,29 +88,18 @@ export const postSchema = defineType({
       fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
     }),
     defineField({
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      of: [{ type: 'reference', to: { type: 'category' } }],
-    }),
-    defineField({
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
     }),
     defineField({
-      name: 'author',
-      title: 'Author',
-      type: 'string',
-    }),
-    defineField({
-      name: 'seoTitlePlain',
+      name: 'seoTitle',
       title: 'SEO title',
       type: 'string',
       description: 'Title used for search engines and browser tabs. If empty, the regular title may be used.',
     }),
     defineField({
-      name: 'seoDescriptionPlain',
+      name: 'seoDescription',
       title: 'SEO description',
       type: 'text',
       rows: 3,
@@ -110,18 +108,18 @@ export const postSchema = defineType({
   ],
   preview: {
     select: {
-      titlePlain: 'titlePlain',
+      title: 'title',
       locale: 'locale',
-      slug: 'slugPlain.current',
+      slug: 'slug.current',
       media: 'mainImage',
     },
-    prepare({ titlePlain, locale, slug, media }) {
+    prepare({ title, locale, slug, media }) {
       const url =
         locale && slug
-          ? `Example URL: /${locale}/blog/${slug}`
+          ? `Example URL: /${locale}/insights/${slug}`
           : 'Fill in locale and slug to see the final URL.'
       return {
-        title: titlePlain || 'Untitled',
+        title: title || 'Untitled',
         subtitle: url,
         media,
       }

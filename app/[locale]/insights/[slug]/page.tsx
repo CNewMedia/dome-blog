@@ -1,5 +1,5 @@
 import { client, urlFor } from '../../../../sanity/client'
-import { getPost, getRecentPosts, getCategories } from '../../../../sanity/queries'
+import { getInsight, getRecentInsights } from '../../../../sanity/queries'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -15,13 +15,12 @@ function formatDate(dateStr: string, locale: string) {
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
-export default async function BlogPostPage({ params }: Props) {
+export default async function InsightPage({ params }: Props) {
   const { locale, slug } = await params
-  const t = await getTranslations('blog')
-  const [post, recentPosts, categories] = await Promise.all([
-    client.fetch(getPost(locale), { slug, locale }),
-    client.fetch(getRecentPosts(locale), { locale }),
-    client.fetch(getCategories),
+  const t = await getTranslations('insights')
+  const [post, recentPosts] = await Promise.all([
+    client.fetch(getInsight(locale), { slug, locale }),
+    client.fetch(getRecentInsights(locale), { locale }),
   ])
 
   if (!post) notFound()
@@ -35,26 +34,15 @@ export default async function BlogPostPage({ params }: Props) {
       )}
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '3rem 2rem 5rem', display: 'grid', gridTemplateColumns: '1fr 320px', gap: '4rem', alignItems: 'start' }}>
         <main>
-          <Link href={`/${locale}/blog`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#000', textDecoration: 'none', marginBottom: '2rem' }}>
-            ← {t('backToBlog')}
+          <Link href={`/${locale}/insights`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#000', textDecoration: 'none', marginBottom: '2rem' }}>
+            ← {t('backToInsights')}
           </Link>
           <header style={{ borderBottom: '2px solid #000', paddingBottom: '1.5rem', marginBottom: '2.5rem' }}>
-            {post.categories?.length > 0 && (
-              <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1rem' }}>
-                {post.categories.map((c: any) => (
-                  <Link key={c.slug} href={`/${locale}/blog?cat=${c.slug}`} style={{ background: '#000', color: '#fff', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.25rem 0.65rem', textDecoration: 'none' }}>
-                    {c.title}
-                  </Link>
-                ))}
-              </div>
-            )}
             <h1 style={{ fontSize: 'clamp(1.75rem,3.5vw,2.75rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.025em', color: '#000', marginBottom: '1.25rem' }}>
               {post.title}
             </h1>
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.5rem 1.25rem', fontSize: '0.825rem', color: '#555' }}>
               {post.publishedAt && <span>📅 {formatDate(post.publishedAt, locale)}</span>}
-              {post.publishedAt && post.author && <span style={{ color: '#ccc' }}>·</span>}
-              {post.author && <span>👤 {post.author}</span>}
             </div>
           </header>
           <article style={{ fontSize: '1.05rem', lineHeight: 1.85, color: '#1a1a1a' }}>
@@ -67,34 +55,17 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </main>
         <aside style={{ position: 'sticky', top: '90px' }}>
-          <div style={{ border: '1px solid #000', padding: '1.5rem', marginBottom: '1.5rem', background: '#f0c040' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', borderBottom: '2px solid #000', paddingBottom: '0.6rem', marginBottom: '1.25rem' }}>{t('viewAuctions')}</div>
-            <p style={{ fontSize: '0.9rem', lineHeight: 1.55, marginBottom: '1.25rem' }}>{t('viewAuctionsText')}</p>
-            <Link href={`https://dome-auctions.com/${locale === 'nl-be' ? 'nl' : locale}/auctions/`} style={{ display: 'block', background: '#000', color: '#fff', fontSize: '0.8rem', fontWeight: 700, padding: '0.65rem 1.25rem', textAlign: 'center', textDecoration: 'none' }}>
-              {t('viewAllAuctions')}
-            </Link>
-          </div>
           {recentPosts.length > 0 && (
             <div style={{ border: '1px solid #000', padding: '1.5rem', marginBottom: '1.5rem' }}>
-              <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', borderBottom: '2px solid #000', paddingBottom: '0.6rem', marginBottom: '1.25rem' }}>{t('recentArticles')}</div>
+              <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', borderBottom: '2px solid #000', paddingBottom: '0.6rem', marginBottom: '1.25rem' }}>{t('recentInsights')}</div>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {recentPosts.filter((p: any) => p.slug !== slug).slice(0, 4).map((p: any, i: number, arr: any[]) => (
                   <li key={p._id} style={{ paddingBottom: i < arr.length - 1 ? '0.75rem' : 0, marginBottom: i < arr.length - 1 ? '0.75rem' : 0, borderBottom: i < arr.length - 1 ? '1px solid #e0e0e0' : 'none' }}>
-                    <Link href={`/${locale}/blog/${p.slug}`} style={{ fontSize: '0.875rem', fontWeight: 600, lineHeight: 1.4, display: 'block', marginBottom: '0.2rem', color: '#000', textDecoration: 'none' }}>{p.title}</Link>
+                    <Link href={`/${locale}/insights/${p.slug}`} style={{ fontSize: '0.875rem', fontWeight: 600, lineHeight: 1.4, display: 'block', marginBottom: '0.2rem', color: '#000', textDecoration: 'none' }}>{p.title}</Link>
                     <span style={{ fontSize: '0.75rem', color: '#999' }}>{p.publishedAt ? formatDate(p.publishedAt, locale) : ''}</span>
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
-          {categories.length > 0 && (
-            <div style={{ border: '1px solid #000', padding: '1.5rem' }}>
-              <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', borderBottom: '2px solid #000', paddingBottom: '0.6rem', marginBottom: '1.25rem' }}>{t('topics')}</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                {categories.map((c: any) => (
-                  <Link key={c._id} href={`/${locale}/blog?cat=${c.slug}`} style={{ background: '#000', color: '#fff', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '0.25rem 0.6rem', textDecoration: 'none' }}>{c.title}</Link>
-                ))}
-              </div>
             </div>
           )}
         </aside>
@@ -102,3 +73,4 @@ export default async function BlogPostPage({ params }: Props) {
     </div>
   )
 }
+

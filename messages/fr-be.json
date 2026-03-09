@@ -2,23 +2,23 @@
   "nav": {
     "allAuctions": "Toutes les ventes",
     "categories": "Catégories",
-    "blog": "Blog",
+    "blog": "Insights",
     "about": "À propos",
     "contact": "Contact",
     "login": "Se connecter"
   },
-  "blog": {
-    "title": "Blog",
+  "insights": {
+    "title": "Insights",
     "subtitle": "Insights, actualités et mises à jour de Dome Auctions",
-    "backToBlog": "Retour au blog",
+    "backToInsights": "Retour aux insights",
     "readMore": "Lire l'article",
     "minRead": "min de lecture",
-    "featuredArticle": "Article à la une",
-    "allArticles": "Tous les articles",
-    "recentArticles": "Articles récents",
+    "featuredArticle": "Insight à la une",
+    "allArticles": "Tous les insights",
+    "recentArticles": "Insights récents",
     "topics": "Sujets",
     "share": "Partager",
-    "noArticles": "Aucun article trouvé.",
+    "noArticles": "Aucun insight trouvé.",
     "viewAuctions": "Voir nos ventes",
     "viewAuctionsText": "Découvrez des machines industrielles à prix compétitifs.",
     "viewAllAuctions": "Voir toutes les ventes"

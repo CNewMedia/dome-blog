@@ -2,7 +2,7 @@ import { StructureBuilder } from 'sanity/structure'
 
 export const structure = (S: StructureBuilder) =>
   S.list()
-    .title('Dome Auctions Blog')
+    .title('Dome Auctions Insights')
     .items([
       S.listItem()
         .title('Site Instellingen')
@@ -23,16 +23,16 @@ export const structure = (S: StructureBuilder) =>
             .defaultOrdering([{ field: 'locale', direction: 'asc' }])
         ),
       S.listItem()
-        .title('Blog Posts')
+        .title('Insights')
         .child(
           S.list()
-            .title('Blog Posts')
+            .title('Insights')
             .items([
               S.listItem()
                 .title('NL-BE')
                 .child(
                   S.documentList()
-                    .title('Blog Posts – NL-BE')
+                    .title('Insights – NL-BE')
                     .schemaType('post')
                     .filter('_type == "post" && locale == "nl-be"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
@@ -41,7 +41,7 @@ export const structure = (S: StructureBuilder) =>
                 .title('FR-BE')
                 .child(
                   S.documentList()
-                    .title('Blog Posts – FR-BE')
+                    .title('Insights – FR-BE')
                     .schemaType('post')
                     .filter('_type == "post" && locale == "fr-be"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
@@ -50,7 +50,7 @@ export const structure = (S: StructureBuilder) =>
                 .title('EN-BE')
                 .child(
                   S.documentList()
-                    .title('Blog Posts – EN-BE')
+                    .title('Insights – EN-BE')
                     .schemaType('post')
                     .filter('_type == "post" && locale == "en-be"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])

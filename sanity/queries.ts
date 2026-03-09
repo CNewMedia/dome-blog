@@ -5,47 +5,39 @@ const localeToField = (locale: string) => {
   return locale.replace('-', '_')
 }
 
-export const getPosts = (locale: string) => {
+export const getInsights = (locale: string) => {
   return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) {
     _id,
-    "title": titlePlain,
-    "excerpt": excerptPlain,
-    "slug": slugPlain.current,
+    title,
+    excerpt,
+    "slug": slug.current,
     mainImage,
-    publishedAt,
-    author,
-    "categories": categories[]->{ title, "slug": slug.current }
-  }`
-}
-
-export const getPost = (locale: string) => {
-  return groq`*[_type == "post" && locale == $locale && slugPlain.current == $slug][0] {
-    _id,
-    "title": titlePlain,
-    "excerpt": excerptPlain,
-    "body": bodyPlain,
-    "slug": slugPlain.current,
-    mainImage,
-    publishedAt,
-    author,
-    "categories": categories[]->{ title, "slug": slug.current },
-    "seoTitle": seoTitlePlain,
-    "seoDescription": seoDescriptionPlain
-  }`
-}
-
-export const getRecentPosts = (locale: string) => {
-  return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) [0..4] {
-    _id,
-    "title": titlePlain,
-    "slug": slugPlain.current,
     publishedAt
   }`
 }
 
-export const getCategories = groq`*[_type == "category"] | order(title asc) {
-  _id, title, "slug": slug.current
-}`
+export const getInsight = (locale: string) => {
+  return groq`*[_type == "post" && locale == $locale && slug.current == $slug][0] {
+    _id,
+    title,
+    excerpt,
+    body,
+    "slug": slug.current,
+    mainImage,
+    publishedAt,
+    seoTitle,
+    seoDescription
+  }`
+}
+
+export const getRecentInsights = (locale: string) => {
+  return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) [0..4] {
+    _id,
+    title,
+    "slug": slug.current,
+    publishedAt
+  }`
+}
 
 /** For language selector: which locales exist for a sector (new docs) or all if only legacy */
 export const getSectorAvailableLocales = groq`{
