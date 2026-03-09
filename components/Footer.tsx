@@ -59,7 +59,7 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
         @media (min-width: 1024px) {
           .foot-inner { padding:4rem 2.5rem 2.5rem; }
           .foot-main { grid-template-columns:1.1fr 1.2fr 1.1fr;column-gap:3.5rem; }
-          .foot-logo img { max-height:200px; }
+          .foot-logo img { max-height:300px; }
         }
       `}</style>
       <footer className="footer">
@@ -69,7 +69,7 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
             <div className="foot-logo">
               {logo && (
                 <Image
-                  src={urlFor(logo).width(640).height(220).fit('max').url()}
+                  src={urlFor(logo).width(960).height(320).fit('max').url()}
                   alt={logoAlt}
                   width={180}
                   height={40}
