@@ -87,8 +87,7 @@ export type SiteSettings = {
 const LOCALE_MAP: Record<string, keyof LocaleString> = {
   'nl-be': 'nl_be',
   'fr-be': 'fr_be',
-  en: 'en',
-  de: 'de',
+  'en-be': 'en',
 }
 
 const makeLocaleString = (value: string | undefined | null, locale: string): LocaleString | undefined => {

@@ -1,15 +1,18 @@
 import { NextRequest } from 'next/server'
 import { client } from '../../../sanity/client'
 import { getSectorAvailableLocales } from '../../../sanity/queries'
+import { activeLocales } from '../../../i18n/locales'
 
 const SECTORS = ['woodworking', 'metalworking', 'construction', 'agriculture', 'transport']
 
 export async function GET(request: NextRequest) {
   const sector = request.nextUrl.searchParams.get('sector')
   if (!sector || !SECTORS.includes(sector)) {
-    return Response.json({ availableLocales: ['nl-be', 'fr-be', 'en', 'de'] })
+    return Response.json({ availableLocales: [...activeLocales] })
   }
   const data = await client.fetch(getSectorAvailableLocales, { sector }) as { availableLocales?: string[] } | null
-  const availableLocales = data?.availableLocales ?? ['nl-be']
+  const raw = data?.availableLocales ?? []
+  const filtered = raw.filter((loc) => activeLocales.includes(loc as (typeof activeLocales)[number]))
+  const availableLocales = filtered.length ? filtered : [...activeLocales]
   return Response.json({ availableLocales })
 }

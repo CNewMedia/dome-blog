@@ -1,6 +1,9 @@
 import { groq } from 'next-sanity'
 
-const localeToField = (locale: string) => locale.replace('-', '_')
+const localeToField = (locale: string) => {
+  if (locale === 'en-be') return 'en'
+  return locale.replace('-', '_')
+}
 
 export const getPosts = (locale: string) => {
   const l = localeToField(locale)

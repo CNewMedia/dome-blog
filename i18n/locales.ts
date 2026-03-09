@@ -1,5 +1,5 @@
-export const activeLocales = ['nl', 'nl-be', 'fr-be', 'en'] as const
-export const defaultLocale = 'en'
+export const activeLocales = ['nl-be', 'fr-be', 'en-be'] as const
+export const defaultLocale = 'nl-be'
 
 export type AppLocale = (typeof activeLocales)[number]
 

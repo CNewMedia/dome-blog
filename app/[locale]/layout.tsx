@@ -6,8 +6,7 @@ import Footer from '../../components/Footer'
 import { buildSiteSettingsFromChrome } from '../../lib/siteSettings'
 import { client } from '../../sanity/client'
 import { getSiteChrome, getSiteSettings } from '../../sanity/queries'
-
-const locales = ['nl-be', 'fr-be', 'en', 'de']
+import { activeLocales, isAppLocale } from '../../i18n/locales'
 
 type Props = {
   children: React.ReactNode
@@ -16,7 +15,7 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
-  if (!locales.includes(locale)) notFound()
+  if (!isAppLocale(locale)) notFound()
   const messages = await getMessages()
   const [siteChrome, siteSettings] = await Promise.all([
     client.fetch(getSiteChrome(locale), { locale }),
@@ -52,5 +51,5 @@ export default async function LocaleLayout({ children, params }: Props) {
 }
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
+  return activeLocales.map((locale) => ({ locale }))
 }

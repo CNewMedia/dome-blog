@@ -22,9 +22,50 @@ export const structure = (S: StructureBuilder) =>
             .filter('_type == "siteChrome"')
             .defaultOrdering([{ field: 'locale', direction: 'asc' }])
         ),
-      S.listItem().title('Blog Posts').schemaType('post').child(
-        S.documentList().title('Blog Posts').filter('_type == "post"').defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
-      ),
+      S.listItem()
+        .title('Blog Posts')
+        .child(
+          S.list()
+            .title('Blog Posts')
+            .items([
+              S.listItem()
+                .title('NL-BE')
+                .child(
+                  S.documentList()
+                    .title('Blog Posts – NL-BE')
+                    .schemaType('post')
+                    .filter('_type == "post" && locale == "nl-be"')
+                    .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                ),
+              S.listItem()
+                .title('FR-BE')
+                .child(
+                  S.documentList()
+                    .title('Blog Posts – FR-BE')
+                    .schemaType('post')
+                    .filter('_type == "post" && locale == "fr-be"')
+                    .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                ),
+              S.listItem()
+                .title('EN-BE')
+                .child(
+                  S.documentList()
+                    .title('Blog Posts – EN-BE')
+                    .schemaType('post')
+                    .filter('_type == "post" && locale == "en-be"')
+                    .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                ),
+              S.listItem()
+                .title('Legacy (multi-locale)')
+                .child(
+                  S.documentList()
+                    .title('Legacy Blog Posts')
+                    .schemaType('post')
+                    .filter('_type == "post" && !defined(locale)')
+                    .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                ),
+            ])
+        ),
       S.listItem().title('Categories').schemaType('category').child(
         S.documentList().title('Categories').filter('_type == "category"')
       ),
