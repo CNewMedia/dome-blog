@@ -166,15 +166,11 @@ export const getSiteChrome = (locale: string) => {
     newsletterTitle,
     newsletterPlaceholder,
     newsletterButtonLabel,
-    footerColumns[]{
-      title,
-      links[]{
-        label,
-        href,
-        openInNewTab
-      }
+    footerPrimaryLinks[]{
+      label,
+      href
     },
-    footerBottomLinks[]{
+    footerLegalLinks[]{
       label,
       href
     },

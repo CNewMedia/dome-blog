@@ -36,12 +36,7 @@ export type SiteChromeMenuItem = {
   openInNewTab?: boolean
 }
 
-export type SiteChromeFooterColumn = {
-  title?: string
-  links?: SiteChromeMenuItem[]
-}
-
-export type SiteChromeFooterBottomLink = {
+export type SiteChromeFooterLink = {
   label?: string
   href?: string
 }
@@ -63,14 +58,14 @@ export type SiteChrome = {
   newsletterTitle?: string
   newsletterPlaceholder?: string
   newsletterButtonLabel?: string
-  footerColumns?: SiteChromeFooterColumn[]
-  footerBottomLinks?: SiteChromeFooterBottomLink[]
+  footerPrimaryLinks?: SiteChromeFooterLink[]
+  footerLegalLinks?: SiteChromeFooterLink[]
   socialLinks?: SiteChromeSocialLink[]
   address?: string
   copyrightText?: string
 }
 
-export type FooterBottomLinkSetting = {
+export type FooterLinkSetting = {
   label?: string
   url?: string
 }
@@ -83,7 +78,8 @@ export type SiteSettings = {
   tagline?: LocaleString
   headerMenu?: HeaderMenuItem[]
   footerKolommen?: FooterKolom[]
-  footerBottomLinks?: FooterBottomLinkSetting[]
+  footerPrimaryLinks?: FooterLinkSetting[]
+  footerLegalLinks?: FooterLinkSetting[]
   socialLinks?: SocialLink[]
   adres?: string
   copyrightTekst?: LocaleString
@@ -149,21 +145,17 @@ export function buildSiteSettingsFromChrome(
     }))
   }
 
-  // Footer columns (primary links: About, FAQ, Contact – editors add one column with label + url per link)
-  if (chrome.footerColumns && chrome.footerColumns.length > 0) {
-    settings.footerKolommen = chrome.footerColumns.map((col) => ({
-      titel: makeLocaleString(col.title, locale),
-      links:
-        col.links?.map((link) => ({
-          label: makeLocaleString(link.label, locale),
-          url: link.href,
-        })) ?? [],
+  // Primary footer links (About us, FAQ, Contact, etc.)
+  if (chrome.footerPrimaryLinks && chrome.footerPrimaryLinks.length > 0) {
+    settings.footerPrimaryLinks = chrome.footerPrimaryLinks.map((link) => ({
+      label: link.label ?? '',
+      url: link.href ?? '',
     }))
   }
 
-  // Footer bottom links (legal: Terms, Privacy – label + url per locale)
-  if (chrome.footerBottomLinks && chrome.footerBottomLinks.length > 0) {
-    settings.footerBottomLinks = chrome.footerBottomLinks.map((link) => ({
+  // Legal footer links (Terms and conditions, Privacy policy, etc.)
+  if (chrome.footerLegalLinks && chrome.footerLegalLinks.length > 0) {
+    settings.footerLegalLinks = chrome.footerLegalLinks.map((link) => ({
       label: link.label ?? '',
       url: link.href ?? '',
     }))

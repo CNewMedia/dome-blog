@@ -19,8 +19,8 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
   const nieuwsbriefTitel = getLocaleString(settings?.nieuwsbriefTitel, locale)
   const newsletterPlaceholder = settings?.newsletterPlaceholder ?? ''
   const newsletterButtonLabel = settings?.newsletterButtonLabel ?? ''
-  const footerKolommen = settings?.footerKolommen ?? []
-  const footerBottomLinks = settings?.footerBottomLinks ?? []
+  const footerPrimaryLinks = settings?.footerPrimaryLinks ?? []
+  const footerLegalLinks = settings?.footerLegalLinks ?? []
   const socialLinks = settings?.socialLinks ?? []
 
   return (
@@ -46,7 +46,6 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
         .foot-nl-btn { margin-top:.75rem;min-height:48px;padding:0 1.75rem;background:#e8b84b;border:none;border-radius:999px;font-size:.9375rem;font-weight:700;color:#0c0c0b;cursor:pointer;font-family:inherit;transition:background .15s,transform .15s; }
         .foot-nl-btn:hover { background:#d4a63e;transform:translateY(-1px); }
         .foot-links-wrap { }
-        .foot-col-title { font-size:.6875rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,245,240,.35);margin-bottom:1rem; }
         .foot-links { display:flex;flex-direction:column;gap:.25rem; }
         .foot-links a { display:inline-block;font-size:.9375rem;color:rgba(247,245,240,.6);text-decoration:none;padding:.5rem 0;min-height:44px;display:inline-flex;align-items:center;transition:color .15s; }
         .foot-links a:hover { color:#f7f5f0; }
@@ -117,31 +116,24 @@ export default function Footer({ settings }: { settings?: SiteSettings | null })
             </div>
 
             <div className="foot-links-wrap">
-              {footerKolommen.map((kolom, ki) => (
-                <div key={ki}>
-                  {getLocaleString(kolom.titel, locale) && (
-                    <div className="foot-col-title">{getLocaleString(kolom.titel, locale)}</div>
-                  )}
-                  <div className="foot-links">
-                    {kolom.links?.map((link, li) =>
-                      link.url ? (
-                        <Link key={li} href={link.url}>
-                          {getLocaleString(link.label, locale) || link.url}
-                        </Link>
-                      ) : null
-                    )}
-                  </div>
-                </div>
-              ))}
+              <div className="foot-links">
+                {footerPrimaryLinks.map((link, i) =>
+                  link.url ? (
+                    <Link key={i} href={link.url}>
+                      {link.label || link.url}
+                    </Link>
+                  ) : null
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         <div className="foot-bot">
           <span>{copyrightTekst || (companyName ? `© ${new Date().getFullYear()} ${companyName}` : '')}</span>
-          {footerBottomLinks.length > 0 && (
+          {footerLegalLinks.length > 0 && (
             <nav className="foot-bot-links" aria-label="Legal">
-              {footerBottomLinks.map((link, i) =>
+              {footerLegalLinks.map((link, i) =>
                 link.url ? (
                   <a key={i} href={link.url}>
                     {link.label || link.url}
