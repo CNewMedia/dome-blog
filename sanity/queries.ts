@@ -39,13 +39,31 @@ export const getRecentInsights = (locale: string) => {
   }`
 }
 
-/** For language selector: which locales exist for a landing page slug */
+/** For language selector: which locales exist for a landing page translation group (based on the current document) */
 export const getSectorAvailableLocales = groq`{
   "availableLocales": array::unique(
-    *[_type == "sectorPage" && (
-      slug.current == $slug ||
-      (!defined(slug.current) && lower(sector) == $slug)
-    )].locale
+    coalesce(
+      *[_type == "sectorPage" && defined(translationKey) && translationKey == *[
+        _type == "sectorPage" &&
+        locale == $locale &&
+        (slug.current == $slug || (!defined(slug.current) && lower(sector) == $slug))
+      ][0].translationKey].locale,
+      *[_type == "sectorPage" && locale == $locale && (slug.current == $slug || (!defined(slug.current) && lower(sector) == $slug))].locale
+    )
+  )
+}`
+
+/** For language selector: which locales exist for an insight translation group (based on the current document) */
+export const getInsightAvailableLocales = groq`{
+  "availableLocales": array::unique(
+    coalesce(
+      *[_type == "post" && defined(translationKey) && translationKey == *[
+        _type == "post" &&
+        locale == $locale &&
+        slug.current == $slug
+      ][0].translationKey].locale,
+      *[_type == "post" && locale == $locale && slug.current == $slug].locale
+    )
   )
 }`
 

@@ -7,8 +7,8 @@ import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { urlFor } from '../sanity/client'
 import { getLocaleString, type SiteSettings } from '../lib/siteSettings'
+import { activeLocales } from '../i18n/locales'
 
-const SECTORS = ['woodworking', 'metalworking', 'construction', 'agriculture', 'transport']
 const ALL_LOCALES = ['nl-be', 'fr-be', 'en', 'de']
 const locales: Record<string, string> = { en: 'English', 'nl-be': 'Nederlands', 'fr-be': 'Français', de: 'Deutsch' }
 const localeShort: Record<string, string> = { en: 'EN', 'nl-be': 'NL', 'fr-be': 'FR', de: 'DE' }
@@ -25,18 +25,39 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
 
   useEffect(() => {
     const segments = pathname.split('/').filter(Boolean)
-    const sector = segments[1]
-    if (sector && SECTORS.includes(sector)) {
-      fetch(`/api/sector-locales?sector=${encodeURIComponent(sector)}`)
-        .then((res) => res.json())
-        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? ALL_LOCALES))
-        .catch(() => setPageLocales(ALL_LOCALES))
-    } else {
+    const localeSeg = segments[0]
+    const second = segments[1]
+    const third = segments[2]
+
+    // If path does not start with a valid app locale, fall back to all locales
+    if (!localeSeg || !activeLocales.includes(localeSeg as (typeof activeLocales)[number])) {
       setPageLocales(null)
+      return
     }
+
+    // Insight detail page: /{locale}/articles/{slug}
+    if (second === 'articles' && third) {
+      fetch(`/api/insight-locales?slug=${encodeURIComponent(third)}&locale=${encodeURIComponent(localeSeg)}`)
+        .then((res) => res.json())
+        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
+        .catch(() => setPageLocales([]))
+      return
+    }
+
+    // Landing page detail: /{locale}/{slug} (excluding /insights and /articles)
+    if (segments.length >= 2 && second && second !== 'articles' && second !== 'insights') {
+      fetch(`/api/sector-locales?sector=${encodeURIComponent(second)}&locale=${encodeURIComponent(localeSeg)}`)
+        .then((res) => res.json())
+        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
+        .catch(() => setPageLocales([]))
+      return
+    }
+
+    // Overview / other pages: show all active locales
+    setPageLocales(null)
   }, [pathname])
 
-  const localesToShow = pageLocales ?? ALL_LOCALES
+  const localesToShow = pageLocales ?? [...activeLocales]
   const showLangSelector = localesToShow.length > 1
   const localeSwitchPath = (code: string) => pathname.replace(/^\/[^/]+/, `/${code}`)
 
@@ -177,7 +198,12 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
               {langOpen && (
                 <div className="dropdown" style={{ right: 0, minWidth: '160px' }}>
                   {localesToShow.map((code) => (
-                    <Link key={code} href={localeSwitchPath(code).replace('/blog', '/insights')} className={`drop-a${code === locale ? ' on' : ''}`} onClick={() => setLangOpen(false)}>
+                    <Link
+                      key={code}
+                      href={localeSwitchPath(code).replace('/blog', '/insights')}
+                      className={`drop-a${code === locale ? ' on' : ''}`}
+                      onClick={() => setLangOpen(false)}
+                    >
                       {locales[code] ?? code}
                       {code === locale && (
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" strokeWidth="2.5">
@@ -199,3 +225,4 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
     </>
   )
 }
+
