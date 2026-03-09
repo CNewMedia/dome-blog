@@ -57,9 +57,6 @@ export const structure = (S: StructureBuilder) =>
                 ),
             ])
         ),
-      S.listItem().title('Categories').schemaType('category').child(
-        S.documentList().title('Categories').filter('_type == "category"')
-      ),
       S.listItem()
         .title('Sector Landing Pages')
         .child(
