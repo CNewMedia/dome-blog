@@ -18,26 +18,26 @@ export const postSchema = defineType({
         ],
         layout: 'dropdown',
       },
-      description: 'Target locale for this blog post (new per-locale model).',
+      description: 'Locale for this blog post (e.g. nl-be, fr-be, en-be).',
     }),
     defineField({
       name: 'translationKey',
       title: 'Translation group',
       type: 'string',
-      description: 'Same value for all language versions of this article.',
+      description: 'Optional ID shared by all language versions of the same article.',
     }),
     defineField({
       name: 'titlePlain',
       title: 'Title (per-locale)',
       type: 'string',
-      description: 'New per-locale title. Legacy localized title fields remain available below.',
+      description: 'Title for this locale. Shown on the blog listing and detail page.',
     }),
     defineField({
       name: 'excerptPlain',
       title: 'Excerpt (per-locale)',
       type: 'text',
       rows: 3,
-      description: 'New per-locale excerpt. Legacy localized excerpt fields remain available below.',
+      description: 'Short summary for this locale. Used on the blog listing and meta tags.',
     }),
     defineField({
       name: 'slugPlain',
@@ -46,7 +46,7 @@ export const postSchema = defineType({
       options: {
         source: 'titlePlain',
       },
-      description: 'New per-locale slug. Legacy localized slugs remain available below.',
+      description: 'URL segment for this locale. Final URL is /{locale}/blog/{slug}.',
     }),
     defineField({
       name: 'bodyPlain',
@@ -100,9 +100,22 @@ export const postSchema = defineType({
     }),
   ],
   preview: {
-    select: { titlePlain: 'titlePlain', media: 'mainImage' },
-    prepare({ titlePlain, media }) {
-      return { title: titlePlain || 'Untitled', media }
+    select: {
+      titlePlain: 'titlePlain',
+      locale: 'locale',
+      slug: 'slugPlain.current',
+      media: 'mainImage',
+    },
+    prepare({ titlePlain, locale, slug, media }) {
+      const url =
+        locale && slug
+          ? `/${locale}/blog/${slug}`
+          : 'Set locale and slug to see final URL'
+      return {
+        title: titlePlain || 'Untitled',
+        subtitle: url,
+        media,
+      }
     },
   },
   orderings: [
