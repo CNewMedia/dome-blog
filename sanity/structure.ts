@@ -13,6 +13,15 @@ export const structure = (S: StructureBuilder) =>
             .schemaType('siteSettings')
             .documentId('siteSettings')
         ),
+      S.listItem()
+        .title('Site Chrome')
+        .schemaType('siteChrome')
+        .child(
+          S.documentList()
+            .title('Site Chrome')
+            .filter('_type == "siteChrome"')
+            .defaultOrdering([{ field: 'locale', direction: 'asc' }])
+        ),
       S.listItem().title('Blog Posts').schemaType('post').child(
         S.documentList().title('Blog Posts').filter('_type == "post"').defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
       ),

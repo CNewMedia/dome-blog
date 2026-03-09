@@ -150,3 +150,41 @@ export const getSiteSettings = groq`*[_type == "siteSettings"][0]{
   copyrightTekst,
   nieuwsbriefTitel
 }`
+
+export const getSiteChrome = (locale: string) => {
+  return groq`*[_type == "siteChrome" && locale == $locale][0]{
+    _id,
+    locale,
+    companyName,
+    headerLogo,
+    footerLogo,
+    logoAlt,
+    headerMenu[]{
+      label,
+      href,
+      openInNewTab
+    },
+    footerBaseline,
+    newsletterTitle,
+    newsletterPlaceholder,
+    newsletterButtonLabel,
+    footerColumns[]{
+      title,
+      links[]{
+        label,
+        href,
+        openInNewTab
+      }
+    },
+    footerBottomLinks[]{
+      label,
+      href
+    },
+    socialLinks[]{
+      platform,
+      url
+    },
+    address,
+    copyrightText
+  }`
+}

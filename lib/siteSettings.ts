@@ -30,6 +30,46 @@ export type SocialLink = {
   url?: string
 }
 
+export type SiteChromeMenuItem = {
+  label?: string
+  href?: string
+  openInNewTab?: boolean
+}
+
+export type SiteChromeFooterColumn = {
+  title?: string
+  links?: SiteChromeMenuItem[]
+}
+
+export type SiteChromeFooterBottomLink = {
+  label?: string
+  href?: string
+}
+
+export type SiteChromeSocialLink = {
+  platform?: string
+  url?: string
+}
+
+export type SiteChrome = {
+  _id?: string
+  locale?: string
+  companyName?: string
+  headerLogo?: { asset?: { _ref?: string }; [key: string]: unknown }
+  footerLogo?: { asset?: { _ref?: string }; [key: string]: unknown }
+  logoAlt?: string
+  headerMenu?: SiteChromeMenuItem[]
+  footerBaseline?: string
+  newsletterTitle?: string
+  newsletterPlaceholder?: string
+  newsletterButtonLabel?: string
+  footerColumns?: SiteChromeFooterColumn[]
+  footerBottomLinks?: SiteChromeFooterBottomLink[]
+  socialLinks?: SiteChromeSocialLink[]
+  address?: string
+  copyrightText?: string
+}
+
 export type SiteSettings = {
   _id?: string
   logo?: { asset?: { _ref?: string }; [key: string]: unknown }
@@ -51,6 +91,12 @@ const LOCALE_MAP: Record<string, keyof LocaleString> = {
   de: 'de',
 }
 
+const makeLocaleString = (value: string | undefined | null, locale: string): LocaleString | undefined => {
+  if (!value) return undefined
+  const key = LOCALE_MAP[locale] || 'en'
+  return { [key]: value.trim() } as LocaleString
+}
+
 /** Pick localized string for current locale; fallback to en then first value. */
 export function getLocaleString(
   obj: LocaleString | undefined | null,
@@ -62,4 +108,64 @@ export function getLocaleString(
   if (typeof value === 'string') return value
   const first = Object.values(obj).find((v) => typeof v === 'string')
   return typeof first === 'string' ? first : ''
+}
+
+export function buildSiteSettingsFromChrome(
+  chrome: SiteChrome | null | undefined,
+  locale: string
+): SiteSettings | null {
+  if (!chrome) return null
+
+  const settings: SiteSettings = {}
+
+  // Branding / logos
+  if (chrome.headerLogo || chrome.footerLogo) {
+    settings.logo = chrome.headerLogo ?? chrome.footerLogo
+  }
+  if (chrome.logoAlt) {
+    settings.logoAlt = chrome.logoAlt
+  }
+  if (chrome.companyName) {
+    settings.bedrijfsnaam = chrome.companyName
+  }
+
+  // Text content mapped into LocaleString for current locale
+  settings.tagline = makeLocaleString(chrome.footerBaseline, locale)
+  settings.nieuwsbriefTitel = makeLocaleString(chrome.newsletterTitle, locale)
+  settings.copyrightTekst = makeLocaleString(chrome.copyrightText, locale)
+
+  // Header menu
+  if (chrome.headerMenu && chrome.headerMenu.length > 0) {
+    settings.headerMenu = chrome.headerMenu.map((item) => ({
+      label: makeLocaleString(item.label, locale),
+      url: item.href,
+    }))
+  }
+
+  // Footer columns
+  if (chrome.footerColumns && chrome.footerColumns.length > 0) {
+    settings.footerKolommen = chrome.footerColumns.map((col) => ({
+      titel: makeLocaleString(col.title, locale),
+      links:
+        col.links?.map((link) => ({
+          label: makeLocaleString(link.label, locale),
+          url: link.href,
+        })) ?? [],
+    }))
+  }
+
+  // Social links
+  if (chrome.socialLinks && chrome.socialLinks.length > 0) {
+    settings.socialLinks = chrome.socialLinks.map((s) => ({
+      platform: s.platform,
+      url: s.url,
+    }))
+  }
+
+  // Address
+  if (chrome.address) {
+    settings.adres = chrome.address
+  }
+
+  return settings
 }
