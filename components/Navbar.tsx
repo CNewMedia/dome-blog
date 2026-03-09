@@ -19,11 +19,9 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
   const da = locale === 'nl-be' ? 'nl' : locale
   const [langOpen, setLangOpen] = useState(false)
   const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null)
-  const [fallbackCatOpen, setFallbackCatOpen] = useState(false)
   const [pageLocales, setPageLocales] = useState<string[] | null>(null)
   const langRef = useRef<HTMLDivElement>(null)
   const menuRefs = useRef<(HTMLDivElement | null)[]>([])
-  const fallbackCatRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const segments = pathname.split('/').filter(Boolean)
@@ -47,7 +45,6 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
       if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false)
       const target = e.target as Node
       if (openMenuIndex !== null && menuRefs.current[openMenuIndex] && !menuRefs.current[openMenuIndex]!.contains(target)) setOpenMenuIndex(null)
-      if (fallbackCatRef.current && !fallbackCatRef.current.contains(target)) setFallbackCatOpen(false)
     }
     document.addEventListener('mousedown', h)
     return () => document.removeEventListener('mousedown', h)
@@ -55,7 +52,12 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
 
   const companyName = settings?.bedrijfsnaam || 'DOME AUCTIONS'
   const logoAlt = settings?.logoAlt || companyName
-  const menuItems = settings?.headerMenu ?? []
+
+  const rawMenuItems = settings?.headerMenu ?? []
+  const menuItems = rawMenuItems.filter((item) => {
+    const label = getLocaleString(item.label, locale).toLowerCase().trim()
+    return label !== 'categories' && label !== 'categorieën' && label !== 'catégories'
+  })
 
   return (
     <>
@@ -148,29 +150,6 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
               <Link href={`https://dome-auctions.com/${da}/auctions/`} className="nav-a">
                 {locale === 'nl-be' ? 'Alle veilingen' : locale === 'fr-be' ? 'Toutes les ventes' : locale === 'de' ? 'Alle Auktionen' : 'All auctions'}
               </Link>
-              <div ref={fallbackCatRef} style={{ position: 'relative' }}>
-                <button type="button" className="nav-a cat-btn" onClick={() => setFallbackCatOpen(!fallbackCatOpen)}>
-                  {locale === 'nl-be' ? 'Categorieën' : locale === 'fr-be' ? 'Catégories' : locale === 'de' ? 'Kategorien' : 'Categories'}
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transform: fallbackCatOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s' }}>
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-                {fallbackCatOpen && (
-                  <div className="dropdown" style={{ left: 0, minWidth: '200px' }}>
-                    {[
-                      [locale === 'nl-be' ? 'Metaalbewerking' : locale === 'fr-be' ? 'Métallurgie' : locale === 'de' ? 'Metallverarbeitung' : 'Metalworking', 'metalworking'],
-                      [locale === 'nl-be' ? 'Houtbewerking' : locale === 'fr-be' ? 'Travail du bois' : locale === 'de' ? 'Holzbearbeitung' : 'Woodworking', 'woodworking'],
-                      [locale === 'nl-be' ? 'Landbouw' : locale === 'fr-be' ? 'Agriculture' : locale === 'de' ? 'Landwirtschaft' : 'Agricultural', 'agricultural'],
-                      [locale === 'nl-be' ? 'Bouw' : locale === 'fr-be' ? 'Construction' : locale === 'de' ? 'Bau' : 'Construction', 'construction'],
-                      ['Transport', 'transport'],
-                    ].map(([label, slug]) => (
-                      <Link key={slug} href={`https://dome-auctions.com/${da}/categories/${slug}/`} className="drop-a" onClick={() => setFallbackCatOpen(false)}>
-                        {label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
               <Link href={`/${locale}`} className="nav-a on">
                 Insights
               </Link>
