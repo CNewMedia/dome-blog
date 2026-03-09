@@ -3,11 +3,9 @@ import { client } from '../../../sanity/client'
 import { getSectorAvailableLocales } from '../../../sanity/queries'
 import { activeLocales } from '../../../i18n/locales'
 
-const SECTORS = ['woodworking', 'metalworking', 'construction', 'agriculture', 'transport']
-
 export async function GET(request: NextRequest) {
   const sector = request.nextUrl.searchParams.get('sector')
-  if (!sector || !SECTORS.includes(sector)) {
+  if (!sector) {
     return Response.json({ availableLocales: [...activeLocales] })
   }
   const data = await client.fetch(getSectorAvailableLocales, { sector }) as { availableLocales?: string[] } | null

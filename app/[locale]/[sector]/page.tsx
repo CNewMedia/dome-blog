@@ -1,13 +1,16 @@
 import { notFound } from 'next/navigation'
 import { client } from '../../../sanity/client'
-import { getSectorPage, getSectorPageLegacy, getTeamMembers } from '../../../sanity/queries'
+import {
+  getSectorPage,
+  getSectorPageLegacy,
+  getSectorSlugs,
+  getTeamMembers,
+} from '../../../sanity/queries'
 import SectorLandingPage, {
   type SectorPageData,
   type TeamMember,
 } from '../../../components/SectorLandingPage'
 import { activeLocales, isAppLocale, type AppLocale } from '../../../i18n/locales'
-
-const SECTORS = ['woodworking', 'metalworking', 'construction', 'agriculture', 'transport'] as const
 
 type Props = {
   params: Promise<{ locale: string; sector: string }>
@@ -87,7 +90,6 @@ export default async function SectorPage({ params }: Props) {
   const { locale, sector } = await params
 
   if (!isAppLocale(locale)) notFound()
-  if (!SECTORS.includes(sector as (typeof SECTORS)[number])) notFound()
 
   const [data, rawTeamMembers] = await Promise.all([
     getSectorData(sector, locale),
@@ -123,8 +125,18 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-export function generateStaticParams() {
-  return activeLocales.flatMap((locale) =>
-    SECTORS.map((sector) => ({ locale, sector }))
+export async function generateStaticParams() {
+  const pages = (await client.fetch(getSectorSlugs)) as { sector?: string; locale?: string }[]
+
+  const validPages = pages.filter(
+    (page) =>
+      typeof page.sector === 'string' &&
+      typeof page.locale === 'string' &&
+      activeLocales.includes(page.locale as (typeof activeLocales)[number])
   )
+
+  return validPages.map((page) => ({
+    locale: page.locale as string,
+    sector: page.sector as string,
+  }))
 }

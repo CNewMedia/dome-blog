@@ -1,20 +1,5 @@
 import { defineType, defineField } from 'sanity'
 
-const SECTOR_OPTIONS: {title: string; value: string}[] = [
-  { title: 'Woodworking (Houtbewerking)', value: 'woodworking' },
-  { title: 'Metalworking (Metaalbewerking)', value: 'metalworking' },
-  { title: 'Construction (Bouw & Grondverzet)', value: 'construction' },
-  { title: 'Agriculture (Landbouw)', value: 'agriculture' },
-  { title: 'Transport (Transport & Handling)', value: 'transport' },
-] as const
-
-const LOCALE_OPTIONS: {title: string; value: string}[] = [
-  { title: 'Nederlands (België)', value: 'nl-be' },
-  { title: 'Français (Belgique)', value: 'fr-be' },
-  { title: 'English', value: 'en' },
-  { title: 'Deutsch', value: 'de' },
-] as const
-
 export const sectorPageSchema = defineType({
   name: 'sectorPage',
   title: 'Sector Landing Page',
@@ -22,12 +7,9 @@ export const sectorPageSchema = defineType({
   fields: [
     defineField({
       name: 'sector',
-      title: 'Sector',
+      title: 'Page slug',
       type: 'string',
-      options: {
-        list: SECTOR_OPTIONS,
-        layout: 'dropdown',
-      },
+      description: 'URL segment for this landing page, for example woodworking or metalworking.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -35,7 +17,11 @@ export const sectorPageSchema = defineType({
       title: 'Taal',
       type: 'string',
       options: {
-        list: LOCALE_OPTIONS,
+        list: [
+          { title: 'Nederlands (België)', value: 'nl-be' },
+          { title: 'Français (Belgique)', value: 'fr-be' },
+          { title: 'English (Belgium)', value: 'en-be' },
+        ],
         layout: 'dropdown',
       },
       validation: (Rule) => Rule.required(),

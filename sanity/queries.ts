@@ -52,6 +52,12 @@ export const getSectorAvailableLocales = groq`{
   "availableLocales": array::unique(*[_type == "sectorPage" && sector == $sector].locale)
 }`
 
+/** All sector landing page slugs/locales for static generation */
+export const getSectorSlugs = groq`*[_type == "sectorPage" && defined(sector) && defined(locale)]{
+  "sector": sector,
+  "locale": locale
+}`
+
 /** New schema: one document per sector + locale (locale can be "nl-be" or "nl_be" in dataset) */
 export const getSectorPage = (locale: string) => {
   return groq`*[_type == "sectorPage" && sector == $sector && (locale == $locale || locale == $localeAlt)][0] {
