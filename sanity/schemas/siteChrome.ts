@@ -55,31 +55,9 @@ export default defineType({
     }),
 
     defineField({
-      name: 'footerBaseline',
-      title: 'Footer baseline',
-      type: 'text',
-      rows: 3,
-      description: 'Korte tekst naast of onder het footerlogo.',
-    }),
-
-    defineField({
       name: 'newsletterTitle',
       title: 'Nieuwsbrief titel',
       type: 'string',
-    }),
-
-    defineField({
-      name: 'newsletterPlaceholder',
-      title: 'Nieuwsbrief placeholder',
-      type: 'string',
-      initialValue: 'Email',
-    }),
-
-    defineField({
-      name: 'newsletterButtonLabel',
-      title: 'Nieuwsbrief knoplabel',
-      type: 'string',
-      initialValue: 'Subscribe',
     }),
 
     defineField({
@@ -98,25 +76,6 @@ export default defineType({
       description: 'Legal pages (Terms and conditions, Privacy policy, etc.). Label and URL per link in this locale.',
     }),
 
-    defineField({
-      name: 'socialLinks',
-      title: 'Social media links',
-      type: 'array',
-      of: [{type: 'socialLink'}],
-    }),
-
-    defineField({
-      name: 'address',
-      title: 'Adres',
-      type: 'text',
-      rows: 3,
-    }),
-
-    defineField({
-      name: 'copyrightText',
-      title: 'Copyrighttekst',
-      type: 'string',
-    }),
   ],
 
   preview: {

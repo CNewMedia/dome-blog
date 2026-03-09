@@ -54,15 +54,12 @@ export type SiteChrome = {
   footerLogo?: { asset?: { _ref?: string }; [key: string]: unknown }
   logoAlt?: string
   headerMenu?: SiteChromeMenuItem[]
-  footerBaseline?: string
   newsletterTitle?: string
-  newsletterPlaceholder?: string
-  newsletterButtonLabel?: string
   footerPrimaryLinks?: SiteChromeFooterLink[]
   footerLegalLinks?: SiteChromeFooterLink[]
-  socialLinks?: SiteChromeSocialLink[]
-  address?: string
-  copyrightText?: string
+  socialLinks?: SiteChromeSocialLink[] // legacy / unused in new footer
+  address?: string // legacy / unused in new footer
+  copyrightText?: string // legacy / unused in new footer
 }
 
 export type FooterLinkSetting = {
@@ -75,14 +72,14 @@ export type SiteSettings = {
   logo?: { asset?: { _ref?: string }; [key: string]: unknown }
   logoAlt?: string
   bedrijfsnaam?: string
-  tagline?: LocaleString
+  tagline?: LocaleString // legacy / unused in new footer
   headerMenu?: HeaderMenuItem[]
   footerKolommen?: FooterKolom[]
   footerPrimaryLinks?: FooterLinkSetting[]
   footerLegalLinks?: FooterLinkSetting[]
-  socialLinks?: SocialLink[]
-  adres?: string
-  copyrightTekst?: LocaleString
+  socialLinks?: SocialLink[] // legacy / unused in new footer
+  adres?: string // legacy / unused in new footer
+  copyrightTekst?: LocaleString // legacy / unused in new footer
   nieuwsbriefTitel?: LocaleString
   newsletterPlaceholder?: string
   newsletterButtonLabel?: string
@@ -133,9 +130,9 @@ export function buildSiteSettingsFromChrome(
   }
 
   // Text content mapped into LocaleString for current locale
-  settings.tagline = makeLocaleString(chrome.footerBaseline, locale)
+  // (tagline from old footerBaseline is no longer used in the new footer, but can remain available for other uses)
+  // settings.tagline = makeLocaleString(chrome.footerBaseline, locale)
   settings.nieuwsbriefTitel = makeLocaleString(chrome.newsletterTitle, locale)
-  settings.copyrightTekst = makeLocaleString(chrome.copyrightText, locale)
 
   // Header menu
   if (chrome.headerMenu && chrome.headerMenu.length > 0) {
@@ -160,10 +157,6 @@ export function buildSiteSettingsFromChrome(
       url: link.href ?? '',
     }))
   }
-
-  // Newsletter strings (per-locale from Site Chrome doc)
-  if (chrome.newsletterPlaceholder != null) settings.newsletterPlaceholder = chrome.newsletterPlaceholder
-  if (chrome.newsletterButtonLabel != null) settings.newsletterButtonLabel = chrome.newsletterButtonLabel
 
   // Social links
   if (chrome.socialLinks && chrome.socialLinks.length > 0) {

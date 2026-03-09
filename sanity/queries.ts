@@ -162,10 +162,7 @@ export const getSiteChrome = (locale: string) => {
       href,
       openInNewTab
     },
-    footerBaseline,
     newsletterTitle,
-    newsletterPlaceholder,
-    newsletterButtonLabel,
     footerPrimaryLinks[]{
       label,
       href
