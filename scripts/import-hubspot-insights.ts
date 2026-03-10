@@ -77,7 +77,7 @@ function extractFromHtml(
   load: (html: string) => ReturnType<typeof import('cheerio').load>
 ): ExtractedData {
   const $ = load(html)
-  const trim = (s: string) => (s || '').trim()
+  const trim = (s: string | undefined) => (s ?? '').trim()
 
   const title = trim($('title').text() || $('meta[property="og:title"]').attr('content') || '')
   const excerpt = trim(
