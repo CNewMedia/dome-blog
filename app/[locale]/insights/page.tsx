@@ -1,17 +1,22 @@
 import Link from 'next/link'
-import { client } from '../../../sanity/client'
-import { getInsights } from '../../../sanity/queries'
+import { client, urlFor } from '../../../sanity/client'
+import { getInsights, getTags } from '../../../sanity/queries'
 
-type Props = { params: Promise<{ locale: string }> }
+type Props = {
+  params: Promise<{ locale: string }>
+  searchParams: Promise<{ tag?: string }>
+}
 
-const categories = ['All', 'Market trends', 'Buying guides', 'Metalworking', 'Agricultural', 'Construction', 'Transport', 'Finance']
-
-export default async function LocaleHome({ params }: Props) {
+export default async function InsightsPage({ params, searchParams }: Props) {
   const { locale } = await params
-  const query = getInsights(locale)
-  const posts: any[] = await client.fetch(query, { locale }).catch(() => [])
+  const { tag: tagSlug } = await searchParams
+  const [posts, tags]: [any[], { _id: string; title: string; slug: string }[]] = await Promise.all([
+    client.fetch(getInsights(locale, tagSlug), tagSlug ? { locale, tagSlug } : { locale }).catch(() => []),
+    client.fetch(getTags(locale), { locale }).catch(() => []),
+  ])
   const featured = posts[0]
   const rest = posts.slice(1)
+  const baseUrl = `/${locale}`
 
   return (
     <>
@@ -95,7 +100,17 @@ export default async function LocaleHome({ params }: Props) {
         </div>
         {featured && (
           <div className="hero-right">
-            <div className="hero-feat-bg">🏭</div>
+            <div className="hero-feat-bg">
+              {featured.mainImage ? (
+                <img
+                  src={urlFor(featured.mainImage).width(1400).height(900).url()}
+                  alt={featured.mainImage.alt || featured.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              ) : (
+                '🏭'
+              )}
+            </div>
             <div className="hero-feat-overlay" />
             <div className="hero-feat-body">
               <span className="hero-tag">Featured</span>
@@ -110,17 +125,30 @@ export default async function LocaleHome({ params }: Props) {
       </section>
 
       {/* TICKER */}
-      <div className="ticker">
-        <div className="ticker-track">
-          {[...categories,...categories].map((c,i) => <span key={i} className="ticker-item">{c}</span>)}
+      {tags.length > 0 && (
+        <div className="ticker">
+          <div className="ticker-track">
+            {[...tags, ...tags].map((t, i) => (
+              <span key={`${t._id}-${i}`} className="ticker-item">{t.title}</span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* FILTERS */}
       <div className="filters">
         <div className="filters-in">
-          {categories.map((c,i) => <a key={c} href="#" className={`ftab${i===0?' on':''}`}>{c}</a>)}
-          <span className="fcount">{posts.length} articles</span>
+          <Link href={baseUrl} className={`ftab${!tagSlug ? ' on' : ''}`}>All</Link>
+          {tags.map((t) => (
+            <Link
+              key={t._id}
+              href={`${baseUrl}?tag=${encodeURIComponent(t.slug)}`}
+              className={`ftab${tagSlug === t.slug ? ' on' : ''}`}
+            >
+              {t.title}
+            </Link>
+          ))}
+          <span className="fcount">{posts.length} article{posts.length === 1 ? '' : 's'}</span>
         </div>
       </div>
 
@@ -135,7 +163,17 @@ export default async function LocaleHome({ params }: Props) {
             {posts.length >= 2 && (
               <div className="grid-top">
                 <Link href={`/${locale}/articles/${featured.slug}`} className="card-big">
-                  <div className="card-big-img">🏭</div>
+                  <div className="card-big-img">
+                    {featured.mainImage ? (
+                      <img
+                        src={urlFor(featured.mainImage).width(1200).height(300).url()}
+                        alt={featured.mainImage.alt || featured.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    ) : (
+                      '🏭'
+                    )}
+                  </div>
                   <div className="card-big-body">
                     <span className="ctag">Featured</span>
                     <h2 className="ctitle ctitle-lg">{featured.title}</h2>
@@ -148,7 +186,17 @@ export default async function LocaleHome({ params }: Props) {
                 </Link>
                 {posts.slice(1,3).map((post: any, i: number) => (
                   <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-sm" style={i===1?{borderTop:'1.5px solid #e0dbd0'}:{}}>
-                    <div className="card-sm-img">📰</div>
+                    <div className="card-sm-img">
+                      {post.mainImage ? (
+                        <img
+                          src={urlFor(post.mainImage).width(800).height(160).url()}
+                          alt={post.mainImage.alt || post.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px', display: 'block' }}
+                        />
+                      ) : (
+                        '📰'
+                      )}
+                    </div>
                     <span className="ctag">Insight</span>
                     <h3 className="ctitle ctitle-sm">{post.title}</h3>
                     <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.4rem'}}>{post.excerpt?.substring(0,100)}{post.excerpt?.length > 100 ? '...' : ''}</p>
@@ -162,11 +210,23 @@ export default async function LocaleHome({ params }: Props) {
             )}
             {rest.length > 2 && (
               <>
-                <div className="sect-lbl">All insights</div>
+                <div className="sect-lbl">
+                  {tagSlug ? (tags.find((t) => t.slug === tagSlug)?.title ?? tagSlug) : 'All insights'}
+                </div>
                 <div className="grid-3">
                   {rest.slice(2).map((post: any) => (
                     <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-reg">
-                      <div className="card-reg-img">📄</div>
+                      <div className="card-reg-img">
+                        {post.mainImage ? (
+                          <img
+                            src={urlFor(post.mainImage).width(800).height(180).url()}
+                            alt={post.mainImage.alt || post.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+                        ) : (
+                          '📄'
+                        )}
+                      </div>
                       <div className="card-reg-body">
                         <span className="ctag">Insight</span>
                         <h3 className="ctitle ctitle-sm">{post.title}</h3>

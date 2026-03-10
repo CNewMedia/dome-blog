@@ -5,14 +5,29 @@ const localeToField = (locale: string) => {
   return locale.replace('-', '_')
 }
 
-export const getInsights = (locale: string) => {
-  return groq`*[_type == "post" && locale == $locale] | order(publishedAt desc) {
+export const getInsights = (locale: string, tagSlug?: string) => {
+  const tagFilter = tagSlug ? `&& $tagSlug in (tags[]->slug.current)` : ''
+  return groq`*[_type == "post" && locale == $locale ${tagFilter}] | order(publishedAt desc) {
     _id,
     title,
     excerpt,
     "slug": slug.current,
+    "tags": tags[]->{
+      _id,
+      title,
+      "slug": slug.current
+    },
     mainImage,
     publishedAt
+  }`
+}
+
+/** Tags for a locale (for filter tabs, ticker, etc.) */
+export const getTags = (locale: string) => {
+  return groq`*[_type == "tag" && locale == $locale] | order(title asc) {
+    _id,
+    title,
+    "slug": slug.current
   }`
 }
 
@@ -23,6 +38,11 @@ export const getInsight = (locale: string) => {
     excerpt,
     body,
     "slug": slug.current,
+    "tags": tags[]->{
+      _id,
+      title,
+      "slug": slug.current
+    },
     mainImage,
     publishedAt,
     seoTitle,
