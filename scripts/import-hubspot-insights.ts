@@ -250,11 +250,17 @@ function htmlToPortableText(
       const $n = $(node)
       if (tag === 'a') {
         const href = $n.attr('href')
-        const key = href ? generateKey() : ''
-        if (key) markDefs.push({ _key: key, _type: 'link', href: resolveUrl(href, baseUrl) })
-        const sub = parseInlines($n, href ? [...currentMarks, key] : currentMarks)
-        parts.push(...sub.parts)
-        markDefs.push(...sub.markDefs)
+        if (href) {
+          const key = generateKey()
+          markDefs.push({ _key: key, _type: 'link', href: resolveUrl(href, baseUrl) })
+          const sub = parseInlines($n, [...currentMarks, key])
+          parts.push(...sub.parts)
+          markDefs.push(...sub.markDefs)
+        } else {
+          const sub = parseInlines($n, currentMarks)
+          parts.push(...sub.parts)
+          markDefs.push(...sub.markDefs)
+        }
         return
       }
       if (tag === 'strong' || tag === 'b') {
