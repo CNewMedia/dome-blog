@@ -76,4 +76,14 @@ export const structure = (S: StructureBuilder) =>
             .filter('_type == "teamMember"')
             .defaultOrdering([{ field: 'volgorde', direction: 'asc' }])
         ),
+      S.listItem()
+        .title('Tags')
+        .schemaType('tag')
+        .child(
+          S.documentList()
+            .title('Tags')
+            .schemaType('tag')
+            .filter('_type == "tag"')
+            .defaultOrdering([{ field: 'title', direction: 'asc' }])
+        ),
     ])

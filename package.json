@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "import-insights": "tsx scripts/import-hubspot-insights.ts"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.0",
@@ -22,6 +23,9 @@
     "styled-components": "^6.3.11"
   },
   "devDependencies": {
+    "cheerio": "^1.0.0",
+    "slugify": "^1.6.6",
+    "tsx": "^4.19.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

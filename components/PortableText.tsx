@@ -10,6 +10,52 @@ const components = {
         style={{ maxWidth: '100%', height: 'auto', margin: '2rem 0', display: 'block' }}
       />
     ),
+    tableBlock: ({ value }: any) => {
+      const rows = value?.rows ?? []
+      if (rows.length === 0) return null
+      const [headRow, ...bodyRows] = rows
+      const cellStyle = {
+        padding: '0.6rem 0.75rem',
+        verticalAlign: 'top' as const,
+        borderBottom: '1px solid #e0e0e0',
+      }
+      return (
+        <div style={{ margin: '2rem 0', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <table
+            style={{
+              width: '100%',
+              minWidth: 'min(100%, 400px)',
+              borderCollapse: 'collapse',
+              fontSize: '0.95rem',
+              lineHeight: 1.5,
+            }}
+          >
+            {headRow?.cells?.length ? (
+              <thead>
+                <tr style={{ backgroundColor: '#f5f5f5' }}>
+                  {headRow.cells.map((cell: string, ci: number) => (
+                    <th key={ci} style={{ ...cellStyle, fontWeight: 600, textAlign: 'left' }}>
+                      {cell}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            ) : null}
+            <tbody>
+              {bodyRows.map((row: { cells?: string[] }, ri: number) => (
+                <tr key={ri}>
+                  {(row.cells ?? []).map((cell: string, ci: number) => (
+                    <td key={ci} style={cellStyle}>
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    },
   },
   marks: {
     strong: ({ children }: any) => <strong style={{ fontWeight: 700 }}>{children}</strong>,

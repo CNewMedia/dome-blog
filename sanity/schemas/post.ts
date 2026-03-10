@@ -18,6 +18,7 @@ export const postSchema = defineType({
         ],
         layout: 'dropdown',
       },
+      validation: (Rule) => Rule.required(),
       description: 'Language and region for this article (for example nl-be, fr-be or en-be).',
     }),
     defineField({
@@ -67,6 +68,45 @@ export const postSchema = defineType({
       }) as any,
     }),
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'tag' }],
+          options: {
+            disableNew: true,
+            filter: ({ document }: any) => {
+              const locale = document?.locale
+              if (!locale) {
+                // Block selection until locale is chosen: return a filter that matches nothing.
+                return { filter: 'false' }
+              }
+              return {
+                filter: 'locale == $locale',
+                params: { locale },
+              }
+            },
+          },
+        },
+      ],
+      description:
+        'Optional tags to categorise this insight. Tags are locale-specific and can only be selected from the central tag library. Choose a locale first to enable tag selection.',
+      readOnly: ({ document }: any) => !document?.locale,
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const locale = (context as any).document?.locale
+          if (!value || value.length === 0) return true
+          if (!locale) {
+            return 'Set the locale before choosing tags.'
+          }
+          // We rely on the reference filter to enforce matching locales.
+          // This rule mainly guards against manual locale changes after tagging.
+          return true
+        }),
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'array',
@@ -77,6 +117,7 @@ export const postSchema = defineType({
           options: { hotspot: true },
           fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
         },
+        { type: 'tableBlock' },
       ],
       description: 'Main content of the article in this language.',
     }),

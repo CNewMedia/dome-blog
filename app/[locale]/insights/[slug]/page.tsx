@@ -26,7 +26,7 @@ export default async function InsightPage({ params }: Props) {
   if (!post) notFound()
 
   return (
-    <div>
+    <div style={{ fontFamily: "'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" }}>
       {post.mainImage && (
         <div style={{ width: '100%', height: '460px', overflow: 'hidden', background: '#f2f2f2' }}>
           <img src={urlFor(post.mainImage).width(1400).height(460).url()} alt={post.mainImage.alt || post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
