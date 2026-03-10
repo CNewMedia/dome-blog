@@ -339,7 +339,8 @@ function htmlToPortableText(
     return !t && $el.find('img').length === 0
   }
 
-  const walk = (el: { contents(): unknown; each(fn: (i: number, node: unknown) => void): unknown; length: number }) => {
+  type CheerioSelection = ReturnType<ReturnType<typeof load>>
+  const walk = (el: CheerioSelection) => {
     el.contents().each((_: number, node: any) => {
       if (node.type === 'text') {
         const t = $(node).text().replace(/\u00a0/g, ' ').trim()
@@ -664,7 +665,7 @@ async function main() {
       if (data.mainImageUrl) allUrls.add(resolveUrl(data.mainImageUrl, fileBaseUrl))
       data.images.forEach((img) => allUrls.add(resolveUrl(img.url, fileBaseUrl)))
 
-      for (const url of allUrls) {
+      for (const url of Array.from(allUrls)) {
         try {
           const buffer = await downloadImage(url)
           const filename = path.basename(new URL(url).pathname) || 'image.jpg'
