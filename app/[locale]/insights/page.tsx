@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { client, urlFor } from '../../../sanity/client'
 import { getInsights, getTags } from '../../../sanity/queries'
+import InsightsFilterTabs from '../../../components/InsightsFilterTabs'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -49,7 +50,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .filters { background:#f7f5f0;border-bottom:1px solid #e0dbd0;position:sticky;top:60px;z-index:100; }
         .filters-in { max-width:1400px;margin:0 auto;padding:0 2.5rem;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none; }
         .filters-in::-webkit-scrollbar { display:none; }
-        .ftab { padding:1rem 1.25rem;font-size:.8rem;font-weight:500;color:#8a8680;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s; }
+        .ftab { padding:1rem 1.25rem;font-size:.8rem;font-weight:500;color:#8a8680;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;border:none;background:none;cursor:pointer;font-family:inherit; }
         .ftab:hover,.ftab.on { color:#0c0c0b; }
         .ftab.on { font-weight:700;border-bottom-color:#0c0c0b; }
         .fcount { margin-left:auto;font-size:.75rem;color:#8a8680;white-space:nowrap;padding-left:2rem; }
@@ -73,7 +74,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .cread { margin-left:auto;font-size:.75rem;font-weight:700;color:#0c0c0b;display:flex;align-items:center;gap:.3rem; }
         .sect-lbl { font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8a8680;margin-bottom:1.75rem;display:flex;align-items:center;gap:1rem; }
         .sect-lbl::after { content:'';flex:1;height:1px;background:#e0dbd0; }
-        .grid-3 { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem; }
+        .grid-3 { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-bottom:4rem; }
         .card-reg { text-decoration:none;color:inherit;border:1.5px solid #e0dbd0;border-radius:14px;overflow:hidden;background:#f7f5f0;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s; }
         .card-reg:hover { transform:translateY(-4px);box-shadow:0 16px 48px rgba(12,12,11,.1);border-color:#f5d98a; }
         .card-reg-img { height:180px;background:linear-gradient(135deg,#1c1a17,#2e2a22);display:flex;align-items:center;justify-content:center;font-size:3.5rem; }
@@ -136,21 +137,12 @@ export default async function InsightsPage({ params, searchParams }: Props) {
       )}
 
       {/* FILTERS */}
-      <div className="filters">
-        <div className="filters-in">
-          <Link href={baseUrl} className={`ftab${!tagSlug ? ' on' : ''}`}>All</Link>
-          {tags.map((t) => (
-            <Link
-              key={t._id}
-              href={`${baseUrl}?tag=${encodeURIComponent(t.slug)}`}
-              className={`ftab${tagSlug === t.slug ? ' on' : ''}`}
-            >
-              {t.title}
-            </Link>
-          ))}
-          <span className="fcount">{posts.length} article{posts.length === 1 ? '' : 's'}</span>
-        </div>
-      </div>
+      <InsightsFilterTabs
+        baseUrl={baseUrl}
+        tags={tags}
+        currentTagSlug={tagSlug}
+        postCount={posts.length}
+      />
 
       <main className="main">
         {posts.length === 0 ? (
@@ -160,61 +152,96 @@ export default async function InsightsPage({ params, searchParams }: Props) {
           </div>
         ) : (
           <>
-            {posts.length >= 2 && (
-              <div className="grid-top">
-                <Link href={`/${locale}/articles/${featured.slug}`} className="card-big">
-                  <div className="card-big-img">
-                    {featured.mainImage ? (
-                      <img
-                        src={urlFor(featured.mainImage).width(1200).height(300).url()}
-                        alt={featured.mainImage.alt || featured.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      />
-                    ) : (
-                      '🏭'
-                    )}
-                  </div>
-                  <div className="card-big-body">
-                    <span className="ctag">Featured</span>
-                    <h2 className="ctitle ctitle-lg">{featured.title}</h2>
-                    <p className="cexcerpt" style={{marginBottom:'1.5rem'}}>{featured.excerpt}</p>
-                    <div className="cmeta">
-                      <span>{new Date(featured.publishedAt).toLocaleDateString()}</span>
-                      <span className="cread">Read <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                    </div>
-                  </div>
-                </Link>
-                {posts.slice(1,3).map((post: any, i: number) => (
-                  <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-sm" style={i===1?{borderTop:'1.5px solid #e0dbd0'}:{}}>
-                    <div className="card-sm-img">
-                      {post.mainImage ? (
+            {posts.length >= 3 ? (
+              <>
+                <div className="grid-top">
+                  <Link href={`/${locale}/articles/${featured.slug}`} className="card-big">
+                    <div className="card-big-img">
+                      {featured.mainImage ? (
                         <img
-                          src={urlFor(post.mainImage).width(800).height(160).url()}
-                          alt={post.mainImage.alt || post.title}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px', display: 'block' }}
+                          src={urlFor(featured.mainImage).width(1200).height(300).url()}
+                          alt={featured.mainImage.alt || featured.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                         />
                       ) : (
-                        '📰'
+                        '🏭'
                       )}
                     </div>
-                    <span className="ctag">Insight</span>
-                    <h3 className="ctitle ctitle-sm">{post.title}</h3>
-                    <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.4rem'}}>{post.excerpt?.substring(0,100)}{post.excerpt?.length > 100 ? '...' : ''}</p>
-                    <div className="cmeta" style={{marginTop:'1rem',paddingTop:'.875rem',borderTop:'1px solid #e0dbd0'}}>
-                      <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
-                      <span className="cread">Read →</span>
+                    <div className="card-big-body">
+                      <span className="ctag">Featured</span>
+                      <h2 className="ctitle ctitle-lg">{featured.title}</h2>
+                      <p className="cexcerpt" style={{marginBottom:'1.5rem'}}>{featured.excerpt}</p>
+                      <div className="cmeta">
+                        <span>{new Date(featured.publishedAt).toLocaleDateString()}</span>
+                        <span className="cread">Read <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                      </div>
                     </div>
                   </Link>
-                ))}
-              </div>
-            )}
-            {rest.length > 2 && (
+                  {posts.slice(1,3).map((post: any, i: number) => (
+                    <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-sm" style={i===1?{borderTop:'1.5px solid #e0dbd0'}:{}}>
+                      <div className="card-sm-img">
+                        {post.mainImage ? (
+                          <img
+                            src={urlFor(post.mainImage).width(800).height(160).url()}
+                            alt={post.mainImage.alt || post.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px', display: 'block' }}
+                          />
+                        ) : (
+                          '📰'
+                        )}
+                      </div>
+                      <span className="ctag">Insight</span>
+                      <h3 className="ctitle ctitle-sm">{post.title}</h3>
+                      <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.4rem'}}>{post.excerpt?.substring(0,100)}{post.excerpt?.length > 100 ? '...' : ''}</p>
+                      <div className="cmeta" style={{marginTop:'1rem',paddingTop:'.875rem',borderTop:'1px solid #e0dbd0'}}>
+                        <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+                        <span className="cread">Read →</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+
+                {posts.length > 3 && (
+                  <>
+                    <div className="sect-lbl">
+                      {tagSlug ? (tags.find((t) => t.slug === tagSlug)?.title ?? tagSlug) : 'All insights'}
+                    </div>
+                    <div className="grid-3">
+                      {posts.slice(3).map((post: any) => (
+                        <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-reg">
+                          <div className="card-reg-img">
+                            {post.mainImage ? (
+                              <img
+                                src={urlFor(post.mainImage).width(800).height(180).url()}
+                                alt={post.mainImage.alt || post.title}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                              />
+                            ) : (
+                              '📄'
+                            )}
+                          </div>
+                          <div className="card-reg-body">
+                            <span className="ctag">Insight</span>
+                            <h3 className="ctitle ctitle-sm">{post.title}</h3>
+                            <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.5rem'}}>{post.excerpt?.substring(0,120)}{post.excerpt?.length > 120 ? '...' : ''}</p>
+                            <div className="card-reg-foot">
+                              <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+                              <span style={{fontWeight:700}}>Read →</span>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
               <>
                 <div className="sect-lbl">
-                  {tagSlug ? (tags.find((t) => t.slug === tagSlug)?.title ?? tagSlug) : 'All insights'}
+                  {tagSlug ? (tags.find((t) => t.slug === tagSlug)?.title ?? tagSlug) : 'Latest insights'}
                 </div>
                 <div className="grid-3">
-                  {rest.slice(2).map((post: any) => (
+                  {posts.map((post: any) => (
                     <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-reg">
                       <div className="card-reg-img">
                         {post.mainImage ? (

@@ -57,7 +57,7 @@ export default async function InsightPage({ params }: Props) {
         <aside style={{ position: 'sticky', top: '90px' }}>
           {recentPosts.length > 0 && (
             <div style={{ border: '1px solid #000', padding: '1.5rem', marginBottom: '1.5rem' }}>
-              <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', borderBottom: '2px solid #000', paddingBottom: '0.6rem', marginBottom: '1.25rem' }}>{t('recentInsights')}</div>
+              <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', borderBottom: '2px solid #000', paddingBottom: '0.6rem', marginBottom: '1.25rem' }}>{t('recentArticles')}</div>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {recentPosts.filter((p: any) => p.slug !== slug).slice(0, 4).map((p: any, i: number, arr: any[]) => (
                   <li key={p._id} style={{ paddingBottom: i < arr.length - 1 ? '0.75rem' : 0, marginBottom: i < arr.length - 1 ? '0.75rem' : 0, borderBottom: i < arr.length - 1 ? '1px solid #e0e0e0' : 'none' }}>
