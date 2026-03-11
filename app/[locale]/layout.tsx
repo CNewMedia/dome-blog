@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { buildSiteSettingsFromChrome } from '../../lib/siteSettings'
@@ -47,6 +48,11 @@ export default async function LocaleLayout({ children, params }: Props) {
         `}</style>
       </head>
       <body style={{ paddingTop: '60px' }}>
+        <Script
+          id="hs-script-loader"
+          src="//js-eu1.hs-scripts.com/147410570.js"
+          strategy="afterInteractive"
+        />
         <NextIntlClientProvider messages={messages}>
           <Navbar settings={effectiveSettings} />
           {children}
