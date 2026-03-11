@@ -1,12 +1,19 @@
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
+import { Inter } from 'next/font/google'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { buildSiteSettingsFromChrome } from '../../lib/siteSettings'
 import { client } from '../../sanity/client'
 import { getSiteChrome, getSiteSettings } from '../../sanity/queries'
 import { activeLocales, isAppLocale } from '../../i18n/locales'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-insights',
+})
 
 type Props = {
   children: React.ReactNode
@@ -25,13 +32,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   const effectiveSettings = chromeSettings ?? siteSettings
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={inter.variable}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>{`
           :root {
-            --font-body: 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            --font-body: melody-regular, sans-serif;
           }
           *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
           body { font-family: var(--font-body); background: #f7f5f0; color: #0c0c0b; -webkit-font-smoothing: antialiased; }

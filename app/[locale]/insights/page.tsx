@@ -13,38 +13,39 @@ export default async function InsightsPage({ params, searchParams }: Props) {
   const { locale } = await params
   const { tag: tagSlug } = await searchParams
   const t = await getTranslations('insights')
-  const [posts, tags]: [any[], { _id: string; title: string; slug: string }[]] = await Promise.all([
-    client.fetch(getInsights(locale, tagSlug), tagSlug ? { locale, tagSlug } : { locale }).catch(() => []),
-    client.fetch(getTags(locale), { locale }).catch(() => []),
+  const [postsRaw, tagsRaw] = await Promise.all([
+    client.fetch(getInsights(locale, tagSlug), tagSlug ? { locale, tagSlug } : { locale }).catch(() => null),
+    client.fetch(getTags(locale), { locale }).catch(() => null),
   ])
+  const fetchFailed = postsRaw === null || tagsRaw === null
+  const posts: any[] = postsRaw ?? []
+  const tags: { _id: string; title: string; slug: string }[] = tagsRaw ?? []
   const featured = posts[0]
-  const rest = posts.slice(1)
   const baseUrl = `/${locale}/insights`
 
   return (
     <div className="insights-overview">
       <style>{`
-        .insights-overview { font-family: 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
-        .hero { margin-top:0;min-height:70vh;display:grid;grid-template-columns:1fr 1fr;background:#0c0c0b;position:relative;overflow:hidden; }
-        .hero-left { padding:7rem 4rem 5rem 4.5rem;display:flex;flex-direction:column;justify-content:flex-end;position:relative;z-index:2; }
-        .hero-left::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 15% 85%,rgba(232,184,75,.12) 0%,transparent 65%);pointer-events:none; }
+        .insights-overview { font-style: normal; }
+        .insights-overview i, .insights-overview em { font-style: normal; }
+        .hero { margin-top:0;min-height:72vh;display:grid;grid-template-columns:1.08fr 0.92fr;background:#0c0c0b;position:relative;overflow:hidden; }
+        .hero-left { padding:6.5rem 4rem 5rem 4.5rem;display:flex;flex-direction:column;justify-content:flex-end;position:relative;z-index:2; }
         .hero-eyebrow { font-size:.65rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#e8b84b;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem; }
         .hero-eyebrow::after { content:'';flex:1;height:1px;background:#e8b84b;opacity:.35;max-width:48px; }
-        .hero-h1 { font-family:'Melody',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:clamp(3.25rem,5.5vw,6.5rem);font-weight:400;line-height:1.02;letter-spacing:-.025em;color:#f7f5f0;margin-bottom:1.75rem; }
-        .hero-h1 i { color:#e8b84b;font-style:italic; }
-        .hero-sub { font-size:.95rem;color:rgba(247,245,240,.5);line-height:1.75;max-width:340px;margin-bottom:2.5rem; }
-        .hero-stats { display:flex;gap:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08); }
-        .stat-num { font-size:1.85rem;font-weight:700;color:#f7f5f0;line-height:1;letter-spacing:-.02em; }
-        .stat-lbl { font-size:.7rem;color:rgba(247,245,240,.35);text-transform:uppercase;letter-spacing:.12em;margin-top:.35rem; }
-        .hero-right { position:relative;overflow:hidden; }
-        .hero-feat-bg { position:absolute;inset:0;background:linear-gradient(165deg,#1a1814,#141210);display:flex;align-items:center;justify-content:center;font-size:8rem;opacity:.75; }
-        .hero-feat-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,11,.92) 0%,rgba(12,12,11,.25) 55%,transparent 100%); }
-        .hero-feat-body { position:absolute;bottom:0;left:0;right:0;padding:2.5rem 3rem; }
-        .hero-tag { display:inline-block;background:#e8b84b;color:#0c0c0b;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .8rem;border-radius:999px;margin-bottom:.9rem; }
-        .hero-feat-title { font-family:'Melody',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:clamp(1.25rem,2.2vw,1.75rem);font-weight:400;color:#f7f5f0;line-height:1.28;margin-bottom:1rem;letter-spacing:-.01em; }
-        .hero-feat-meta { display:flex;align-items:center;gap:1rem;font-size:.76rem;color:rgba(247,245,240,.5);flex-wrap:wrap; }
-        .hero-read { display:inline-flex;align-items:center;gap:.45rem;background:#f7f5f0;color:#0c0c0b;font-size:.76rem;font-weight:700;padding:.55rem 1.15rem;border-radius:999px;text-decoration:none;margin-left:auto;transition:background .2s,color .2s;letter-spacing:.02em; }
-        .hero-read:hover { background:#e8b84b;color:#0c0c0b; }
+        .hero-h1 { font-size:clamp(3rem,5.2vw,5.75rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:#f7f5f0;margin-bottom:1.5rem; }
+        .hero-h1 .hero-h1-accent { color:#e8b84b; }
+        .hero-sub { font-size:.95rem;color:rgba(247,245,240,.7);line-height:1.7;max-width:360px;margin-bottom:2rem; }
+        .hero-cta-left { display:inline-flex;align-items:center;gap:.5rem;background:#f7f5f0;color:#0c0c0b;font-size:.8rem;font-weight:700;padding:.65rem 1.35rem;border-radius:999px;text-decoration:none;transition:background .2s,color .2s;letter-spacing:.02em;width:fit-content; }
+        .hero-cta-left:hover { background:#e8b84b;color:#0c0c0b; }
+        .hero-right { position:relative;overflow:hidden;min-height:72vh; }
+        .hero-feat-bg { position:absolute;inset:0;background:#141210;display:flex;align-items:center;justify-content:center;font-size:8rem;z-index:0; }
+        .hero-feat-bg img { width:100%;height:100%;object-fit:cover;display:block; }
+        .hero-feat-block { position:absolute;right:5rem;bottom:2.5rem;left:auto;width:min(calc(100% - 7rem),400px);max-width:90%;background:#e8b84b;padding:2rem 2rem 2.25rem;z-index:2; }
+        .hero-feat-block .hero-tag { display:inline-block;background:#0c0c0b;color:#f7f5f0;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .75rem;border-radius:999px;margin-bottom:.85rem; }
+        .hero-feat-block .hero-feat-title { font-size:clamp(1.15rem,1.8vw,1.5rem);font-weight:400;color:#0c0c0b;line-height:1.28;margin-bottom:1rem;letter-spacing:-.01em; }
+        .hero-feat-block .hero-feat-meta { display:flex;align-items:center;gap:1rem;font-size:.72rem;color:rgba(12,12,11,.7);flex-wrap:wrap; }
+        .hero-read { display:inline-flex;align-items:center;gap:.45rem;background:#0c0c0b;color:#f7f5f0;font-size:.75rem;font-weight:700;padding:.55rem 1.2rem;border-radius:999px;text-decoration:none;margin-top:.5rem;transition:background .2s,color .2s;letter-spacing:.02em; }
+        .hero-read:hover { background:#1a1814;color:#f7f5f0; }
         .ticker { background:#e8b84b;padding:.6rem 0;overflow:hidden;border-bottom:1px solid rgba(12,12,11,.15); }
         .ticker-track { display:flex;gap:3.5rem;white-space:nowrap;animation:ticker 28s linear infinite; }
         .ticker-item { font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0c0c0b;display:flex;align-items:center;gap:.85rem;flex-shrink:0;opacity:.95; }
@@ -96,7 +97,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .card-big-body { position:absolute;left:0;right:0;bottom:0;padding:2.75rem 3.5rem 3.5rem;display:flex;flex-direction:column;align-items:flex-start;max-width:900px; }
         .card-big-body .ctag-featured { display:inline-block;background:#e8b84b;color:#0c0c0b;font-size:.7rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;padding:.5rem 1rem;margin-bottom:1.25rem; }
         .card-big-body .ctitle { color:#f7f5f0; }
-        .card-big-body .ctitle-lg { font-family:'Melody',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:clamp(1.85rem,3vw,2.5rem);font-weight:400;line-height:1.18;letter-spacing:-.02em;margin-bottom:.75rem; }
+        .card-big-body .ctitle-lg { font-size:clamp(1.85rem,3vw,2.5rem);font-weight:400;line-height:1.18;letter-spacing:-.02em;margin-bottom:.75rem; }
         .card-big-body .cexcerpt { color:rgba(247,245,240,.75);font-size:1rem;line-height:1.6;margin-bottom:1.25rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
         .card-big-body .cmeta { display:flex;align-items:center;flex-wrap:wrap;gap:.75rem 1.25rem;font-size:.8rem;color:rgba(247,245,240,.55); }
         .card-big-body .cmeta .cta-read { display:inline-flex;align-items:center;gap:.4rem;margin-left:0;padding:.5rem 1.25rem;font-size:.8rem;font-weight:600;color:#f7f5f0;background:transparent;border:1px solid rgba(247,245,240,.75);border-radius:999px;text-decoration:none;transition:border-color .2s,color .2s,background .2s; }
@@ -108,7 +109,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .card-sm-img img { width:100%;height:100%;object-fit:cover;object-position:left center;display:block; }
         .card-sm .card-sm-body { padding:1.5rem 1.75rem 1.75rem;display:flex;flex-direction:column;flex:1;min-height:0;min-width:0;border-top:none;border-left:1px solid #e0dbd0;background:#faf8f4; }
         .card-sm .ctag-yellow { display:inline-block;background:#e8b84b;color:#0c0c0b;font-size:.65rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:.45rem .9rem;margin-bottom:1rem;width:fit-content; }
-        .ctitle { font-family:'Melody',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;line-height:1.28;letter-spacing:-.015em;color:#0c0c0b; }
+        .ctitle { font-weight:400;line-height:1.28;letter-spacing:-.015em;color:#0c0c0b; }
         .ctitle-sm { font-size:1.08rem;line-height:1.32;margin-bottom:.5rem; }
         .card-sm .cexcerpt { font-size:.84rem;color:#5c5854;line-height:1.58;flex:1; }
         .cmeta { display:flex;align-items:center;gap:.7rem;font-size:.72rem;color:#8a8680;margin-top:auto;padding-top:.85rem; }
@@ -128,45 +129,48 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .card-reg-foot { display:flex;align-items:center;justify-content:space-between;padding-top:1rem;margin-top:auto;border-top:1px solid #e8e4dc;font-size:.73rem;color:#8a8680; }
         .no-posts { text-align:center;padding:8rem 2rem;color:#8a8680; }
         .no-posts p { font-size:1.05rem;margin-top:.5rem; }
-        @media(max-width:1024px){ .hero{grid-template-columns:1fr;min-height:auto} .hero-right{display:none} .hero-left{padding:5rem 2rem 4rem} .grid-top .card-big{grid-column:auto} .grid-3{grid-template-columns:repeat(2,1fr)} .grid-3--one{grid-template-columns:1fr;max-width:340px;margin-right:auto} }
-        @media(max-width:768px){ .hero-h1{font-size:2.9rem} .main{padding:3rem 1.25rem 5.5rem} .filters-in{padding:0.9rem 1.25rem} .grid-3{grid-template-columns:1fr} .hero-stats{gap:1.75rem} .grid-top{margin-bottom:2.5rem} .card-big{min-height:320px} .card-big-body{padding:1.75rem 1.5rem 2rem;max-width:none} .card-big-body .ctitle-lg{font-size:1.5rem} .card-big-body .ctag-featured{font-size:.65rem;padding:.4rem .8rem;margin-bottom:1rem} .card-sm{flex-direction:column} .card-sm-img{width:100%;height:88px;min-height:88px} .card-sm-img img{object-position:center center} .card-sm .card-sm-body{border-left:none;border-top:1px solid #e0dbd0;padding:1.25rem 1.35rem} }
-        @media(max-width:480px){ .hero-stats{display:none} .ticker{display:none} }
+        @media(max-width:1024px){ .hero{grid-template-columns:1fr;min-height:auto} .hero-right{min-height:50vh} .hero-left{padding:5rem 2rem 4rem} .hero-feat-block{right:0;bottom:0;left:0;width:100%;max-width:none} .grid-top .card-big{grid-column:auto} .grid-3{grid-template-columns:repeat(2,1fr)} .grid-3--one{grid-template-columns:1fr;max-width:340px;margin-right:auto} }
+        @media(max-width:768px){ .hero-h1{font-size:2.9rem} .hero-right{min-height:40vh} .main{padding:3rem 1.25rem 5.5rem} .filters-in{padding:0.9rem 1.25rem} .grid-3{grid-template-columns:1fr} .grid-top{margin-bottom:2.5rem} .card-big{min-height:320px} .card-big-body{padding:1.75rem 1.5rem 2rem;max-width:none} .card-big-body .ctitle-lg{font-size:1.5rem} .card-big-body .ctag-featured{font-size:.65rem;padding:.4rem .8rem;margin-bottom:1rem} .card-sm{flex-direction:column} .card-sm-img{width:100%;height:88px;min-height:88px} .card-sm-img img{object-position:center center} .card-sm .card-sm-body{border-left:none;border-top:1px solid #e0dbd0;padding:1.25rem 1.35rem} }
+        @media(max-width:480px){ .ticker{display:none} }
       `}</style>
 
       {/* HERO */}
       <section className="hero">
         <div className="hero-left">
           <div className="hero-eyebrow">Industry Insights</div>
-          <h1 className="hero-h1">Market<br/><i>Intelligence</i><br/>for Buyers.</h1>
+          <h1 className="hero-h1">Market<br/><span className="hero-h1-accent">Intelligence</span><br/>for Buyers.</h1>
           <p className="hero-sub">Expert analysis on industrial machinery markets, auction strategies and emerging trends across Europe.</p>
-          <div className="hero-stats">
-            <div><div className="stat-num">2.4k+</div><div className="stat-lbl">Auctions yearly</div></div>
-            <div><div className="stat-num">18</div><div className="stat-lbl">Countries</div></div>
-            <div><div className="stat-num">{posts.length}</div><div className="stat-lbl">Articles</div></div>
-          </div>
+          <Link href={featured ? `/${locale}/articles/${featured.slug}` : '#main'} className="hero-cta-left">
+            {featured ? 'Read latest' : 'Explore insights'}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </Link>
         </div>
-        {featured && (
+        {featured ? (
           <div className="hero-right">
             <div className="hero-feat-bg">
               {featured.mainImage ? (
                 <img
                   src={urlFor(featured.mainImage).width(1400).height(900).url()}
                   alt={featured.mainImage.alt || featured.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
               ) : (
-                '🏭'
+                <span style={{ fontSize: '6rem', opacity: 0.4 }}>🏭</span>
               )}
             </div>
-            <div className="hero-feat-overlay" />
-            <div className="hero-feat-body">
+            <div className="hero-feat-block">
               <span className="hero-tag">Featured</span>
               <h2 className="hero-feat-title">{featured.title}</h2>
               <div className="hero-feat-meta">
-                <span>{new Date(featured.publishedAt).toLocaleDateString(locale, {year:'numeric',month:'long',day:'numeric'})}</span>
-                <Link href={`/${locale}/articles/${featured.slug}`} className="hero-read">Read →</Link>
+                {featured.publishedAt && (
+                  <span>{new Date(featured.publishedAt).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                )}
               </div>
+              <Link href={`/${locale}/articles/${featured.slug}`} className="hero-read">Read article →</Link>
             </div>
+          </div>
+        ) : (
+          <div className="hero-right">
+            <div className="hero-feat-bg"><span style={{ fontSize: '6rem', opacity: 0.35 }}>📰</span></div>
           </div>
         )}
       </section>
@@ -194,10 +198,13 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         filterAllTopicsLabel={t('filterAllTopics')}
       />
 
-      <main className="main">
+      <main id="main" className="main">
         {posts.length === 0 ? (
           <div className="no-posts">
-            <h2 className="hero-h1" style={{color:'#0c0c0b',fontSize:'2rem'}}>{t('noArticles')}</h2>
+            <h2 className="hero-h1" style={{color:'#0c0c0b',fontSize:'2rem'}}>
+              {fetchFailed ? 'Unable to load insights.' : t('noArticles')}
+            </h2>
+            {fetchFailed && <p style={{marginTop:'.5rem',fontSize:'1rem'}}>Please try again later.</p>}
           </div>
         ) : (
           <>
@@ -220,7 +227,9 @@ export default async function InsightsPage({ params, searchParams }: Props) {
                       <h2 className="ctitle ctitle-lg">{featured.title}</h2>
                       <p className="cexcerpt" style={{marginBottom:'.5rem'}}>{featured.excerpt}</p>
                       <div className="cmeta">
-                        <span>{new Date(featured.publishedAt).toLocaleDateString(locale, {year:'numeric',month:'long',day:'numeric'})}</span>
+                        {featured.publishedAt && (
+                          <span>{new Date(featured.publishedAt).toLocaleDateString(locale, {year:'numeric',month:'long',day:'numeric'})}</span>
+                        )}
                         <span className="cread cta-read">Read <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
                       </div>
                     </div>
@@ -242,7 +251,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
                         <h3 className="ctitle ctitle-sm">{post.title}</h3>
                         <p className="cexcerpt" style={{fontSize:'.82rem'}}>{post.excerpt?.substring(0,100)}{post.excerpt?.length > 100 ? '...' : ''}</p>
                         <div className="cmeta">
-                          <span>{new Date(post.publishedAt).toLocaleDateString(locale)}</span>
+                          {post.publishedAt && <span>{new Date(post.publishedAt).toLocaleDateString(locale)}</span>}
                           <span className="cread cta-read">Read →</span>
                         </div>
                       </div>
@@ -274,7 +283,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
                             <h3 className="ctitle ctitle-sm">{post.title}</h3>
                             <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.5rem'}}>{post.excerpt?.substring(0,120)}{post.excerpt?.length > 120 ? '...' : ''}</p>
                             <div className="card-reg-foot">
-                              <span>{new Date(post.publishedAt).toLocaleDateString(locale)}</span>
+                              {post.publishedAt && <span>{new Date(post.publishedAt).toLocaleDateString(locale)}</span>}
                               <span className="cta-read">Read →</span>
                             </div>
                           </div>
@@ -308,7 +317,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
                         <h3 className="ctitle ctitle-sm">{post.title}</h3>
                         <p className="cexcerpt" style={{fontSize:'.82rem',marginTop:'.5rem'}}>{post.excerpt?.substring(0,120)}{post.excerpt?.length > 120 ? '...' : ''}</p>
                         <div className="card-reg-foot">
-                          <span>{new Date(post.publishedAt).toLocaleDateString(locale)}</span>
+                          {post.publishedAt && <span>{new Date(post.publishedAt).toLocaleDateString(locale)}</span>}
                           <span className="cta-read">Read →</span>
                         </div>
                       </div>

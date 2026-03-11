@@ -26,7 +26,7 @@ export default async function InsightPage({ params }: Props) {
   if (!post) notFound()
 
   return (
-    <div style={{ fontFamily: "'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" }}>
+    <div style={{ fontStyle: 'normal' }}>
       {post.mainImage && (
         <div style={{ width: '100%', height: '460px', overflow: 'hidden', background: '#f2f2f2' }}>
           <img src={urlFor(post.mainImage).width(1400).height(460).url()} alt={post.mainImage.alt || post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -34,7 +34,7 @@ export default async function InsightPage({ params }: Props) {
       )}
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '3rem 2rem 5rem', display: 'grid', gridTemplateColumns: '1fr 320px', gap: '4rem', alignItems: 'start' }}>
         <main>
-          <Link href={`/${locale}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#000', textDecoration: 'none', marginBottom: '2rem' }}>
+          <Link href={`/${locale}/insights`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#000', textDecoration: 'none', marginBottom: '2rem' }}>
             ← {t('backToInsights')}
           </Link>
           <header style={{ borderBottom: '2px solid #000', paddingBottom: '1.5rem', marginBottom: '2.5rem' }}>
