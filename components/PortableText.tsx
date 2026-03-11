@@ -5,8 +5,9 @@ const components = {
   types: {
     image: ({ value }: any) => (
       <img
-        src={urlFor(value).width(900).url()}
+        src={urlFor(value).width(800).url()}
         alt={value.alt || ''}
+        loading="lazy"
         style={{ maxWidth: '100%', height: 'auto', margin: '2rem 0', display: 'block' }}
       />
     ),

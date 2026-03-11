@@ -93,6 +93,12 @@ export const getSectorSlugs = groq`*[_type == "sectorPage" && defined(locale) &&
   "locale": locale
 }`
 
+/** All insight slugs per locale for sitemap */
+export const getInsightSlugs = groq`*[_type == "post" && defined(locale) && defined(slug.current)]{
+  "slug": slug.current,
+  "locale": locale
+}`
+
 /** New schema: one document per slug + locale */
 export const getSectorPage = (locale: string) => {
   return groq`*[_type == "sectorPage" && (

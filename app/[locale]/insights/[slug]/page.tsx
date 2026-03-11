@@ -1,9 +1,13 @@
+import type { Metadata } from 'next'
+import Image from 'next/image'
 import { client, urlFor } from '../../../../sanity/client'
-import { getInsight, getRecentInsights } from '../../../../sanity/queries'
+import { getInsight, getRecentInsights, getInsights } from '../../../../sanity/queries'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import PortableText from '../../../../components/PortableText'
+
+const DOMAIN = 'https://insights.dome-auctions.com'
 
 function formatDate(dateStr: string, locale: string) {
   if (!dateStr) return ''
@@ -15,6 +19,72 @@ function formatDate(dateStr: string, locale: string) {
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
+export async function generateMetadata(
+  { params }: { params: { locale: string; slug: string } }
+): Promise<Metadata> {
+  const { locale, slug } = params
+
+  const post = await client
+    .fetch(getInsight(locale), { slug, locale })
+    .catch(() => null)
+
+  if (!post) {
+    const fallbackTitle = 'Insight | Dome Auctions'
+    const url = `${DOMAIN}/${locale}/articles/${slug}`
+    return {
+      title: fallbackTitle,
+      alternates: {
+        canonical: url,
+      },
+    }
+  }
+
+  const rawDescription =
+    (post.seoDescription as string | undefined) ||
+    (post.excerpt as string | undefined) ||
+    ''
+  const description =
+    typeof rawDescription === 'string'
+      ? rawDescription.length > 160
+        ? `${rawDescription.slice(0, 157)}...`
+        : rawDescription
+      : ''
+
+  const title = `${post.title} | Dome Auctions Insights`
+  const url = `${DOMAIN}/${locale}/articles/${post.slug || slug}`
+
+  const ogImages = post.mainImage
+    ? [
+        {
+          url: urlFor(post.mainImage).width(1200).height(630).url(),
+          width: 1200,
+          height: 630,
+          alt: post.mainImage.alt || post.title,
+        },
+      ]
+    : undefined
+
+  return {
+    title,
+    description: description || undefined,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description: description || undefined,
+      url,
+      type: 'article',
+      images: ogImages,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: description || undefined,
+    },
+  }
+}
+
 export default async function InsightPage({ params }: Props) {
   const { locale, slug } = await params
   const t = await getTranslations('insights')
@@ -25,11 +95,62 @@ export default async function InsightPage({ params }: Props) {
 
   if (!post) notFound()
 
+  let relatedPosts: any[] = []
+  const primaryTagSlug = post.tags?.[0]?.slug as string | undefined
+
+  if (primaryTagSlug) {
+    try {
+      const relatedByTag: any[] = await client.fetch(
+        getInsights(locale, primaryTagSlug),
+        { locale, tagSlug: primaryTagSlug }
+      )
+      relatedPosts = relatedByTag.filter((p) => p.slug !== slug).slice(0, 3)
+    } catch {
+      relatedPosts = recentPosts.filter((p: any) => p.slug !== slug).slice(0, 3)
+    }
+  } else {
+    relatedPosts = recentPosts.filter((p: any) => p.slug !== slug).slice(0, 3)
+  }
+
   return (
     <div style={{ fontStyle: 'normal' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description:
+              (post.seoDescription as string | undefined) ||
+              (post.excerpt as string | undefined) ||
+              undefined,
+            image: post.mainImage
+              ? urlFor(post.mainImage).width(1200).height(630).url()
+              : undefined,
+            datePublished: post.publishedAt || undefined,
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': `${DOMAIN}/${locale}/articles/${post.slug || slug}`,
+            },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Dome Auctions',
+              url: DOMAIN,
+            },
+          }),
+        }}
+      />
       {post.mainImage && (
-        <div style={{ width: '100%', height: '460px', overflow: 'hidden', background: '#f2f2f2' }}>
-          <img src={urlFor(post.mainImage).width(1400).height(460).url()} alt={post.mainImage.alt || post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ position: 'relative', width: '100%', height: '460px', overflow: 'hidden', background: '#f2f2f2' }}>
+          <Image
+            src={urlFor(post.mainImage).width(1200).height(460).url()}
+            alt={post.mainImage.alt || post.title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
       )}
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '3rem 2rem 5rem', display: 'grid', gridTemplateColumns: '1fr 320px', gap: '4rem', alignItems: 'start' }}>
@@ -53,6 +174,32 @@ export default async function InsightPage({ params }: Props) {
             <a href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', background: '#0077b5', color: '#fff', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'none' }}>in</a>
             <a href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', background: '#000', color: '#fff', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'none' }}>X</a>
           </div>
+          {relatedPosts.length > 0 && (
+            <section style={{ marginTop: '3rem' }}>
+              <h2 style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1rem' }}>
+                {t('recentArticles')}
+              </h2>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '1.25rem' }}>
+                {relatedPosts.map((p: any) => (
+                  <li key={p._id}>
+                    <Link
+                      href={`/${locale}/articles/${p.slug}`}
+                      style={{ display: 'block', textDecoration: 'none', color: '#000' }}
+                    >
+                      <div style={{ fontSize: '0.95rem', fontWeight: 600, lineHeight: 1.4, marginBottom: '0.25rem' }}>
+                        {p.title}
+                      </div>
+                      {p.publishedAt && (
+                        <div style={{ fontSize: '0.8rem', color: '#777' }}>
+                          {formatDate(p.publishedAt, locale)}
+                        </div>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </main>
         <aside style={{ position: 'sticky', top: '90px' }}>
           {recentPosts.length > 0 && (

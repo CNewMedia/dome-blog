@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { client, urlFor } from '../../../sanity/client'
@@ -7,6 +9,64 @@ import InsightsFilterTabs from '../../../components/InsightsFilterTabs'
 type Props = {
   params: Promise<{ locale: string }>
   searchParams: Promise<{ tag?: string }>
+}
+
+const DOMAIN = 'https://insights.dome-auctions.com'
+
+export async function generateMetadata(
+  { params }: { params: { locale: string } }
+): Promise<Metadata> {
+  const { locale } = params
+
+  const titleByLocale: Record<string, string> = {
+    'nl-be': 'Insights voor industriële veilingen | Dome Auctions',
+    'fr-be': 'Insights pour les ventes industrielles | Dome Auctions',
+    de: 'Insights für Industrieauktionen | Dome Auctions',
+    en: 'Industrial auction insights | Dome Auctions',
+  }
+
+  const descriptionByLocale: Record<string, string> = {
+    'nl-be':
+      'Analyse, marktrapporten en strategieën voor de verkoop en aankoop van industriële machines via veilingen in Europa.',
+    'fr-be':
+      'Analyses, rapports de marché et stratégies pour la vente et l’achat de machines industrielles aux enchères en Europe.',
+    de:
+      'Analysen, Marktberichte und Strategien für den Kauf und Verkauf von Industriewerkzeugen über Auktionen in Europa.',
+    en:
+      'Analysis, market reports and strategies for buying and selling industrial equipment through auctions across Europe.',
+  }
+
+  const mappedLocale: Record<string, string> = {
+    'nl-be': 'nl_BE',
+    'fr-be': 'fr_BE',
+    de: 'de_DE',
+    en: 'en_GB',
+  }
+
+  const title = titleByLocale[locale] ?? titleByLocale.en
+  const description = descriptionByLocale[locale] ?? descriptionByLocale.en
+  const url = `${DOMAIN}/${locale}/insights`
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'website',
+      siteName: 'Dome Auctions',
+      locale: mappedLocale[locale] ?? mappedLocale.en,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  }
 }
 
 export default async function InsightsPage({ params, searchParams }: Props) {
@@ -26,7 +86,8 @@ export default async function InsightsPage({ params, searchParams }: Props) {
   return (
     <div className="insights-overview">
       <style>{`
-        .insights-overview { font-style: normal; }
+        .insights-overview { font-style: normal; max-width: 100%; overflow-x: hidden; box-sizing: border-box; }
+        .insights-overview *, .insights-overview *::before, .insights-overview *::after { box-sizing: inherit; }
         .insights-overview i, .insights-overview em { font-style: normal; }
         .hero { margin-top:0;min-height:72vh;display:grid;grid-template-columns:1.08fr 0.92fr;background:#0c0c0b;position:relative;overflow:hidden; }
         .hero-left { padding:6.5rem 4rem 5rem 4.5rem;display:flex;flex-direction:column;justify-content:flex-end;position:relative;z-index:2; }
@@ -39,7 +100,7 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .hero-cta-left:hover { background:#e8b84b;color:#0c0c0b; }
         .hero-right { position:relative;overflow:hidden;min-height:72vh; }
         .hero-feat-bg { position:absolute;inset:0;background:#141210;display:flex;align-items:center;justify-content:center;font-size:8rem;z-index:0; }
-        .hero-feat-bg img { width:100%;height:100%;object-fit:cover;display:block; }
+        .hero-feat-bg img,.card-big-img img { width:100%;height:100%;object-fit:cover;display:block; }
         .hero-feat-block { position:absolute;right:5rem;bottom:2.5rem;left:auto;width:min(calc(100% - 7rem),400px);max-width:90%;background:#e8b84b;padding:2rem 2rem 2.25rem;z-index:2; }
         .hero-feat-block .hero-tag { display:inline-block;background:#0c0c0b;color:#f7f5f0;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .75rem;border-radius:999px;margin-bottom:.85rem; }
         .hero-feat-block .hero-feat-title { font-size:clamp(1.15rem,1.8vw,1.5rem);font-weight:400;color:#0c0c0b;line-height:1.28;margin-bottom:1rem;letter-spacing:-.01em; }
@@ -87,12 +148,11 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .filters-sheet-item.on { font-weight:700; }
         @media(max-width:768px){ .filters-desktop{display:none} .filters-mobile{display:flex} .fcount-mobile{margin-left:0;order:4;width:100%;font-size:.7rem;padding-top:0.35rem} }
         @media(min-width:769px){ .filters-mobile{display:none} }
-        .main { max-width:1320px;margin:0 auto;padding:4.5rem 2.5rem 8rem; }
+        .main { width: 100%; max-width: 1320px; margin: 0 auto; padding: 4.5rem 2.5rem 8rem; box-sizing: border-box; }
         .grid-top { display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:0;border:1px solid #0c0c0b;margin-bottom:3.5rem;overflow:hidden;background:#0c0c0b; }
         .grid-top .card-big { grid-column:1/-1; }
         .card-big { position:relative;min-height:420px;text-decoration:none;color:inherit;display:block;overflow:hidden; }
         .card-big-img { position:absolute;inset:0;background:#1a1816; }
-        .card-big-img img { width:100%;height:100%;object-fit:cover;display:block; }
         .card-big-img::after { content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,11,.97) 0%,rgba(12,12,11,.85) 25%,rgba(12,12,11,.4) 50%,transparent 100%); }
         .card-big-body { position:absolute;left:0;right:0;bottom:0;padding:2.75rem 3.5rem 3.5rem;display:flex;flex-direction:column;align-items:flex-start;max-width:900px; }
         .card-big-body .ctag-featured { display:inline-block;background:#e8b84b;color:#0c0c0b;font-size:.7rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;padding:.5rem 1rem;margin-bottom:1.25rem; }
@@ -102,10 +162,10 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .card-big-body .cmeta { display:flex;align-items:center;flex-wrap:wrap;gap:.75rem 1.25rem;font-size:.8rem;color:rgba(247,245,240,.55); }
         .card-big-body .cmeta .cta-read { display:inline-flex;align-items:center;gap:.4rem;margin-left:0;padding:.5rem 1.25rem;font-size:.8rem;font-weight:600;color:#f7f5f0;background:transparent;border:1px solid rgba(247,245,240,.75);border-radius:999px;text-decoration:none;transition:border-color .2s,color .2s,background .2s; }
         .card-big-body .cmeta .cta-read:hover { color:#e8b84b;border-color:#e8b84b; }
-        .card-sm { background:#faf8f4;text-decoration:none;color:inherit;display:flex;flex-direction:row;border:1px solid #e0dbd0;border-top:none;transition:background .15s; }
+        .card-sm { background:#faf8f4;text-decoration:none;color:inherit;display:flex;flex-direction:row;border:1px solid #e0dbd0;border-top:none;transition:background .15s; min-width: 0; }
         .card-sm:first-of-type { border-left:none; }
         .card-sm:hover { background:#f5f2eb; }
-        .card-sm-img { width:160px;min-height:120px;flex-shrink:0;background:#1a1816;display:flex;align-items:center;justify-content:center;font-size:2.5rem;overflow:hidden; }
+        .card-sm-img { position:relative;width:160px;min-height:120px;flex-shrink:0;background:#1a1816;display:flex;align-items:center;justify-content:center;font-size:2.5rem;overflow:hidden; }
         .card-sm-img img { width:100%;height:100%;object-fit:cover;object-position:left center;display:block; }
         .card-sm .card-sm-body { padding:1.5rem 1.75rem 1.75rem;display:flex;flex-direction:column;flex:1;min-height:0;min-width:0;border-top:none;border-left:1px solid #e0dbd0;background:#faf8f4; }
         .card-sm .ctag-yellow { display:inline-block;background:#e8b84b;color:#0c0c0b;font-size:.65rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:.45rem .9rem;margin-bottom:1rem;width:fit-content; }
@@ -119,18 +179,18 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         .cta-read:hover { background:#0c0c0b;color:#f7f5f0; }
         .sect-lbl { font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#8a8680;margin-bottom:1.75rem;margin-top:0;display:flex;align-items:center;gap:1rem; }
         .sect-lbl::after { content:'';flex:1;height:1px;background:#e2ddd2; }
-        .grid-3 { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,340px));justify-content:start;gap:1.75rem;margin-bottom:4.5rem; }
+        .grid-3 { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,340px));justify-content:start;gap:1.75rem;margin-bottom:4.5rem; min-width: 0; }
         .grid-3--one { max-width:340px; }
-        .card-reg { text-decoration:none;color:inherit;border:1px solid #d0cac0;border-radius:0;overflow:hidden;background:#faf8f4;display:flex;flex-direction:column;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease; }
+        .card-reg { text-decoration:none;color:inherit;border:1px solid #d0cac0;border-radius:0;overflow:hidden;background:#faf8f4;display:flex;flex-direction:column;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease; min-width: 0; }
         .card-reg:hover { transform:translateY(-3px);box-shadow:0 20px 48px rgba(12,12,11,.08);border-color:#0c0c0b; }
-        .card-reg-img { height:200px;background:linear-gradient(145deg,#1a1816,#252219);display:flex;align-items:center;justify-content:center;font-size:3.5rem;overflow:hidden; }
+        .card-reg-img { position:relative;height:200px;background:linear-gradient(145deg,#1a1816,#252219);display:flex;align-items:center;justify-content:center;font-size:3.5rem;overflow:hidden; }
         .card-reg-body { padding:1.5rem 1.65rem 1.65rem;flex:1;display:flex;flex-direction:column; }
         .card-reg-body .ctag-yellow { display:inline-block;background:#e8b84b;color:#0c0c0b;font-size:.65rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:.45rem .9rem;margin-bottom:.75rem;width:fit-content; }
         .card-reg-foot { display:flex;align-items:center;justify-content:space-between;padding-top:1rem;margin-top:auto;border-top:1px solid #e8e4dc;font-size:.73rem;color:#8a8680; }
         .no-posts { text-align:center;padding:8rem 2rem;color:#8a8680; }
         .no-posts p { font-size:1.05rem;margin-top:.5rem; }
-        @media(max-width:1024px){ .hero{grid-template-columns:1fr;min-height:auto} .hero-right{min-height:50vh} .hero-left{padding:5rem 2rem 4rem} .hero-feat-block{right:0;bottom:0;left:0;width:100%;max-width:none} .grid-top .card-big{grid-column:auto} .grid-3{grid-template-columns:repeat(2,1fr)} .grid-3--one{grid-template-columns:1fr;max-width:340px;margin-right:auto} }
-        @media(max-width:768px){ .hero-h1{font-size:2.9rem} .hero-right{min-height:40vh} .main{padding:3rem 1.25rem 5.5rem} .filters-in{padding:0.9rem 1.25rem} .grid-3{grid-template-columns:1fr} .grid-top{margin-bottom:2.5rem} .card-big{min-height:320px} .card-big-body{padding:1.75rem 1.5rem 2rem;max-width:none} .card-big-body .ctitle-lg{font-size:1.5rem} .card-big-body .ctag-featured{font-size:.65rem;padding:.4rem .8rem;margin-bottom:1rem} .card-sm{flex-direction:column} .card-sm-img{width:100%;height:88px;min-height:88px} .card-sm-img img{object-position:center center} .card-sm .card-sm-body{border-left:none;border-top:1px solid #e0dbd0;padding:1.25rem 1.35rem} .cmeta{flex-direction:column;align-items:flex-start;gap:.4rem} .cread{margin-left:0} .card-reg-foot{flex-direction:column;align-items:flex-start;gap:.45rem} }
+        @media(max-width:1024px){ .hero{grid-template-columns:1fr;min-height:auto} .hero-right{min-height:50vh} .hero-left{padding:5rem 2rem 4rem} .hero-feat-block{right:0;bottom:0;left:0;width:100%;max-width:none} .grid-top{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:0} .grid-top .card-big{grid-column:1;grid-row:1} .grid-top .card-sm{grid-column:1;grid-row:auto} .grid-3{grid-template-columns:repeat(2,1fr)} .grid-3--one{grid-template-columns:1fr;max-width:340px;margin-right:auto} }
+        @media(max-width:768px){ .hero{min-height:auto} .hero-left{padding:2.5rem 1.25rem 2rem} .hero-h1{font-size:2.9rem} .hero-sub{max-width:none} .hero-right{min-height:38vh} .hero-feat-block{padding:1.5rem 1.25rem;right:0;left:0;bottom:0} .hero-feat-block .hero-feat-title{font-size:1.15rem} .main{padding:2rem 1rem 4rem;width:100%} .filters{min-width:0;overflow-x:hidden} .filters-in{padding:0.75rem 1rem;max-width:100%;min-width:0} .grid-top{margin-bottom:2.5rem;width:100%;min-width:0} .grid-top .card-big,.grid-top .card-sm{width:100%;min-width:0} .grid-3{grid-template-columns:1fr;min-width:0} .grid-3--one{max-width:none} .card-big{min-height:280px} .card-big-body{padding:1.5rem 1.25rem 1.75rem;max-width:none} .card-big-body .ctitle-lg{font-size:1.35rem;line-height:1.3} .card-big-body .cexcerpt{-webkit-line-clamp:2} .card-big-body .ctag-featured{font-size:.65rem;padding:.4rem .8rem;margin-bottom:.75rem} .card-big-body .cmeta{flex-direction:column;flex-wrap:nowrap;align-items:flex-start;gap:.4rem} .card-big-body .cmeta .cread{margin-top:.15rem} .grid-top .card-sm + .card-sm{border-top:1px solid #e0dbd0} .card-sm{flex-direction:column;border-left:none;border-right:none;width:100%} .card-sm-img{width:100%;height:140px;min-height:140px} .card-sm-img img{object-position:center center} .card-sm .card-sm-body{border-left:none;border-top:1px solid #e0dbd0;padding:1.25rem 1.25rem} .card-sm .ctitle-sm{font-size:1rem} .card-sm .cexcerpt{font-size:.8rem} .card-sm .cmeta{flex-direction:column;flex-wrap:nowrap;align-items:flex-start;gap:.25rem} .card-sm .cmeta .cread{margin-top:.2rem} .cmeta{flex-direction:column;align-items:flex-start;gap:.35rem} .cread{margin-left:0} .card-reg{min-width:0;width:100%} .card-reg-body{padding:1.25rem 1.25rem} .card-reg-foot{flex-direction:column;align-items:flex-start;gap:.4rem;padding-top:.75rem} .card-reg-foot .cta-read{margin-top:.1rem} .sect-lbl{margin-bottom:1.25rem} }
         @media(max-width:480px){ .ticker{display:none} }
       `}</style>
 
@@ -149,9 +209,13 @@ export default async function InsightsPage({ params, searchParams }: Props) {
           <div className="hero-right">
             <div className="hero-feat-bg">
               {featured.mainImage ? (
-                <img
-                  src={urlFor(featured.mainImage).width(1400).height(900).url()}
+                <Image
+                  src={urlFor(featured.mainImage).width(1200).height(800).url()}
                   alt={featured.mainImage.alt || featured.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
                 />
               ) : (
                 <span style={{ fontSize: '6rem', opacity: 0.4 }}>🏭</span>
@@ -175,12 +239,36 @@ export default async function InsightsPage({ params, searchParams }: Props) {
         )}
       </section>
 
+      {/* STRUCTURED DATA: ItemList */}
+      {posts.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              itemListElement: posts.slice(0, 10).map((post: any, index: number) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                url: `${DOMAIN}/${locale}/articles/${post.slug}`,
+              })),
+            }),
+          }}
+        />
+      )}
+
       {/* TICKER */}
       {tags.length > 0 && (
         <div className="ticker">
           <div className="ticker-track">
             {[...tags, ...tags].map((t, i) => (
-              <span key={`${t._id}-${i}`} className="ticker-item">{t.title}</span>
+              <Link
+                key={`${t._id}-${i}`}
+                href={`${baseUrl}?tag=${t.slug}`}
+                className="ticker-item"
+              >
+                {t.title}
+              </Link>
             ))}
           </div>
         </div>
@@ -214,9 +302,12 @@ export default async function InsightsPage({ params, searchParams }: Props) {
                   <Link href={`/${locale}/articles/${featured.slug}`} className="card-big">
                     <div className="card-big-img">
                       {featured.mainImage ? (
-                        <img
-                          src={urlFor(featured.mainImage).width(1400).height(500).url()}
+                        <Image
+                          src={urlFor(featured.mainImage).width(1200).height(500).url()}
                           alt={featured.mainImage.alt || featured.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 100vw"
+                          className="object-cover"
                         />
                       ) : (
                         <span style={{fontSize:'4rem',opacity:.5}}>🏭</span>
@@ -238,9 +329,12 @@ export default async function InsightsPage({ params, searchParams }: Props) {
                     <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-sm">
                       <div className="card-sm-img">
                         {post.mainImage ? (
-                          <img
-                            src={urlFor(post.mainImage).width(800).height(240).url()}
+                          <Image
+                            src={urlFor(post.mainImage).width(400).height(240).url()}
                             alt={post.mainImage.alt || post.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 160px"
+                            className="object-cover object-left"
                           />
                         ) : (
                           <span style={{fontSize:'2.5rem',opacity:.5}}>📰</span>
@@ -261,18 +355,20 @@ export default async function InsightsPage({ params, searchParams }: Props) {
 
                 {posts.length > 3 && (
                   <>
-                    <div className="sect-lbl">
+                    <h2 className="sect-lbl">
                       {tagSlug ? (tags.find((tag) => tag.slug === tagSlug)?.title ?? tagSlug) : t('allArticles')}
-                    </div>
+                    </h2>
                     <div className={posts.slice(3).length === 1 ? 'grid-3 grid-3--one' : 'grid-3'}>
                       {posts.slice(3).map((post: any) => (
                         <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-reg">
                           <div className="card-reg-img">
                             {post.mainImage ? (
-                              <img
-                                src={urlFor(post.mainImage).width(800).height(180).url()}
+                              <Image
+                                src={urlFor(post.mainImage).width(680).height(400).url()}
                                 alt={post.mainImage.alt || post.title}
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 340px"
+                                className="object-cover"
                               />
                             ) : (
                               '📄'
@@ -295,18 +391,20 @@ export default async function InsightsPage({ params, searchParams }: Props) {
               </>
             ) : (
               <>
-                <div className="sect-lbl">
+                <h2 className="sect-lbl">
                   {tagSlug ? (tags.find((tag) => tag.slug === tagSlug)?.title ?? tagSlug) : t('latestInsights')}
-                </div>
+                </h2>
                 <div className="grid-3">
                   {posts.map((post: any) => (
                     <Link key={post._id} href={`/${locale}/articles/${post.slug}`} className="card-reg">
                       <div className="card-reg-img">
                         {post.mainImage ? (
-                          <img
-                            src={urlFor(post.mainImage).width(800).height(180).url()}
+                          <Image
+                            src={urlFor(post.mainImage).width(680).height(400).url()}
                             alt={post.mainImage.alt || post.title}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 340px"
+                            className="object-cover"
                           />
                         ) : (
                           '📄'

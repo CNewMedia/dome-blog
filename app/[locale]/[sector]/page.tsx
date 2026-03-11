@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { client } from '../../../sanity/client'
 import {
@@ -11,6 +12,14 @@ import SectorLandingPage, {
   type TeamMember,
 } from '../../../components/SectorLandingPage'
 import { activeLocales, isAppLocale, type AppLocale } from '../../../i18n/locales'
+
+const DOMAIN = 'https://insights.dome-auctions.com'
+
+const OG_LOCALE: Record<string, string> = {
+  'nl-be': 'nl_BE',
+  'fr-be': 'fr_BE',
+  'en-be': 'en_GB',
+}
 
 type Props = {
   params: Promise<{ locale: string; sector: string }>
@@ -105,10 +114,29 @@ export default async function SectorPage({ params }: Props) {
 
   if (!data) notFound()
 
-  return <SectorLandingPage data={data} teamMembers={teamMembers} />
+  const slugStr = typeof data.slug === 'string' ? data.slug : sector
+  const canonicalUrl = `${DOMAIN}/${locale}/${slugStr}`
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: data.seoTitle || data.heroTitle || `${slugStr} | Dome Auctions`,
+            description: data.seoDescription || undefined,
+            url: canonicalUrl,
+          }),
+        }}
+      />
+      <SectorLandingPage data={data} teamMembers={teamMembers} />
+    </>
+  )
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, sector } = await params
 
   if (!isAppLocale(locale)) {
@@ -121,9 +149,28 @@ export async function generateMetadata({ params }: Props) {
     return { title: 'Sector | Dome Auctions' }
   }
 
+  const title = data.seoTitle || data.heroTitle || `${sector} | Dome Auctions`
+  const description = data.seoDescription ?? undefined
+  const slugStr = typeof data.slug === 'string' ? data.slug : sector
+  const url = `${DOMAIN}/${locale}/${slugStr}`
+
   return {
-    title: data.seoTitle || data.heroTitle || `${sector} | Dome Auctions`,
-    description: data.seoDescription ?? undefined,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'website',
+      siteName: 'Dome Auctions',
+      locale: OG_LOCALE[locale] ?? undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   }
 }
 
