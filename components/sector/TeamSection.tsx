@@ -5,6 +5,8 @@ import type { TeamMember } from './types'
 type TeamSectionProps = {
   teamMembers: TeamMember[]
   locale: string
+  eyebrow?: string | null
+  title?: string | null
 }
 
 function pickLocalized(value: unknown, locale: string) {
@@ -19,14 +21,15 @@ function pickLocalized(value: unknown, locale: string) {
   return ''
 }
 
-export default function TeamSection({ teamMembers, locale }: TeamSectionProps) {
+export default function TeamSection({ teamMembers, locale, eyebrow, title }: TeamSectionProps) {
   if (!teamMembers?.length) return null
-
+  const eyebrowText = eyebrow ?? 'Team België'
+  const titleText = title ?? 'Uw team'
   return (
     <section className="sector-team-wrap">
       <div className="sector-team-in">
-        <div className="sector-eyebrow sector-team-eyebrow">Team België</div>
-        <h2 className="sector-section-title sector-team-title">Uw team</h2>
+        {eyebrowText && <div className="sector-eyebrow sector-team-eyebrow">{eyebrowText}</div>}
+        {titleText && <h2 className="sector-section-title sector-team-title">{titleText}</h2>}
 
         <div className="sector-team-list">
           {teamMembers.map((member) => {

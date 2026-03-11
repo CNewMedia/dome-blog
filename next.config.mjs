@@ -11,6 +11,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.dome-auctions.com' },
     ],
   },
+
 }
 
 export default withNextIntl(nextConfig)

@@ -27,64 +27,109 @@ export default function SectorLandingPage({
     heroTitle,
     heroSubtitle,
     heroImage,
+    heroEyebrow,
+    heroCtaLabel,
+    heroCtaHref,
+    heroSectionVisible,
+    statsSection,
+    processSection,
+    contentSectionVisible,
     content,
     contentImage,
     uspBlocks,
+    uspSectionEyebrow,
+    uspSectionTitle,
+    uspSectionVisible,
     machines,
+    machinesSectionVisible,
     successStory,
+    testimonialSectionVisible,
+    teamSectionEyebrow,
+    teamSectionTitle,
+    teamSectionVisible,
+    contactSectionEyebrow,
+    contactSectionSubtitle,
+    contactSectionVisible,
     ctaFormTitle,
     hubspotFormId,
   } = data
 
   const contentBlockImage = contentImage ?? heroImage
+  const showHero = heroSectionVisible !== false
+  const showContent = contentSectionVisible !== false && content && Array.isArray(content) && content.length > 0
+  const showUsp = uspSectionVisible !== false && uspBlocks && uspBlocks.length > 0
+  const showMachines = machinesSectionVisible !== false && machines && machines.length > 0
+  const showTestimonial = testimonialSectionVisible !== false && successStory && (successStory.quote || successStory.company)
+  const showTeam = teamSectionVisible !== false && teamMembers?.length
+  const showContact = contactSectionVisible !== false
 
   return (
     <div className="sector-lp">
-      <Hero
-        title={heroTitle || 'Industrial Auctions'}
-        subtitle={heroSubtitle}
-        image={heroImage}
-      />
-      <StatsBar />
+      {showHero && (
+        <Hero
+          title={heroTitle || 'Industrial Auctions'}
+          subtitle={heroSubtitle}
+          image={heroImage}
+          eyebrow={heroEyebrow}
+          ctaLabel={heroCtaLabel}
+          ctaHref={heroCtaHref}
+        />
+      )}
+      <StatsBar statsSection={statsSection} />
 
-      {content && Array.isArray(content) && content.length > 0 && (
+      {showContent && (
         <Reveal>
           <ContentBlock content={content} image={contentBlockImage} />
         </Reveal>
       )}
 
-      {uspBlocks && uspBlocks.length > 0 && (
+      {showUsp && (
         <Reveal>
-          <UspGrid items={uspBlocks} />
+          <UspGrid
+            items={uspBlocks}
+            eyebrow={uspSectionEyebrow}
+            title={uspSectionTitle}
+          />
         </Reveal>
       )}
 
-      {machines && machines.length > 0 && (
+      {showMachines && (
         <Reveal>
           <MachinesGrid machines={machines} />
         </Reveal>
       )}
 
       <Reveal>
-        <ProcessSteps />
+        <ProcessSteps processSection={processSection} />
       </Reveal>
 
-      {successStory && (successStory.quote || successStory.company) && (
+      {showTestimonial && (
         <SuccessStory
-          quote={successStory.quote}
-          company={successStory.company}
-          result={successStory.result}
+          quote={successStory!.quote}
+          company={successStory!.company}
+          result={successStory!.result}
         />
       )}
 
-<TeamSection teamMembers={teamMembers} locale={data.language || 'nl-be'} />
-
-      <Reveal>
-        <ContactForm
-          formId={hubspotFormId}
-          title={ctaFormTitle}
+      {showTeam && (
+        <TeamSection
+          teamMembers={teamMembers}
+          locale={data.language || data.locale || 'nl-be'}
+          eyebrow={teamSectionEyebrow}
+          title={teamSectionTitle}
         />
-      </Reveal>
+      )}
+
+      {showContact && (
+        <Reveal>
+          <ContactForm
+            formId={hubspotFormId}
+            title={ctaFormTitle}
+            subtitle={contactSectionSubtitle}
+            eyebrow={contactSectionEyebrow}
+          />
+        </Reveal>
+      )}
     </div>
   )
 }

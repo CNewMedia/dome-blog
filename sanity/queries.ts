@@ -111,23 +111,53 @@ export const getSectorPage = (locale: string) => {
     heroTitle,
     heroSubtitle,
     heroImage,
+    heroEyebrow,
+    heroCtaLabel,
+    heroCtaHref,
+    heroSectionVisible,
+    statsSection {
+      isVisible,
+      items[] { value, label }
+    },
+    processSection {
+      isVisible,
+      eyebrow,
+      title,
+      steps[] { title, description }
+    },
+    contentSectionVisible,
     contentImage,
     content,
     uspBlocks,
+    uspSectionEyebrow,
+    uspSectionTitle,
+    uspSectionVisible,
     machines[] {
       name,
       description,
-      image
+      image,
+      buttonLabel,
+      buttonHref,
+      openInNewTab
     },
+    machinesSectionVisible,
     successStory {
       quote,
       company,
       result
     },
+    testimonialSectionVisible,
+    teamSectionEyebrow,
+    teamSectionTitle,
+    teamSectionVisible,
+    contactSectionEyebrow,
+    contactSectionSubtitle,
+    contactSectionVisible,
     ctaFormTitle,
     hubspotFormId,
     seoTitle,
-    seoDescription
+    seoDescription,
+    ogImage
   }`
 }
 
@@ -141,6 +171,13 @@ export const getSectorPageLegacy = (locale: string) => {
     "heroTitle": coalesce(heroTitle.${l}, heroTitle.${fallback}),
     "heroSubtitle": coalesce(heroSubtitle.${l}, heroSubtitle.${fallback}),
     heroImage,
+    heroEyebrow,
+    heroCtaLabel,
+    heroCtaHref,
+    heroSectionVisible,
+    statsSection { isVisible, items[] { value, label } },
+    processSection { isVisible, eyebrow, title, steps[] { title, description } },
+    contentSectionVisible,
     contentImage,
     "content": coalesce(content.${l}, content.${fallback}),
     "uspBlocks": uspBlocks[] {
@@ -148,20 +185,35 @@ export const getSectorPageLegacy = (locale: string) => {
       "title": coalesce(title.${l}, title.${fallback}, title),
       "description": coalesce(description.${l}, description.${fallback}, description)
     },
+    uspSectionEyebrow,
+    uspSectionTitle,
+    uspSectionVisible,
     "machines": machines[] {
       "name": coalesce(name.${l}, name.${fallback}, name),
       "description": coalesce(description.${l}, description.${fallback}, description),
-      image
+      image,
+      buttonLabel,
+      buttonHref,
+      openInNewTab
     },
+    machinesSectionVisible,
     "successStory": successStory {
       "quote": coalesce(quote.${l}, quote.${fallback}, quote),
       "company": coalesce(company.${l}, company.${fallback}, company),
       "result": coalesce(result.${l}, result.${fallback}, result)
     },
+    testimonialSectionVisible,
+    teamSectionEyebrow,
+    teamSectionTitle,
+    teamSectionVisible,
+    contactSectionEyebrow,
+    contactSectionSubtitle,
+    contactSectionVisible,
     "ctaFormTitle": coalesce(ctaFormTitle.${l}, ctaFormTitle.${fallback}),
     hubspotFormId,
     "seoTitle": coalesce(seo.title.${l}, seo.title.${fallback}),
-    "seoDescription": coalesce(seo.description.${l}, seo.description.${fallback})
+    "seoDescription": coalesce(seo.description.${l}, seo.description.${fallback}),
+    ogImage
   }`
 }
 

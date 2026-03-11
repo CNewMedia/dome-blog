@@ -478,6 +478,28 @@
   line-height: 1.6;
 }
 
+.sector-machine-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--sector-gold);
+  color: var(--sector-black);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.sector-machine-cta:hover {
+  background: #e6c200;
+  transform: translateY(-1px);
+}
+
 /* ----- Team section ----- */
 .sector-team-wrap {
   background: var(--sector-black);

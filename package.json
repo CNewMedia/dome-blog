@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "import-insights": "tsx scripts/import-hubspot-insights.ts"
+    "import-insights": "tsx scripts/import-hubspot-insights.ts",
+    "backfill:sector": "tsx scripts/backfill-sector-page-fields.ts",
+    "backfill:sector:write": "tsx scripts/backfill-sector-page-fields.ts --write",
+    "audit:sector": "tsx scripts/audit-sector-pages.ts",
+    "seed:sector": "tsx scripts/seed-sector-pages.ts",
+    "seed:sector:write": "tsx scripts/seed-sector-pages.ts --write"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.0",

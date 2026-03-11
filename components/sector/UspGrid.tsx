@@ -44,13 +44,15 @@ type UspGridProps = {
   title?: string
 }
 
-export default function UspGrid({ items, eyebrow = 'Waarom Dome Auctions', title = 'Bewezen aanpak. Geen verrassingen.' }: UspGridProps) {
+export default function UspGrid({ items, eyebrow, title }: UspGridProps) {
+  const eyebrowText = eyebrow ?? 'Waarom Dome Auctions'
+  const titleText = title ?? 'Bewezen aanpak. Geen verrassingen.'
   if (!items?.length) return null
   return (
     <section className="sector-usp-wrap">
       <div className="sector-usp-in">
-        <div className="sector-eyebrow">{eyebrow}</div>
-        <h2 className="sector-section-title">{title}</h2>
+        <div className="sector-eyebrow">{eyebrowText}</div>
+        <h2 className="sector-section-title">{titleText}</h2>
         <div className="sector-usp-grid">
           {items.map((usp, i) => (
             <div key={i} className="sector-usp-card">

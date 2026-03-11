@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { client } from '../../../sanity/client'
+import { client, urlFor } from '../../../sanity/client'
 import {
   getSectorPage,
   getSectorPageLegacy,
@@ -153,6 +153,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = data.seoDescription ?? undefined
   const slugStr = typeof data.slug === 'string' ? data.slug : sector
   const url = `${DOMAIN}/${locale}/${slugStr}`
+  const ogImageSource = data.ogImage ?? data.heroImage
+  const ogImages = ogImageSource?.asset
+    ? [{ url: urlFor(ogImageSource).width(1200).height(630).url(), width: 1200, height: 630, alt: (ogImageSource as { alt?: string }).alt ?? title }]
+    : undefined
 
   return {
     title,
@@ -165,6 +169,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Dome Auctions',
       locale: OG_LOCALE[locale] ?? undefined,
+      images: ogImages,
     },
     twitter: {
       card: 'summary_large_image',

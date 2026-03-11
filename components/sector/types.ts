@@ -17,6 +17,9 @@ export type Machine = {
   name?: string
   description?: string
   image?: SanityImage
+  buttonLabel?: string
+  buttonHref?: string
+  openInNewTab?: boolean
 }
 
 export type SuccessStory = {
@@ -24,6 +27,12 @@ export type SuccessStory = {
   company?: string
   result?: string
 }
+
+export type StatsSectionItem = { value?: string; label?: string }
+export type StatsSection = { isVisible?: boolean; items?: StatsSectionItem[] }
+
+export type ProcessStep = { title?: string; description?: string }
+export type ProcessSection = { isVisible?: boolean; eyebrow?: string; title?: string; steps?: ProcessStep[] }
 
 export type SectorPageData = {
   _id: string
@@ -33,15 +42,34 @@ export type SectorPageData = {
   heroTitle?: string
   heroSubtitle?: string
   heroImage?: SanityImage
+  heroEyebrow?: string
+  heroCtaLabel?: string
+  heroCtaHref?: string
+  heroSectionVisible?: boolean
+  statsSection?: StatsSection
+  processSection?: ProcessSection
+  contentSectionVisible?: boolean
   content?: unknown[]
   contentImage?: SanityImage
   uspBlocks?: SectorUspBlock[]
+  uspSectionEyebrow?: string
+  uspSectionTitle?: string
+  uspSectionVisible?: boolean
   machines?: Machine[]
+  machinesSectionVisible?: boolean
   successStory?: SuccessStory
+  testimonialSectionVisible?: boolean
+  teamSectionEyebrow?: string
+  teamSectionTitle?: string
+  teamSectionVisible?: boolean
+  contactSectionEyebrow?: string
+  contactSectionSubtitle?: string
+  contactSectionVisible?: boolean
   ctaFormTitle?: string
   hubspotFormId?: string
   seoTitle?: string
   seoDescription?: string
+  ogImage?: SanityImage
 }
 
 /** Team member from Sanity (getTeamMembers) */

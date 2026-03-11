@@ -1,12 +1,7 @@
 import Image from 'next/image'
 import { urlFor } from '../../sanity/client'
 import { BRAND } from '../../lib/constants'
-
-type Machine = {
-  name?: string
-  description?: string
-  image?: { asset?: { _ref?: string }; alt?: string }
-}
+import type { Machine } from './types'
 
 type MachinesGridProps = {
   machines: Machine[]
@@ -53,6 +48,19 @@ export default function MachinesGrid({
             <div className="sector-machine-body">
               <div className="sector-machine-name">{machine.name}</div>
               {machine.description && <p className="sector-machine-desc">{machine.description}</p>}
+              {machine.buttonHref && (
+                <a
+                  href={machine.buttonHref}
+                  className="sector-machine-cta"
+                  target={machine.openInNewTab ? '_blank' : undefined}
+                  rel={machine.openInNewTab ? 'noopener noreferrer' : undefined}
+                >
+                  {machine.buttonLabel || 'Meer info'}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+              )}
             </div>
           </article>
         ))}
