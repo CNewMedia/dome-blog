@@ -23,12 +23,15 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
+
   if (!isAppLocale(locale)) notFound()
+
   const messages = await getMessages()
   const [siteChrome, siteSettings] = await Promise.all([
     client.fetch(getSiteChrome(locale), { locale }),
     client.fetch(getSiteSettings),
   ])
+
   const chromeSettings = buildSiteSettingsFromChrome(siteChrome, locale)
   const effectiveSettings = chromeSettings ?? siteSettings
 

@@ -925,15 +925,10 @@
   font-family: var(--sector-font-sans);
 }
 
-/* Verberg alle standaard HubSpot headers en introtekst */
-.sector-cta-form-box .hs-form-header,
-.sector-cta-form-box .hs-form .hs-richtext,
-.sector-cta-form-box [class*="hs-form-header"],
-.sector-cta-form-box .hs-form > .hs-form-header,
-.sector-cta-form-box .hs-form > div.hs-richtext,
+/* Verberg alleen de generieke HubSpot header/intro boven het formulier (niet de GDPR/consent tekst). */
 .sector-cta-form-box .hs-form .hs-form-header,
-.sector-cta-form-box .hs-form .hs-richtext:first-of-type,
-.sector-cta-form-box .hs-form p:first-of-type:not(.hubspot-legal) {
+.sector-cta-form-box .hs-form .hs-form-header .hs-richtext,
+.sector-cta-form-box .hs-form .hs-form-header p {
   display: none !important;
   visibility: hidden !important;
   height: 0 !important;
@@ -942,7 +937,7 @@
   padding: 0 !important;
 }
 
-/* HubSpot embed: Dome fonts, input border #e8e6e2, button #FFD600 zwarte tekst */
+/* HubSpot embed: Dome fonts, input border #e8e6e2 */
 .sector-cta-form-box .hs-form label,
 .sector-cta-form-box .hs-form .hs-label,
 .sector-cta-form-box .hs-form .hs-field-desc {
@@ -964,21 +959,6 @@
   padding: 0.75rem 1rem !important;
 }
 
-.sector-cta-form-box .hs-form input[type="submit"],
-.sector-cta-form-box .hs-form .hs-button,
-.sector-cta-form-box .hs-form input[type="submit"].primary {
-  font-family: var(--sector-font-sans) !important;
-  font-size: 0.875rem !important;
-  font-weight: 700 !important;
-  background: #FFD600 !important;
-  color: var(--sector-black) !important;
-  border: none !important;
-  border-radius: 999px !important;
-  padding: 0.875rem 2rem !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase !important;
-}
-
 /* Privacy en legal: kleiner en subtieler */
 .sector-cta-form-box .hs-form .legal-consent-container,
 .sector-cta-form-box .hs-form .hs-legal,
@@ -997,14 +977,7 @@
   color: var(--sector-gold-acc) !important;
 }
 
-/* reCAPTCHA: kleiner en subtiel */
-.sector-cta-form-box .grecaptcha-badge,
-.sector-cta-form-box iframe[title="reCAPTCHA"] {
-  margin-top: 0.75rem !important;
-  transform: scale(0.9);
-  transform-origin: 0 0;
-}
-
+/* reCAPTCHA: alleen nette marge rond de HubSpot wrapper */
 .sector-cta-form-box .hs-form .hs-recaptcha {
   margin-top: 0.75rem !important;
 }
