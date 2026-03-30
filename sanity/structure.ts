@@ -56,22 +56,133 @@ export const structure = (S: StructureBuilder) =>
             .title('Landing Pages')
             .items([
               S.listItem()
-                .title('Nieuwe sector page')
-                .id('lp-create-sector-template')
+                .title('Nieuwe landing page')
+                .id('lp-create-group')
                 .child(
-                  S.document()
-                    .schemaType('sectorPage')
-                    .documentId('new')
-                    .initialValueTemplate('sector-page-klassiek')
+                  S.list()
+                    .title('Nieuwe landing page')
+                    .items([
+                      S.listItem()
+                        .title('Nieuwe sector page')
+                        .id('lp-create-sector-template')
+                        .child(
+                          S.document()
+                            .schemaType('sectorPage')
+                            .documentId('new')
+                            .initialValueTemplate('sector-page-klassiek')
+                        ),
+                      S.listItem()
+                        .title('Nieuwe buyer page')
+                        .id('lp-create-buyer-template')
+                        .child(
+                          S.document()
+                            .schemaType('sectorPage')
+                            .documentId('new')
+                            .initialValueTemplate('sector-page-buyer')
+                        ),
+                    ])
                 ),
               S.listItem()
-                .title('Nieuwe buyer page')
-                .id('lp-create-buyer-template')
+                .title('Sectorpagina’s')
+                .id('lp-sector-by-locale')
                 .child(
-                  S.document()
-                    .schemaType('sectorPage')
-                    .documentId('new')
-                    .initialValueTemplate('sector-page-buyer')
+                  S.list()
+                    .title('Sectorpagina’s')
+                    .items([
+                      S.listItem()
+                        .title('NL-BE')
+                        .child(
+                          S.documentList()
+                            .title('Sectorpagina’s – NL-BE')
+                            .schemaType('sectorPage')
+                            .filter(
+                              '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "nl-be"'
+                            )
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                      S.listItem()
+                        .title('FR-BE')
+                        .child(
+                          S.documentList()
+                            .title('Sectorpagina’s – FR-BE')
+                            .schemaType('sectorPage')
+                            .filter(
+                              '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "fr-be"'
+                            )
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                      S.listItem()
+                        .title('EN-BE')
+                        .child(
+                          S.documentList()
+                            .title('Sectorpagina’s – EN-BE')
+                            .schemaType('sectorPage')
+                            .filter(
+                              '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "en-be"'
+                            )
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                    ])
+                ),
+              S.listItem()
+                .title('Koperspagina’s')
+                .id('lp-buyer-by-locale')
+                .child(
+                  S.list()
+                    .title('Koperspagina’s')
+                    .items([
+                      S.listItem()
+                        .title('NL-BE')
+                        .child(
+                          S.documentList()
+                            .title('Koperspagina’s – NL-BE')
+                            .schemaType('sectorPage')
+                            .filter(
+                              '_type == "sectorPage" && pageCategory == "audience" && audienceType == "buyer" && locale == "nl-be"'
+                            )
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                      S.listItem()
+                        .title('FR-BE')
+                        .child(
+                          S.documentList()
+                            .title('Koperspagina’s – FR-BE')
+                            .schemaType('sectorPage')
+                            .filter(
+                              '_type == "sectorPage" && pageCategory == "audience" && audienceType == "buyer" && locale == "fr-be"'
+                            )
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                      S.listItem()
+                        .title('EN-BE')
+                        .child(
+                          S.documentList()
+                            .title('Koperspagina’s – EN-BE')
+                            .schemaType('sectorPage')
+                            .filter(
+                              '_type == "sectorPage" && pageCategory == "audience" && audienceType == "buyer" && locale == "en-be"'
+                            )
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                    ])
                 ),
               S.listItem()
                 .title('Alle landing pages')
@@ -86,48 +197,13 @@ export const structure = (S: StructureBuilder) =>
                     ])
                 ),
               S.listItem()
-                .title('Per locale')
+                .title('Recent gewijzigd')
                 .child(
-                  S.list()
-                    .title('Landing Pages per locale')
-                    .items([
-                      S.listItem()
-                        .title('NL-BE')
-                        .child(
-                          S.documentList()
-                            .title('Sector pages – NL-BE')
-                            .schemaType('sectorPage')
-                            .filter('_type == "sectorPage" && locale == "nl-be"')
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                        ),
-                      S.listItem()
-                        .title('FR-BE')
-                        .child(
-                          S.documentList()
-                            .title('Sector pages – FR-BE')
-                            .schemaType('sectorPage')
-                            .filter('_type == "sectorPage" && locale == "fr-be"')
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                        ),
-                      S.listItem()
-                        .title('EN-BE')
-                        .child(
-                          S.documentList()
-                            .title('Sector pages – EN-BE')
-                            .schemaType('sectorPage')
-                            .filter('_type == "sectorPage" && locale == "en-be"')
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                        ),
-                    ])
+                  S.documentList()
+                    .title('Landing pages – Recent gewijzigd')
+                    .schemaType('sectorPage')
+                    .filter('_type == "sectorPage"')
+                    .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
                 ),
               S.listItem()
                 .title('Status')
@@ -139,7 +215,7 @@ export const structure = (S: StructureBuilder) =>
                         .title('Drafts')
                         .child(
                           S.documentList()
-                            .title('Sector pages – Drafts')
+                            .title('Landing pages – Drafts')
                             .schemaType('sectorPage')
                             .filter('_type == "sectorPage" && _id in path("drafts.**")')
                             .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
@@ -148,7 +224,7 @@ export const structure = (S: StructureBuilder) =>
                         .title('Published')
                         .child(
                           S.documentList()
-                            .title('Sector pages – Published')
+                            .title('Landing pages – Published')
                             .schemaType('sectorPage')
                             .filter('_type == "sectorPage" && !(_id in path("drafts.**"))')
                             .defaultOrdering([
@@ -158,15 +234,6 @@ export const structure = (S: StructureBuilder) =>
                             ])
                         ),
                     ])
-                ),
-              S.listItem()
-                .title('Recent gewijzigd')
-                .child(
-                  S.documentList()
-                    .title('Sector pages – Recent gewijzigd')
-                    .schemaType('sectorPage')
-                    .filter('_type == "sectorPage"')
-                    .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
                 ),
             ])
         ),
