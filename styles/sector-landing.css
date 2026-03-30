@@ -1,7 +1,7 @@
 /**
  * Sector landing pages — single stylesheet for all 5 sectors.
  * Uses Dome Auctions brand: #0f0f0f, #FFD600, #c8a84b, #f7f6f4.
- * Typography: Melody brand font via global --font-body variable.
+ * Typography: brand font via global --font-body (next/font/local + --font-brand).
  */
 .sector-lp {
   --sector-black: #0f0f0f;
@@ -15,9 +15,9 @@
   --sector-container: 1400px;
   --sector-radius: 14px;
   --sector-radius-sm: 12px;
-  /* Inherit Melody brand font from global --font-body, with safe fallback */
-  --sector-font-sans: var(--font-body, 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif);
-  --sector-font-serif: var(--font-body, 'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif);
+  /* Inherit sitewide font from --font-body, with safe fallback */
+  --sector-font-sans: var(--font-body, -apple-system, BlinkMacSystemFont, system-ui, sans-serif);
+  --sector-font-serif: var(--font-body, -apple-system, BlinkMacSystemFont, system-ui, sans-serif);
 }
 
 .sector-lp {

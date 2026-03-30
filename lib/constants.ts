@@ -22,9 +22,10 @@ export const BRAND = {
   error: '#c53030',
 } as const
 
+/** Matches global --font-body (set in app/[locale]/layout.tsx). */
 export const FONTS = {
-  sans: "'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
-  serif: "'Melody', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+  sans: 'var(--font-body)',
+  serif: 'var(--font-body)',
 } as const
 
 export const SPACING = {
