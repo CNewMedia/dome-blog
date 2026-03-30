@@ -39,6 +39,10 @@ export type SectorPageData = {
   slug: string
   locale?: string
   language?: string
+  /** Studio: sector vs audience; undefined = treat as classic sector page */
+  pageCategory?: 'sector' | 'audience'
+  audienceType?: 'buyer' | 'seller'
+  sectorKey?: string
   heroTitle?: string
   heroSubtitle?: string
   heroImage?: SanityImage

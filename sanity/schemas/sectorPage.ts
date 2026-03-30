@@ -2,11 +2,16 @@ import { defineType, defineField } from 'sanity'
 
 export const sectorPageSchema = defineType({
   name: 'sectorPage',
-  title: 'Sector Landing Page',
+  title: 'Landing page',
   type: 'document',
+  groups: [
+    { name: 'basis', title: 'Basis', default: true },
+    { name: 'typeAudience', title: 'Type & doelgroep' },
+    { name: 'hero', title: 'Hero' },
+    { name: 'inhoud', title: 'Inhoud & secties' },
+    { name: 'seo', title: 'SEO' },
+  ],
   fieldsets: [
-    { name: 'basic', title: 'Basic', options: { collapsible: false } },
-    { name: 'hero', title: 'Hero', options: { collapsible: false } },
     { name: 'stats', title: 'Stats', options: { collapsible: true, collapsed: true } },
     { name: 'process', title: 'Process', options: { collapsible: true, collapsed: true } },
     { name: 'content', title: 'Content', options: { collapsible: true, collapsed: true } },
@@ -15,15 +20,31 @@ export const sectorPageSchema = defineType({
     { name: 'testimonial', title: 'Testimonial', options: { collapsible: true, collapsed: true } },
     { name: 'team', title: 'Team', options: { collapsible: true, collapsed: true } },
     { name: 'contact', title: 'Contact', options: { collapsible: true, collapsed: true } },
-    { name: 'seo', title: 'SEO', options: { collapsible: true, collapsed: true } },
   ],
   fields: [
     defineField({
+      name: 'locale',
+      title: 'Taal / markt',
+      type: 'string',
+      group: 'basis',
+      description: 'Taal en regio voor deze pagina (URL begint met deze waarde).',
+      options: {
+        list: [
+          { title: 'Nederlands (België)', value: 'nl-be' },
+          { title: 'Français (Belgique)', value: 'fr-be' },
+          { title: 'English (Belgium)', value: 'en-be' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'slug',
-      fieldset: 'basic',
       title: 'Slug',
       type: 'slug',
-      description: 'URL segment for this landing page in this language, for example woodworking or metalworking. Lowercase and hyphen-separated.',
+      group: 'basis',
+      description:
+        'URL-segment voor deze pagina in deze taal (bv. woodworking of metaalbewerking). Alleen kleine letters en koppeltekens.',
       options: {
         source: 'heroTitle',
         slugify: (input: string) =>
@@ -46,77 +67,131 @@ export const sectorPageSchema = defineType({
       name: 'translationKey',
       title: 'Translation group',
       type: 'string',
-      description: 'Optional ID to link this landing page to its other language versions.',
-      fieldset: 'basic',
+      group: 'basis',
+      description: 'Optioneel: zelfde ID op vertaalde versies van deze pagina om ze aan elkaar te koppelen.',
     }),
     defineField({
-      name: 'locale',
-      fieldset: 'basic',
-      title: 'Taal',
+      name: 'pageCategory',
+      title: 'Paginatype',
       type: 'string',
+      group: 'typeAudience',
+      description:
+        'Sector = klassieke sectorlanding. Doelgroep = pagina gericht op kopers/verkopers (bijv. op de hoogte blijven). Oude documenten zonder waarde gelden als sector.',
       options: {
         list: [
-          { title: 'Nederlands (België)', value: 'nl-be' },
-          { title: 'Français (Belgique)', value: 'fr-be' },
-          { title: 'English (Belgium)', value: 'en-be' },
+          { title: 'Sector (klassieke landing)', value: 'sector' },
+          { title: 'Doelgroep (audience)', value: 'audience' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'sector',
+    }),
+    defineField({
+      name: 'audienceType',
+      title: 'Doelgroep',
+      type: 'string',
+      group: 'typeAudience',
+      description: 'Alleen voor doelgroeppagina’s: kopers of verkopers.',
+      options: {
+        list: [
+          { title: 'Kopers', value: 'buyer' },
+          { title: 'Verkopers', value: 'seller' },
+        ],
+        layout: 'radio',
+      },
+      hidden: ({ parent }) => parent?.pageCategory !== 'audience',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as { pageCategory?: string }
+          if (parent?.pageCategory !== 'audience') return true
+          if (!value) return 'Kies een doelgroep (kopers of verkopers).'
+          return true
+        }),
+    }),
+    defineField({
+      name: 'sectorKey',
+      title: 'Sector (logische koppeling)',
+      type: 'string',
+      group: 'typeAudience',
+      description:
+        'Welk Dome-segment (bv. houtbewerking) hoort bij deze pagina, los van de URL-slug. Verplicht voor doelgroeppagina’s.',
+      options: {
+        list: [
+          { title: 'Houtbewerking', value: 'woodworking' },
+          { title: 'Metaalbewerking', value: 'metalworking' },
+          { title: 'Landbouw', value: 'agriculture' },
+          { title: 'Bouw', value: 'construction' },
+          { title: 'Transport', value: 'transport' },
+          { title: 'Drukwerk', value: 'printing' },
+          { title: 'Grondverzet', value: 'earthmoving' },
+          { title: 'CNC', value: 'cnc' },
+          { title: 'Overig / algemeen', value: 'other' },
         ],
         layout: 'dropdown',
       },
-      validation: (Rule) => Rule.required(),
+      hidden: ({ parent }) => parent?.pageCategory !== 'audience',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as { pageCategory?: string }
+          if (parent?.pageCategory !== 'audience') return true
+          if (!value) return 'Kies een sector (logische koppeling) voor deze doelgroeppagina.'
+          return true
+        }),
     }),
     defineField({
       name: 'heroTitle',
-      fieldset: 'hero',
       title: 'Hero title',
       type: 'string',
+      group: 'hero',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'heroSubtitle',
-      fieldset: 'hero',
       title: 'Hero subtitle',
       type: 'text',
+      group: 'hero',
       rows: 3,
     }),
     defineField({
       name: 'heroImage',
-      fieldset: 'hero',
       title: 'Hero image',
       type: 'image',
+      group: 'hero',
       options: { hotspot: true },
       fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
     }),
     defineField({
       name: 'heroEyebrow',
-      fieldset: 'hero',
       title: 'Hero eyebrow',
       type: 'string',
-      description: 'Small label above the hero title (e.g. Sector).',
+      group: 'hero',
+      description: 'Korte regel boven de titel (bijv. sectornaam).',
     }),
     defineField({
       name: 'heroCtaLabel',
-      fieldset: 'hero',
       title: 'Hero CTA label',
       type: 'string',
-      description: 'Primary button text (e.g. Vraag een gesprek aan).',
+      group: 'hero',
+      description: 'Tekst op de primaire knop (bijv. Vraag een gesprek aan).',
     }),
     defineField({
       name: 'heroCtaHref',
-      fieldset: 'hero',
       title: 'Hero CTA URL',
       type: 'string',
-      description: 'Link for the hero button (e.g. #cta-form or full URL).',
+      group: 'hero',
+      description: 'Link voor de hero-knop (bijv. #cta-form of volledige URL).',
     }),
     defineField({
       name: 'heroSectionVisible',
-      fieldset: 'hero',
       title: 'Show hero section',
       type: 'boolean',
+      group: 'hero',
       initialValue: true,
     }),
     defineField({
       name: 'statsSection',
       fieldset: 'stats',
+      group: 'inhoud',
       title: 'Statistics section',
       type: 'object',
       fields: [
@@ -141,6 +216,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'processSection',
       fieldset: 'process',
+      group: 'inhoud',
       title: 'Process steps section',
       type: 'object',
       fields: [
@@ -167,6 +243,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'contentSectionVisible',
       fieldset: 'content',
+      group: 'inhoud',
       title: 'Show content section',
       type: 'boolean',
       initialValue: true,
@@ -174,6 +251,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'content',
       fieldset: 'content',
+      group: 'inhoud',
       title: 'Content',
       type: 'array',
       of: [
@@ -215,6 +293,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'contentImage',
       fieldset: 'content',
+      group: 'inhoud',
       title: 'Content afbeelding',
       type: 'image',
       options: { hotspot: true },
@@ -225,6 +304,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'uspBlocks',
       fieldset: 'usp',
+      group: 'inhoud',
       title: 'USP blocks',
       type: 'array',
       of: [
@@ -252,18 +332,21 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'uspSectionEyebrow',
       fieldset: 'usp',
+      group: 'inhoud',
       title: 'USP section eyebrow',
       type: 'string',
     }),
     defineField({
       name: 'uspSectionTitle',
       fieldset: 'usp',
+      group: 'inhoud',
       title: 'USP section title',
       type: 'string',
     }),
     defineField({
       name: 'uspSectionVisible',
       fieldset: 'usp',
+      group: 'inhoud',
       title: 'Show USP section',
       type: 'boolean',
       initialValue: true,
@@ -271,6 +354,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'machines',
       fieldset: 'machines',
+      group: 'inhoud',
       title: 'Machine categories',
       type: 'array',
       of: [
@@ -302,6 +386,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'machinesSectionVisible',
       fieldset: 'machines',
+      group: 'inhoud',
       title: 'Show machines section',
       type: 'boolean',
       initialValue: true,
@@ -309,6 +394,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'successStory',
       fieldset: 'testimonial',
+      group: 'inhoud',
       title: 'Success story / case reference',
       type: 'object',
       fields: [
@@ -320,6 +406,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'testimonialSectionVisible',
       fieldset: 'testimonial',
+      group: 'inhoud',
       title: 'Show testimonial section',
       type: 'boolean',
       initialValue: true,
@@ -327,18 +414,21 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'teamSectionEyebrow',
       fieldset: 'team',
+      group: 'inhoud',
       title: 'Team section eyebrow',
       type: 'string',
     }),
     defineField({
       name: 'teamSectionTitle',
       fieldset: 'team',
+      group: 'inhoud',
       title: 'Team section title',
       type: 'string',
     }),
     defineField({
       name: 'teamSectionVisible',
       fieldset: 'team',
+      group: 'inhoud',
       title: 'Show team section',
       type: 'boolean',
       initialValue: true,
@@ -346,12 +436,14 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'contactSectionEyebrow',
       fieldset: 'contact',
+      group: 'inhoud',
       title: 'Contact section eyebrow',
       type: 'string',
     }),
     defineField({
       name: 'contactSectionSubtitle',
       fieldset: 'contact',
+      group: 'inhoud',
       title: 'Contact section subtitle',
       type: 'text',
       rows: 2,
@@ -359,6 +451,7 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'contactSectionVisible',
       fieldset: 'contact',
+      group: 'inhoud',
       title: 'Show contact section',
       type: 'boolean',
       initialValue: true,
@@ -366,32 +459,34 @@ export const sectorPageSchema = defineType({
     defineField({
       name: 'ctaFormTitle',
       fieldset: 'contact',
+      group: 'inhoud',
       title: 'CTA form title',
       type: 'string',
     }),
     defineField({
       name: 'hubspotFormId',
       fieldset: 'contact',
+      group: 'inhoud',
       title: 'HubSpot form ID',
       type: 'string',
       description: 'Sector-specific HubSpot form ID for lead capture',
     }),
     defineField({
       name: 'seoTitle',
-      fieldset: 'seo',
+      group: 'seo',
       title: 'SEO title',
       type: 'string',
     }),
     defineField({
       name: 'seoDescription',
-      fieldset: 'seo',
+      group: 'seo',
       title: 'SEO description',
       type: 'text',
       rows: 3,
     }),
     defineField({
       name: 'ogImage',
-      fieldset: 'seo',
+      group: 'seo',
       title: 'Open Graph image',
       type: 'image',
       options: { hotspot: true },
@@ -404,13 +499,22 @@ export const sectorPageSchema = defineType({
       slug: 'slug.current',
       locale: 'locale',
       heroTitle: 'heroTitle',
+      pageCategory: 'pageCategory',
+      audienceType: 'audienceType',
+      sectorKey: 'sectorKey',
     },
-    prepare({ slug, locale, heroTitle }) {
+    prepare({ slug, locale, heroTitle, pageCategory, audienceType, sectorKey }) {
       const title = heroTitle || slug || 'Untitled landing page'
       const loc = locale || 'no-locale'
+      const cat =
+        pageCategory === 'audience'
+          ? `audience${audienceType ? ` · ${audienceType}` : ''}${sectorKey ? ` · ${sectorKey}` : ''}`
+          : pageCategory === 'sector' || !pageCategory
+            ? 'sector'
+            : pageCategory
       return {
         title,
-        subtitle: `${loc} · /${loc}/${slug}`,
+        subtitle: `${loc} · ${cat} · /${loc}/${slug}`,
       }
     },
   },
