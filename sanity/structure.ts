@@ -5,15 +5,6 @@ export const structure = (S: StructureBuilder) =>
     .title('Dome Auctions Insights')
     .items([
       S.listItem()
-        .title('Site Instellingen')
-        .schemaType('siteSettings')
-        .child(
-          S.editor()
-            .id('siteSettings')
-            .schemaType('siteSettings')
-            .documentId('siteSettings')
-        ),
-      S.listItem()
         .title('Site Chrome')
         .schemaType('siteChrome')
         .child(
@@ -83,39 +74,11 @@ export const structure = (S: StructureBuilder) =>
                     .initialValueTemplate('sector-page-buyer')
                 ),
               S.listItem()
-                .title('Alle sector pages')
+                .title('Alle landing pages')
                 .schemaType('sectorPage')
                 .child(
                   S.documentTypeList('sectorPage')
-                    .title('Alle sector pages')
-                    .defaultOrdering([
-                      { field: 'locale', direction: 'asc' },
-                      { field: 'slug.current', direction: 'asc' },
-                      { field: '_updatedAt', direction: 'desc' },
-                    ])
-                ),
-              S.listItem()
-                .title('Klassiek · sector')
-                .child(
-                  S.documentList()
-                    .title('Landing pages – klassiek (sector)')
-                    .schemaType('sectorPage')
-                    .filter(
-                      '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory))'
-                    )
-                    .defaultOrdering([
-                      { field: 'locale', direction: 'asc' },
-                      { field: 'slug.current', direction: 'asc' },
-                      { field: '_updatedAt', direction: 'desc' },
-                    ])
-                ),
-              S.listItem()
-                .title('Doelgroep · audience')
-                .child(
-                  S.documentList()
-                    .title('Landing pages – doelgroep')
-                    .schemaType('sectorPage')
-                    .filter('_type == "sectorPage" && pageCategory == "audience"')
+                    .title('Alle landing pages')
                     .defaultOrdering([
                       { field: 'locale', direction: 'asc' },
                       { field: 'slug.current', direction: 'asc' },
