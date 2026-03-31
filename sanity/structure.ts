@@ -72,13 +72,58 @@ export const structure = (S: StructureBuilder) =>
                             .initialValueTemplate('sector-page-klassiek')
                         ),
                       S.listItem()
-                        .title('Nieuwe buyer page')
-                        .id('lp-create-buyer-template')
+                        .title('Nieuwe buyer registratiepagina')
+                        .id('lp-create-buyer-reg')
                         .child(
                           S.document()
-                            .schemaType('sectorPage')
+                            .schemaType('buyerPage')
                             .documentId('new')
-                            .initialValueTemplate('sector-page-buyer')
+                            .initialValueTemplate('buyer-page-new')
+                        ),
+                    ])
+                ),
+              S.listItem()
+                .title('Buyer registratiepagina’s')
+                .id('lp-buyer-reg-by-locale')
+                .child(
+                  S.list()
+                    .title('Buyer registratiepagina’s')
+                    .items([
+                      S.listItem()
+                        .title('NL-BE')
+                        .child(
+                          S.documentList()
+                            .title('Buyer registratie – NL-BE')
+                            .schemaType('buyerPage')
+                            .filter('_type == "buyerPage" && locale == "nl-be"')
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                      S.listItem()
+                        .title('FR-BE')
+                        .child(
+                          S.documentList()
+                            .title('Buyer registratie – FR-BE')
+                            .schemaType('buyerPage')
+                            .filter('_type == "buyerPage" && locale == "fr-be"')
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                        ),
+                      S.listItem()
+                        .title('EN-BE')
+                        .child(
+                          S.documentList()
+                            .title('Buyer registratie – EN-BE')
+                            .schemaType('buyerPage')
+                            .filter('_type == "buyerPage" && locale == "en-be"')
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
                         ),
                     ])
                 ),
@@ -134,11 +179,11 @@ export const structure = (S: StructureBuilder) =>
                     ])
                 ),
               S.listItem()
-                .title('Koperspagina’s')
+                .title('Koperspagina’s (legacy, sectorPage)')
                 .id('lp-buyer-by-locale')
                 .child(
                   S.list()
-                    .title('Koperspagina’s')
+                    .title('Koperspagina’s (legacy, sectorPage)')
                     .items([
                       S.listItem()
                         .title('NL-BE')
