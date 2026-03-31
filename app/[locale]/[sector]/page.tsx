@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { client, urlFor } from '../../../sanity/client'
+import { client, previewClient, urlFor } from '../../../sanity/client'
 import {
   getSectorPage,
   getSectorPageLegacy,
@@ -102,9 +103,18 @@ export default async function SectorPage({ params }: Props) {
 
   if (!isAppLocale(locale)) notFound()
 
+  const { isEnabled } = await draftMode()
+  const preview = isEnabled
+
   const [data, rawTeamMembers] = await Promise.all([
-    getSectorData(sector, locale),
-    client.fetch(getTeamMembers),
+    preview
+      ? previewClient.fetch(getSectorPage(locale), {
+          slug: sector.toLowerCase(),
+          locale,
+          localeAlt: locale.replace('-', '_'),
+        })
+      : getSectorData(sector, locale),
+    (preview ? previewClient : client).fetch(getTeamMembers),
   ])
 
   const normalizedTeamMembers = normalizeLocalizedValue(rawTeamMembers ?? [], locale)

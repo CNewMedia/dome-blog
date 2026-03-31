@@ -7,3 +7,4 @@ dist/
 .sanity/runtime/
 dist/
 .sanity/runtime/
+.vercel

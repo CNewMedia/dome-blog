@@ -41,8 +41,17 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
       return
     }
 
-    // Landing page detail: /{locale}/{slug} (excluding /insights and /articles)
-    if (segments.length >= 2 && second && second !== 'articles' && second !== 'insights') {
+    // Buyer registration landing: /{locale}/buyers/{slug}
+    if (second === 'buyers' && third) {
+      fetch(`/api/buyer-locales?slug=${encodeURIComponent(third)}&locale=${encodeURIComponent(localeSeg)}`)
+        .then((res) => res.json())
+        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
+        .catch(() => setPageLocales([]))
+      return
+    }
+
+    // Landing page detail: /{locale}/{slug} (excluding /insights, /articles, /buyers)
+    if (segments.length >= 2 && second && second !== 'articles' && second !== 'insights' && second !== 'buyers') {
       fetch(`/api/sector-locales?sector=${encodeURIComponent(second)}&locale=${encodeURIComponent(localeSeg)}`)
         .then((res) => res.json())
         .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
