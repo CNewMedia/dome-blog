@@ -192,6 +192,7 @@ export const structure = (S: StructureBuilder) =>
                             .filter(
                               '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "nl-be"'
                             )
+                            .initialValueTemplates([S.initialValueTemplateItem('sector-page-klassiek')])
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -212,6 +213,7 @@ export const structure = (S: StructureBuilder) =>
                             .filter(
                               '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "fr-be"'
                             )
+                            .initialValueTemplates([S.initialValueTemplateItem('sector-page-klassiek')])
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -232,6 +234,7 @@ export const structure = (S: StructureBuilder) =>
                             .filter(
                               '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "en-be"'
                             )
+                            .initialValueTemplates([S.initialValueTemplateItem('sector-page-klassiek')])
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -246,58 +249,67 @@ export const structure = (S: StructureBuilder) =>
                     ])
                 ),
               S.listItem()
-                .title('Alle landing pages')
-                .schemaType('sectorPage')
-                .child(
-                  S.documentTypeList('sectorPage')
-                    .title('Alle landing pages')
-                    .defaultOrdering([
-                      { field: 'locale', direction: 'asc' },
-                      { field: 'slug.current', direction: 'asc' },
-                      { field: '_updatedAt', direction: 'desc' },
-                    ])
-                    .child((documentId) =>
-                      S.document()
-                        .schemaType('sectorPage')
-                        .documentId(documentId)
-                        .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-                    )
-                ),
-              S.listItem()
-                .title('Recent gewijzigd')
-                .child(
-                  S.documentList()
-                    .title('Landing pages – Recent gewijzigd')
-                    .schemaType('sectorPage')
-                    .filter('_type == "sectorPage"')
-                    .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
-                ),
-              S.listItem()
-                .title('Status')
+                .title('Beheer')
+                .id('lp-management-group')
                 .child(
                   S.list()
-                    .title('Landing Pages status')
+                    .title('Landing Pages beheer')
                     .items([
                       S.listItem()
-                        .title('Drafts')
+                        .title('Alle landing pages')
+                        .schemaType('sectorPage')
                         .child(
-                          S.documentList()
-                            .title('Landing pages – Drafts')
-                            .schemaType('sectorPage')
-                            .filter('_type == "sectorPage" && _id in path("drafts.**")')
-                            .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
-                        ),
-                      S.listItem()
-                        .title('Published')
-                        .child(
-                          S.documentList()
-                            .title('Landing pages – Published')
-                            .schemaType('sectorPage')
-                            .filter('_type == "sectorPage" && !(_id in path("drafts.**"))')
+                          S.documentTypeList('sectorPage')
+                            .title('Alle landing pages')
                             .defaultOrdering([
                               { field: 'locale', direction: 'asc' },
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
+                            ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('sectorPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
+                        ),
+                      S.listItem()
+                        .title('Recent gewijzigd')
+                        .child(
+                          S.documentList()
+                            .title('Landing pages – Recent gewijzigd')
+                            .schemaType('sectorPage')
+                            .filter('_type == "sectorPage"')
+                            .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
+                        ),
+                      S.listItem()
+                        .title('Status')
+                        .child(
+                          S.list()
+                            .title('Landing Pages status')
+                            .items([
+                              S.listItem()
+                                .title('Drafts')
+                                .child(
+                                  S.documentList()
+                                    .title('Landing pages – Drafts')
+                                    .schemaType('sectorPage')
+                                    .filter('_type == "sectorPage" && _id in path("drafts.**")')
+                                    .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
+                                ),
+                              S.listItem()
+                                .title('Published')
+                                .child(
+                                  S.documentList()
+                                    .title('Landing pages – Published')
+                                    .schemaType('sectorPage')
+                                    .filter('_type == "sectorPage" && !(_id in path("drafts.**"))')
+                                    .defaultOrdering([
+                                      { field: 'locale', direction: 'asc' },
+                                      { field: 'slug.current', direction: 'asc' },
+                                      { field: '_updatedAt', direction: 'desc' },
+                                    ])
+                                ),
                             ])
                         ),
                     ])
