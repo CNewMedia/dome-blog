@@ -102,15 +102,6 @@ export const structure = (S: StructureBuilder) =>
                             .initialValueTemplate('sector-page-klassiek')
                         ),
                       S.listItem()
-                        .title('Nieuwe buyer page')
-                        .id('lp-create-buyer-template')
-                        .child(
-                          S.document()
-                            .schemaType('sectorPage')
-                            .documentId('new')
-                            .initialValueTemplate('sector-page-buyer')
-                        ),
-                      S.listItem()
                         .title('Nieuwe buyer registratiepagina')
                         .id('lp-create-buyer-reg')
                         .child(
@@ -254,11 +245,11 @@ export const structure = (S: StructureBuilder) =>
                     ])
                 ),
               S.listItem()
-                .title('Koperspagina’s')
+                .title('Koperspagina’s (legacy, sectorPage)')
                 .id('lp-buyer-by-locale')
                 .child(
                   S.list()
-                    .title('Koperspagina’s')
+                    .title('Koperspagina’s (legacy, sectorPage)')
                     .items([
                       S.listItem()
                         .title('NL-BE')

@@ -1,7 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { cloudinarySchemaPlugin } from 'sanity-plugin-cloudinary'
-import { DocumentIcon, SparklesIcon, UsersIcon } from '@sanity/icons'
+import { DocumentIcon, SparklesIcon } from '@sanity/icons'
 import { schemaTypes } from './sanity/schemas'
 import { defaultDocumentNode, structure } from './sanity/structure'
 import { resolveProductionUrl } from './sanity/resolveProductionUrl'
@@ -44,17 +44,6 @@ export default defineConfig({
         icon: DocumentIcon,
         value: () => ({
           pageCategory: 'sector',
-        }),
-      },
-      {
-        id: 'sector-page-buyer',
-        title: 'Nieuwe buyer page',
-        schemaType: 'sectorPage',
-        description: 'Doelgroeppagina voor kopers; vul sector-koppeling en slug in.',
-        icon: UsersIcon,
-        value: () => ({
-          pageCategory: 'audience',
-          audienceType: 'buyer',
         }),
       },
       {
