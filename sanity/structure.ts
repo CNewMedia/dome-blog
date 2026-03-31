@@ -1,4 +1,16 @@
-import { StructureBuilder } from 'sanity/structure'
+import { DefaultDocumentNodeResolver, StructureBuilder } from 'sanity/structure'
+import { ProductionUrl } from './components/ProductionUrl'
+
+export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, context) => {
+  const withLinks = ['sectorPage', 'buyerPage', 'post']
+  if (withLinks.includes(context.schemaType)) {
+    return S.document().views([
+      S.view.form().title('Content'),
+      S.view.component(ProductionUrl).title('Links'),
+    ])
+  }
+  return S.document().views([S.view.form().title('Content')])
+}
 
 export const structure = (S: StructureBuilder) =>
   S.list()
@@ -27,6 +39,12 @@ export const structure = (S: StructureBuilder) =>
                     .schemaType('post')
                     .filter('_type == "post" && locale == "nl-be"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                    .child((documentId) =>
+                      S.document()
+                        .schemaType('post')
+                        .documentId(documentId)
+                        .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                    )
                 ),
               S.listItem()
                 .title('FR-BE')
@@ -36,6 +54,12 @@ export const structure = (S: StructureBuilder) =>
                     .schemaType('post')
                     .filter('_type == "post" && locale == "fr-be"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                    .child((documentId) =>
+                      S.document()
+                        .schemaType('post')
+                        .documentId(documentId)
+                        .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                    )
                 ),
               S.listItem()
                 .title('EN-BE')
@@ -45,6 +69,12 @@ export const structure = (S: StructureBuilder) =>
                     .schemaType('post')
                     .filter('_type == "post" && locale == "en-be"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                    .child((documentId) =>
+                      S.document()
+                        .schemaType('post')
+                        .documentId(documentId)
+                        .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                    )
                 ),
             ])
         ),
@@ -80,6 +110,78 @@ export const structure = (S: StructureBuilder) =>
                             .documentId('new')
                             .initialValueTemplate('sector-page-buyer')
                         ),
+                      S.listItem()
+                        .title('Nieuwe buyer registratiepagina')
+                        .id('lp-create-buyer-reg')
+                        .child(
+                          S.document()
+                            .schemaType('buyerPage')
+                            .documentId('new')
+                            .initialValueTemplate('buyer-page-new')
+                        ),
+                    ])
+                ),
+              S.listItem()
+                .title('Buyer registratiepagina’s')
+                .id('lp-buyer-reg-by-locale')
+                .child(
+                  S.list()
+                    .title('Buyer registratiepagina’s')
+                    .items([
+                      S.listItem()
+                        .title('NL-BE')
+                        .child(
+                          S.documentList()
+                            .title('Buyer registratie – NL-BE')
+                            .schemaType('buyerPage')
+                            .filter('_type == "buyerPage" && locale == "nl-be"')
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('buyerPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
+                        ),
+                      S.listItem()
+                        .title('FR-BE')
+                        .child(
+                          S.documentList()
+                            .title('Buyer registratie – FR-BE')
+                            .schemaType('buyerPage')
+                            .filter('_type == "buyerPage" && locale == "fr-be"')
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('buyerPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
+                        ),
+                      S.listItem()
+                        .title('EN-BE')
+                        .child(
+                          S.documentList()
+                            .title('Buyer registratie – EN-BE')
+                            .schemaType('buyerPage')
+                            .filter('_type == "buyerPage" && locale == "en-be"')
+                            .defaultOrdering([
+                              { field: 'slug.current', direction: 'asc' },
+                              { field: '_updatedAt', direction: 'desc' },
+                            ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('buyerPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
+                        ),
                     ])
                 ),
               S.listItem()
@@ -102,6 +204,12 @@ export const structure = (S: StructureBuilder) =>
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
                             ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('sectorPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
                         ),
                       S.listItem()
                         .title('FR-BE')
@@ -116,6 +224,12 @@ export const structure = (S: StructureBuilder) =>
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
                             ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('sectorPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
                         ),
                       S.listItem()
                         .title('EN-BE')
@@ -130,6 +244,12 @@ export const structure = (S: StructureBuilder) =>
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
                             ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('sectorPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
                         ),
                     ])
                 ),
@@ -153,6 +273,12 @@ export const structure = (S: StructureBuilder) =>
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
                             ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('sectorPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
                         ),
                       S.listItem()
                         .title('FR-BE')
@@ -167,6 +293,12 @@ export const structure = (S: StructureBuilder) =>
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
                             ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('sectorPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
                         ),
                       S.listItem()
                         .title('EN-BE')
@@ -181,6 +313,12 @@ export const structure = (S: StructureBuilder) =>
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
                             ])
+                            .child((documentId) =>
+                              S.document()
+                                .schemaType('sectorPage')
+                                .documentId(documentId)
+                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                            )
                         ),
                     ])
                 ),
@@ -195,6 +333,12 @@ export const structure = (S: StructureBuilder) =>
                       { field: 'slug.current', direction: 'asc' },
                       { field: '_updatedAt', direction: 'desc' },
                     ])
+                    .child((documentId) =>
+                      S.document()
+                        .schemaType('sectorPage')
+                        .documentId(documentId)
+                        .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+                    )
                 ),
               S.listItem()
                 .title('Recent gewijzigd')
