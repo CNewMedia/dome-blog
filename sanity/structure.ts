@@ -98,7 +98,6 @@ export const structure = (S: StructureBuilder) =>
                         .child(
                           S.document()
                             .schemaType('sectorPage')
-                            .documentId('new')
                             .initialValueTemplate('sector-page-klassiek')
                         ),
                       S.listItem()
@@ -107,7 +106,6 @@ export const structure = (S: StructureBuilder) =>
                         .child(
                           S.document()
                             .schemaType('buyerPage')
-                            .documentId('new')
                             .initialValueTemplate('buyer-page-new')
                         ),
                     ])
