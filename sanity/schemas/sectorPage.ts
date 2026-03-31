@@ -60,6 +60,7 @@ export const sectorPageSchema = defineType({
           if (!v) return 'Slug is required.'
           if (v !== v.toLowerCase()) return 'Slug must be lowercase.'
           if (v === 'articles') return '"articles" is reserved for insight detail URLs. Please choose a different slug.'
+          if (v === 'buyers') return '"buyers" is reserved for buyer registration URLs. Please choose a different slug.'
           return true
         }),
     }),
