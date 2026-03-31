@@ -3,7 +3,8 @@ import { structureTool } from 'sanity/structure'
 import { cloudinarySchemaPlugin } from 'sanity-plugin-cloudinary'
 import { DocumentIcon, SparklesIcon } from '@sanity/icons'
 import { schemaTypes } from './sanity/schemas'
-import { structure } from './sanity/structure'
+import { defaultDocumentNode, structure } from './sanity/structure'
+import { resolveProductionUrl } from './sanity/resolveProductionUrl'
 
 export default defineConfig({
   name: 'dome-auctions',
@@ -11,9 +12,26 @@ export default defineConfig({
   projectId: 'r1yazroc',
   dataset: 'production',
   plugins: [
-    structureTool({ structure }),
+    structureTool({ structure, defaultDocumentNode }),
     cloudinarySchemaPlugin(),
   ],
+  document: {
+    productionUrl: async (prev, context) => {
+      const url = resolveProductionUrl(context.document as any)
+      if (!url) return prev
+
+      const path = url.replace('https://insights.dome-auctions.com', '') || '/'
+      const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.dome-auctions.com'
+      const preview = new URL('/api/preview', base)
+
+      if (process.env.SANITY_PREVIEW_SECRET) {
+        preview.searchParams.set('secret', process.env.SANITY_PREVIEW_SECRET)
+      }
+      preview.searchParams.set('redirect', path)
+
+      return preview.toString()
+    },
+  },
   schema: {
     types: schemaTypes,
     templates: (prev) => [
