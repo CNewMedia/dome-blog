@@ -124,6 +124,7 @@ export const structure = (S: StructureBuilder) =>
                             .title('Buyer registratie – NL-BE')
                             .schemaType('buyerPage')
                             .filter('_type == "buyerPage" && locale == "nl-be"')
+                            .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -142,6 +143,7 @@ export const structure = (S: StructureBuilder) =>
                             .title('Buyer registratie – FR-BE')
                             .schemaType('buyerPage')
                             .filter('_type == "buyerPage" && locale == "fr-be"')
+                            .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -160,6 +162,7 @@ export const structure = (S: StructureBuilder) =>
                             .title('Buyer registratie – EN-BE')
                             .schemaType('buyerPage')
                             .filter('_type == "buyerPage" && locale == "en-be"')
+                            .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -228,75 +231,6 @@ export const structure = (S: StructureBuilder) =>
                             .schemaType('sectorPage')
                             .filter(
                               '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "en-be"'
-                            )
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                            .child((documentId) =>
-                              S.document()
-                                .schemaType('sectorPage')
-                                .documentId(documentId)
-                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-                            )
-                        ),
-                    ])
-                ),
-              S.listItem()
-                .title('Koperspagina’s (legacy, sectorPage)')
-                .id('lp-buyer-by-locale')
-                .child(
-                  S.list()
-                    .title('Koperspagina’s (legacy, sectorPage)')
-                    .items([
-                      S.listItem()
-                        .title('NL-BE')
-                        .child(
-                          S.documentList()
-                            .title('Koperspagina’s – NL-BE')
-                            .schemaType('sectorPage')
-                            .filter(
-                              '_type == "sectorPage" && pageCategory == "audience" && audienceType == "buyer" && locale == "nl-be"'
-                            )
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                            .child((documentId) =>
-                              S.document()
-                                .schemaType('sectorPage')
-                                .documentId(documentId)
-                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-                            )
-                        ),
-                      S.listItem()
-                        .title('FR-BE')
-                        .child(
-                          S.documentList()
-                            .title('Koperspagina’s – FR-BE')
-                            .schemaType('sectorPage')
-                            .filter(
-                              '_type == "sectorPage" && pageCategory == "audience" && audienceType == "buyer" && locale == "fr-be"'
-                            )
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                            .child((documentId) =>
-                              S.document()
-                                .schemaType('sectorPage')
-                                .documentId(documentId)
-                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-                            )
-                        ),
-                      S.listItem()
-                        .title('EN-BE')
-                        .child(
-                          S.documentList()
-                            .title('Koperspagina’s – EN-BE')
-                            .schemaType('sectorPage')
-                            .filter(
-                              '_type == "sectorPage" && pageCategory == "audience" && audienceType == "buyer" && locale == "en-be"'
                             )
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
