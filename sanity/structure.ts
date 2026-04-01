@@ -125,6 +125,11 @@ export const structure = (S: StructureBuilder) =>
                             .schemaType('buyerPage')
                             .filter('_type == "buyerPage" && locale == "nl-be"')
                             .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
+                            .menuItems(
+                              S.menuItemsFromInitialValueTemplateItems([
+                                S.initialValueTemplateItem('buyer-page-new').serialize(),
+                              ])
+                            )
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -144,6 +149,11 @@ export const structure = (S: StructureBuilder) =>
                             .schemaType('buyerPage')
                             .filter('_type == "buyerPage" && locale == "fr-be"')
                             .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
+                            .menuItems(
+                              S.menuItemsFromInitialValueTemplateItems([
+                                S.initialValueTemplateItem('buyer-page-new').serialize(),
+                              ])
+                            )
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -163,6 +173,11 @@ export const structure = (S: StructureBuilder) =>
                             .schemaType('buyerPage')
                             .filter('_type == "buyerPage" && locale == "en-be"')
                             .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
+                            .menuItems(
+                              S.menuItemsFromInitialValueTemplateItems([
+                                S.initialValueTemplateItem('buyer-page-new').serialize(),
+                              ])
+                            )
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -193,6 +208,11 @@ export const structure = (S: StructureBuilder) =>
                               '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "nl-be"'
                             )
                             .initialValueTemplates([S.initialValueTemplateItem('sector-page-klassiek')])
+                            .menuItems(
+                              S.menuItemsFromInitialValueTemplateItems([
+                                S.initialValueTemplateItem('sector-page-klassiek').serialize(),
+                              ])
+                            )
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -214,6 +234,11 @@ export const structure = (S: StructureBuilder) =>
                               '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "fr-be"'
                             )
                             .initialValueTemplates([S.initialValueTemplateItem('sector-page-klassiek')])
+                            .menuItems(
+                              S.menuItemsFromInitialValueTemplateItems([
+                                S.initialValueTemplateItem('sector-page-klassiek').serialize(),
+                              ])
+                            )
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
@@ -235,6 +260,11 @@ export const structure = (S: StructureBuilder) =>
                               '_type == "sectorPage" && (pageCategory == "sector" || !defined(pageCategory)) && locale == "en-be"'
                             )
                             .initialValueTemplates([S.initialValueTemplateItem('sector-page-klassiek')])
+                            .menuItems(
+                              S.menuItemsFromInitialValueTemplateItems([
+                                S.initialValueTemplateItem('sector-page-klassiek').serialize(),
+                              ])
+                            )
                             .defaultOrdering([
                               { field: 'slug.current', direction: 'asc' },
                               { field: '_updatedAt', direction: 'desc' },
