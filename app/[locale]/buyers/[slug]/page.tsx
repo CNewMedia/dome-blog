@@ -61,6 +61,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isAppLocale(locale)) {
     return { title: 'Dome Auctions' }
   }
+  if (locale !== 'en-be') {
+    return { title: 'Dome Auctions' }
+  }
 
   const data = await client.fetch(getBuyerPage, {
     slug: slug.toLowerCase(),

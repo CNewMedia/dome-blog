@@ -69,12 +69,25 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
     finalCtaButtonHref,
   } = data
 
+  const safeStats = (stats ?? []).filter(
+    (s): s is { value: string; label: string } =>
+      Boolean(s && typeof s.value === 'string' && typeof s.label === 'string')
+  )
+  const safeSteps = (steps ?? []).filter(
+    (s): s is { icon?: string | null; title: string; description?: string | null } =>
+      Boolean(s && typeof s.title === 'string' && s.title.trim().length > 0)
+  )
+  const safeSectorCards = (sectorCards ?? []).filter(
+    (c): c is NonNullable<BuyerPageData['sectorCards']>[number] =>
+      Boolean(c && typeof c.title === 'string' && c.title.trim().length > 0)
+  )
+
   const formAnchor = '#buyer-form'
   const heroHref = heroCtaHref?.trim() || formAnchor
   const showHeroCta = Boolean(heroCtaLabel?.trim())
 
-  const showSteps = Boolean(steps?.length)
-  const showSectors = Boolean(sectorCards?.length)
+  const showSteps = safeSteps.length > 0
+  const showSectors = safeSectorCards.length > 0
   const showFinal =
     Boolean(finalCtaTitle?.trim()) ||
     Boolean(finalCtaBody?.trim()) ||
@@ -103,9 +116,9 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               <h1 className="sector-hero-h1">{heroTitle}</h1>
               {heroSubtitle && <p className="sector-hero-sub">{heroSubtitle}</p>}
               {heroBody && <p className="buyer-hero-body">{heroBody}</p>}
-              {stats?.length ? (
+              {safeStats.length ? (
                 <div className="buyer-hero-stats">
-                  {stats.map((s, i) => (
+                  {safeStats.map((s, i) => (
                     <div key={i} className="buyer-hero-stat">
                       <div className="buyer-hero-stat-value">{s.value}</div>
                       <div className="buyer-hero-stat-label">{s.label}</div>
@@ -126,9 +139,9 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               <div className="buyer-hero-right-bg" />
               <div className="buyer-hero-grid-lines" />
               <div className="buyer-hero-right-halo" />
-              {sectorCards?.length ? (
+              {safeSectorCards.length ? (
                 <div className="buyer-sector-badges">
-                  {sectorCards.slice(0, 5).map((card, i) => (
+                  {safeSectorCards.slice(0, 5).map((card, i) => (
                     <div key={i} className="buyer-sector-badge">
                       <span className="buyer-sector-pill-dot">{card.icon?.trim() || '◆'}</span>
                       <div>
@@ -184,7 +197,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
             {stepsSectionEyebrow && <div className="sector-eyebrow">{stepsSectionEyebrow}</div>}
             {stepsSectionTitle && <h2 className="sector-section-title">{stepsSectionTitle}</h2>}
             <div className="sector-process-grid buyer-process-grid">
-              {steps!.map((item, i) => (
+              {safeSteps.map((item, i) => (
                 <div
                   key={i}
                   className={`sector-process-step ${item.icon ? 'buyer-process-step--has-icon' : ''}`}
@@ -210,7 +223,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
             <div className="sector-eyebrow">{sectorCardsSectionEyebrow ?? 'Sectoren'}</div>
             <h2 className="sector-section-title">{sectorCardsSectionTitle ?? 'Kies uw interesses'}</h2>
             <div className="buyer-sectors-grid">
-              {sectorCards!.map((card, i) => (
+              {safeSectorCards.map((card, i) => (
                 <article key={i} className="buyer-sector-card">
                   <div className="buyer-sector-card-number">{String(i + 1).padStart(2, '0')}</div>
                   <div className="buyer-sector-card-icon">{card.icon?.trim() || '◆'}</div>
