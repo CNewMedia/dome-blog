@@ -5,8 +5,6 @@ import { urlFor } from '../sanity/client'
 import { BRAND } from '../lib/constants'
 import HubSpotForm from './HubSpotForm'
 import HubSpotFormOverrides from './HubSpotFormOverrides'
-import MachinesGrid from './sector/MachinesGrid'
-import type { Machine } from './sector/types'
 import StepIcon from './buyer/StepIcon'
 
 export type BuyerPageData = {
@@ -75,16 +73,8 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
   const heroHref = heroCtaHref?.trim() || formAnchor
   const showHeroCta = Boolean(heroCtaLabel?.trim())
 
-  const machines: Machine[] = (sectorCards ?? []).map((c) => ({
-    name: c.title,
-    description: c.description ?? undefined,
-    image: c.image ?? undefined,
-    buttonLabel: c.buttonLabel ?? undefined,
-    buttonHref: c.href ?? undefined,
-    openInNewTab: c.openInNewTab ?? false,
-  }))
-
   const showSteps = Boolean(steps?.length)
+  const showSectors = Boolean(sectorCards?.length)
   const showFinal =
     Boolean(finalCtaTitle?.trim()) ||
     Boolean(finalCtaBody?.trim()) ||
@@ -135,11 +125,12 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
             <div className="buyer-hero-right" aria-hidden>
               <div className="buyer-hero-right-bg" />
               <div className="buyer-hero-grid-lines" />
+              <div className="buyer-hero-right-halo" />
               {sectorCards?.length ? (
                 <div className="buyer-sector-badges">
                   {sectorCards.slice(0, 5).map((card, i) => (
                     <div key={i} className="buyer-sector-badge">
-                      <span className="buyer-sector-pill-dot">◆</span>
+                      <span className="buyer-sector-pill-dot">{card.icon?.trim() || '◆'}</span>
                       <div>
                         <div className="buyer-sector-badge-title">{card.title}</div>
                         {card.description && (
@@ -158,16 +149,25 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
       </section>
 
       <section className="sector-cta-wrap" id="buyer-form">
-        <div className="sector-cta-grid">
-          <div>
+        <div className="sector-cta-grid buyer-form-grid">
+          <div className="buyer-form-left">
             {formEyebrow && <div className="sector-cta-eyebrow">{formEyebrow}</div>}
             {formTitle && <h2 className="sector-cta-title">{formTitle}</h2>}
-            <p className="sector-cta-sub">
+            <p className="sector-cta-sub buyer-form-sub">
               {formSubtitle ??
                 'Laat uw gegevens achter. We sturen veilingmeldingen volgens uw voorkeuren. Geen verplichtingen.'}
             </p>
+            <ul className="buyer-form-points">
+              <li>Realtime veilingalerts op maat van uw sectorinteresses</li>
+              <li>Enkel relevante updates, geen ruis</li>
+              <li>Volledig via HubSpot, zodat opvolging centraal blijft</li>
+            </ul>
           </div>
-          <div className="sector-cta-form-box">
+          <div className="sector-cta-form-box buyer-form-box">
+            <div className="buyer-form-box-head">
+              <div className="buyer-form-box-kicker">Registratie</div>
+              <div className="buyer-form-box-title">Ontvang als eerste nieuwe veilingkansen</div>
+            </div>
             <HubSpotFormOverrides />
             {hubspotFormId ? (
               <HubSpotForm formId={hubspotFormId} />
@@ -189,6 +189,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
                   key={i}
                   className={`sector-process-step ${item.icon ? 'buyer-process-step--has-icon' : ''}`}
                 >
+                  <div className="buyer-step-index">{String(i + 1).padStart(2, '0')}</div>
                   {item.icon && (
                     <span className="buyer-step-icon" aria-hidden>
                       <StepIcon name={item.icon} />
@@ -203,17 +204,40 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
         </section>
       )}
 
-      {machines.length > 0 && (
-        <MachinesGrid
-          machines={machines}
-          eyebrow={sectorCardsSectionEyebrow ?? 'Sectoren'}
-          title={sectorCardsSectionTitle ?? 'Kies uw interesses'}
-        />
+      {showSectors && (
+        <section className="buyer-sectors-wrap">
+          <div className="buyer-sectors-in">
+            <div className="sector-eyebrow">{sectorCardsSectionEyebrow ?? 'Sectoren'}</div>
+            <h2 className="sector-section-title">{sectorCardsSectionTitle ?? 'Kies uw interesses'}</h2>
+            <div className="buyer-sectors-grid">
+              {sectorCards!.map((card, i) => (
+                <article key={i} className="buyer-sector-card">
+                  <div className="buyer-sector-card-number">{String(i + 1).padStart(2, '0')}</div>
+                  <div className="buyer-sector-card-icon">{card.icon?.trim() || '◆'}</div>
+                  <h3 className="buyer-sector-card-title">{card.title}</h3>
+                  {card.description && <p className="buyer-sector-card-body">{card.description}</p>}
+                  {card.href && (
+                    <a
+                      href={card.href}
+                      className="buyer-sector-card-cta"
+                      target={card.openInNewTab ? '_blank' : undefined}
+                      rel={card.openInNewTab ? 'noopener noreferrer' : undefined}
+                    >
+                      {card.buttonLabel || 'Meer info'}
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
 
       {showFinal && (
         <section className="buyer-final-wrap">
+          <div className="buyer-final-bg" aria-hidden />
           <div className="buyer-final-in">
+            <div className="buyer-final-kicker">Buyer registration</div>
             {finalCtaTitle && <h2 className="buyer-final-title">{finalCtaTitle}</h2>}
             {finalCtaBody && <p className="buyer-final-body">{finalCtaBody}</p>}
             {finalCtaButtonLabel?.trim() && (

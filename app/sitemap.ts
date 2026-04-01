@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { client } from '../sanity/client'
 import { getSectorSlugs, getInsightSlugs, getBuyerSlugs } from '../sanity/queries'
 import { activeLocales } from '../i18n/locales'
+import { getBuyerBasePath } from '../lib/buyerPaths'
 
 const DOMAIN = 'https://insights.dome-auctions.com'
 
@@ -48,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const row of buyerPages) {
     if (row.slug && row.locale) {
       entries.push({
-        url: `${DOMAIN}/${row.locale}/buyers/${row.slug}`,
+        url: `${DOMAIN}/${row.locale}/${getBuyerBasePath(row.locale)}/${row.slug}`,
         lastModified: new Date(),
         changeFrequency: 'monthly',
         priority: 0.75,

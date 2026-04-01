@@ -34,7 +34,7 @@ export const buyerPageSchema = defineType({
       title: 'Slug',
       type: 'slug',
       group: 'basis',
-      description: 'URL: /{locale}/buyers/{slug}. Alleen kleine letters en koppeltekens.',
+      description: 'URL: /{locale}/{kopers|acheteurs|buyers}/{slug}. Alleen kleine letters en koppeltekens.',
       options: {
         source: 'heroTitle',
         slugify: (input: string) =>
@@ -286,7 +286,7 @@ export const buyerPageSchema = defineType({
     prepare({ slug, locale, heroTitle }) {
       return {
         title: heroTitle || slug || 'Buyer page',
-        subtitle: `${locale ?? '?'} · /${locale}/buyers/${slug}`,
+        subtitle: `${locale ?? '?'} · /${locale}/{kopers|acheteurs|buyers}/${slug}`,
       }
     },
   },

@@ -9,6 +9,7 @@ import { urlFor } from '../sanity/client'
 import { getLocaleString, type SiteSettings } from '../lib/siteSettings'
 import { activeLocales } from '../i18n/locales'
 import { getLocaleDisplayLabel, getLocaleShortLabel } from '../i18n/localeLabels'
+import { getBuyerBasePath, isBuyerBasePath } from '../lib/buyerPaths'
 
 export default function Navbar({ settings }: { settings?: SiteSettings | null }) {
   const locale = useLocale()
@@ -41,8 +42,8 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
       return
     }
 
-    // Buyer registration landing: /{locale}/buyers/{slug}
-    if (second === 'buyers' && third) {
+    // Buyer registration landing: /{locale}/{kopers|acheteurs|buyers}/{slug}
+    if (isBuyerBasePath(second) && third) {
       fetch(`/api/buyer-locales?slug=${encodeURIComponent(third)}&locale=${encodeURIComponent(localeSeg)}`)
         .then((res) => res.json())
         .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
@@ -50,8 +51,8 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
       return
     }
 
-    // Landing page detail: /{locale}/{slug} (excluding /insights, /articles, /buyers)
-    if (segments.length >= 2 && second && second !== 'articles' && second !== 'insights' && second !== 'buyers') {
+    // Landing page detail: /{locale}/{slug} (excluding /insights, /articles, buyer base paths)
+    if (segments.length >= 2 && second && second !== 'articles' && second !== 'insights' && !isBuyerBasePath(second)) {
       fetch(`/api/sector-locales?sector=${encodeURIComponent(second)}&locale=${encodeURIComponent(localeSeg)}`)
         .then((res) => res.json())
         .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
@@ -65,7 +66,19 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
 
   const localesToShow = pageLocales ?? [...activeLocales]
   const showLangSelector = localesToShow.length > 1
-  const localeSwitchPath = (code: string) => pathname.replace(/^\/[^/]+/, `/${code}`)
+  const localeSwitchPath = (code: string) => {
+    const segments = pathname.split('/').filter(Boolean)
+    if (!segments.length) return pathname
+
+    const next = [...segments]
+    next[0] = code
+
+    if (isBuyerBasePath(segments[1])) {
+      next[1] = getBuyerBasePath(code)
+    }
+
+    return `/${next.join('/')}`
+  }
 
   useEffect(() => {
     const h = (e: MouseEvent) => {

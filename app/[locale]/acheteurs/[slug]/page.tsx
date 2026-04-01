@@ -19,10 +19,10 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>
 }
 
-export default async function BuyerRegistrationPage({ params }: Props) {
+export default async function BuyerRegistrationPageFr({ params }: Props) {
   const { locale, slug } = await params
   if (!isAppLocale(locale)) notFound()
-  if (locale !== 'en-be') notFound()
+  if (locale !== 'fr-be') notFound()
 
   const { isEnabled } = await draftMode()
   const preview = isEnabled
@@ -59,6 +59,9 @@ export default async function BuyerRegistrationPage({ params }: Props) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   if (!isAppLocale(locale)) {
+    return { title: 'Dome Auctions' }
+  }
+  if (locale !== 'fr-be') {
     return { title: 'Dome Auctions' }
   }
 
@@ -115,7 +118,7 @@ export async function generateStaticParams() {
     (p) =>
       typeof p.slug === 'string' &&
       typeof p.locale === 'string' &&
-      p.locale === 'en-be' &&
+      p.locale === 'fr-be' &&
       activeLocales.includes(p.locale as (typeof activeLocales)[number])
   )
 
@@ -124,3 +127,4 @@ export async function generateStaticParams() {
     slug: p.slug as string,
   }))
 }
+
