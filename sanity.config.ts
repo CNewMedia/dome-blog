@@ -16,6 +16,26 @@ export default defineConfig({
     cloudinarySchemaPlugin(),
   ],
   document: {
+    newDocumentOptions: (prev, context) => {
+      const creationContext = (context as any)?.creationContext as Record<string, unknown> | undefined
+      if (!creationContext || creationContext.type !== 'structure') return prev
+
+      // Sanity's structure creation context shape varies by version/tooling.
+      // Use a defensive text snapshot to detect our locale pane ids.
+      const ctxText = JSON.stringify(creationContext)
+      const inBuyerLocalePane = ctxText.includes('lp-buyer-locale-')
+      const inSectorLocalePane = ctxText.includes('lp-sector-locale-')
+
+      if (inBuyerLocalePane) {
+        return prev.filter((item) => item.templateId === 'buyer-page-new')
+      }
+
+      if (inSectorLocalePane) {
+        return prev.filter((item) => item.templateId === 'sector-page-klassiek')
+      }
+
+      return prev
+    },
     productionUrl: async (prev, context) => {
       const url = resolveProductionUrl(context.document as any)
       if (!url) return prev
@@ -50,7 +70,7 @@ export default defineConfig({
         id: 'buyer-page-new',
         title: 'Nieuwe buyer registratiepagina',
         schemaType: 'buyerPage',
-        description: 'Algemene veilingmeldingen / buyer registration; URL /{locale}/buyers/{slug}.',
+        description: 'Algemene veilingmeldingen / buyer registration; URL /{locale}/{kopers|acheteurs|buyers}/{slug}.',
         icon: SparklesIcon,
         value: () => ({}),
       },
