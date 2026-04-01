@@ -116,6 +116,14 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               <h1 className="sector-hero-h1">{heroTitle}</h1>
               {heroSubtitle && <p className="sector-hero-sub">{heroSubtitle}</p>}
               {heroBody && <p className="buyer-hero-body">{heroBody}</p>}
+              {showHeroCta && (
+                <a href={heroHref} className="sector-hero-cta buyer-hero-cta">
+                  {heroCtaLabel}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+              )}
               {safeStats.length ? (
                 <div className="buyer-hero-stats">
                   {safeStats.map((s, i) => (
@@ -126,14 +134,6 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
                   ))}
                 </div>
               ) : null}
-              {showHeroCta && (
-                <a href={heroHref} className="sector-hero-cta">
-                  {heroCtaLabel}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </a>
-              )}
             </div>
             <div className="buyer-hero-right" aria-hidden>
               <div className="buyer-hero-right-bg" />
@@ -142,7 +142,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               {safeSectorCards.length ? (
                 <div className="buyer-sector-badges">
                   {safeSectorCards.slice(0, 5).map((card, i) => (
-                    <div key={i} className="buyer-sector-badge">
+                    <div key={i} className="buyer-sector-badge buyer-sector-badge--chip">
                       <span className="buyer-sector-pill-dot">{card.icon?.trim() || '◆'}</span>
                       <div>
                         <div className="buyer-sector-badge-title">{card.title}</div>
@@ -168,18 +168,20 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
             {formTitle && <h2 className="sector-cta-title">{formTitle}</h2>}
             <p className="sector-cta-sub buyer-form-sub">
               {formSubtitle ??
-                'Laat uw gegevens achter. We sturen veilingmeldingen volgens uw voorkeuren. Geen verplichtingen.'}
+                'U ontvangt alleen meldingen voor de sectoren die u selecteert — relevant en op tijd.'}
             </p>
             <ul className="buyer-form-points">
-              <li>Realtime veilingalerts op maat van uw sectorinteresses</li>
-              <li>Enkel relevante updates, geen ruis</li>
-              <li>Volledig via HubSpot, zodat opvolging centraal blijft</li>
+              <li>Meldingen volgens uw voorkeuren</li>
+              <li>Alleen relevante veilingkansen</li>
+              <li>Altijd als eerste op de hoogte</li>
             </ul>
           </div>
           <div className="sector-cta-form-box buyer-form-box">
             <div className="buyer-form-box-head">
-              <div className="buyer-form-box-kicker">Registratie</div>
-              <div className="buyer-form-box-title">Ontvang als eerste nieuwe veilingkansen</div>
+              <div className="buyer-form-box-kicker">Inschrijving</div>
+              <div className="buyer-form-box-title">
+                Ontvang als eerste relevante kansen in uw sectoren
+              </div>
             </div>
             <HubSpotFormOverrides />
             {hubspotFormId ? (
