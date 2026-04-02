@@ -11,7 +11,9 @@
     "backfill:sector:write": "tsx scripts/backfill-sector-page-fields.ts --write",
     "audit:sector": "tsx scripts/audit-sector-pages.ts",
     "seed:sector": "tsx scripts/seed-sector-pages.ts",
-    "seed:sector:write": "tsx scripts/seed-sector-pages.ts --write"
+    "seed:sector:write": "tsx scripts/seed-sector-pages.ts --write",
+    "seed:buyer-nl-be": "tsx scripts/seed-buyer-page-nl-be.ts",
+    "seed:buyer-nl-be:write": "tsx scripts/seed-buyer-page-nl-be.ts --write"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.0",

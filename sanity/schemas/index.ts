@@ -1,5 +1,6 @@
 import { postSchema } from './post'
 import { sectorPageSchema } from './sectorPage'
+import { buyerPageSchema } from './buyerPage'
 import { siteSettingsSchema } from './siteSettings'
 import { teamMemberSchema } from './teamMember'
 import { tagSchema } from './tag'
@@ -15,6 +16,7 @@ import tableBlock from './objects/tableBlock'
 export const schemaTypes = [
   postSchema,
   sectorPageSchema,
+  buyerPageSchema,
   siteSettingsSchema,
   teamMemberSchema,
   tagSchema,

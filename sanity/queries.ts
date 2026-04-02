@@ -256,6 +256,57 @@ export const getSiteSettings = groq`*[_type == "siteSettings"][0]{
   nieuwsbriefTitel
 }`
 
+/** Buyer registration landing pages (general auction alerts; not sectorPage) */
+export const getBuyerPage = groq`*[_type == "buyerPage" && slug.current == $slug && locale == $locale][0]{
+  _id,
+  "slug": slug.current,
+  locale,
+  translationKey,
+  heroEyebrow,
+  heroTitle,
+  heroSubtitle,
+  heroBody,
+  heroImage,
+  heroCtaLabel,
+  heroCtaHref,
+  stats[]{ value, label },
+  formEyebrow,
+  formTitle,
+  formSubtitle,
+  hubspotFormId,
+  stepsSectionEyebrow,
+  stepsSectionTitle,
+  steps[]{ icon, title, description },
+  sectorCardsSectionEyebrow,
+  sectorCardsSectionTitle,
+  sectorCards[]{ icon, title, description, image, href, buttonLabel, openInNewTab },
+  finalCtaTitle,
+  finalCtaBody,
+  finalCtaButtonLabel,
+  finalCtaButtonHref,
+  seoTitle,
+  seoDescription,
+  ogImage
+}`
+
+export const getBuyerSlugs = groq`*[_type == "buyerPage" && defined(locale) && defined(slug.current)]{
+  "slug": slug.current,
+  "locale": locale
+}`
+
+export const getBuyerAvailableLocales = groq`{
+  "availableLocales": array::unique(
+    coalesce(
+      *[_type == "buyerPage" && defined(translationKey) && translationKey == *[
+        _type == "buyerPage" &&
+        locale == $locale &&
+        slug.current == $slug
+      ][0].translationKey].locale,
+      *[_type == "buyerPage" && locale == $locale && slug.current == $slug].locale
+    )
+  )
+}`
+
 export const getSiteChrome = (locale: string) => {
   return groq`*[_type == "siteChrome" && locale == $locale][0]{
     _id,

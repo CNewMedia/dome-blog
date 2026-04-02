@@ -1,3 +1,5 @@
+import { getBuyerBasePath } from '../lib/buyerPaths'
+
 const DOMAIN = 'https://insights.dome-auctions.com'
 
 type Doc = {
@@ -27,7 +29,7 @@ export function resolveProductionUrl(doc: Doc | null | undefined): string | null
   }
 
   if (_type === 'buyerPage') {
-    return `${DOMAIN}/${loc}/buyers/${slugStr}`
+    return `${DOMAIN}/${loc}/${getBuyerBasePath(loc)}/${slugStr}`
   }
 
   if (_type === 'post') {

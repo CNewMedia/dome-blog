@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { client, urlFor } from '../../../../sanity/client'
+import { draftMode } from 'next/headers'
+import { client, previewClient, urlFor } from '../../../../sanity/client'
 import { getInsight, getRecentInsights, getInsights } from '../../../../sanity/queries'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -88,9 +89,11 @@ export async function generateMetadata(
 export default async function InsightPage({ params }: Props) {
   const { locale, slug } = await params
   const t = await getTranslations('insights')
+  const { isEnabled } = await draftMode()
+  const preview = isEnabled
   const [post, recentPosts] = await Promise.all([
-    client.fetch(getInsight(locale), { slug, locale }),
-    client.fetch(getRecentInsights(locale), { locale }),
+    (preview ? previewClient : client).fetch(getInsight(locale), { slug, locale }),
+    (preview ? previewClient : client).fetch(getRecentInsights(locale), { locale }),
   ])
 
   if (!post) notFound()

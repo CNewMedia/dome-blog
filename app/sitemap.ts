@@ -1,14 +1,16 @@
 import type { MetadataRoute } from 'next'
 import { client } from '../sanity/client'
-import { getSectorSlugs, getInsightSlugs } from '../sanity/queries'
+import { getSectorSlugs, getInsightSlugs, getBuyerSlugs } from '../sanity/queries'
 import { activeLocales } from '../i18n/locales'
+import { getBuyerBasePath } from '../lib/buyerPaths'
 
 const DOMAIN = 'https://insights.dome-auctions.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [sectorPages, insightSlugs] = await Promise.all([
+  const [sectorPages, insightSlugs, buyerPages] = await Promise.all([
     client.fetch(getSectorSlugs) as Promise<{ slug: string; locale: string }[]>,
     client.fetch(getInsightSlugs) as Promise<{ slug: string; locale: string }[]>,
+    client.fetch(getBuyerSlugs) as Promise<{ slug: string; locale: string }[]>,
   ])
 
   const entries: MetadataRoute.Sitemap = []
@@ -40,6 +42,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency: 'monthly',
         priority: 0.8,
+      })
+    }
+  }
+
+  for (const row of buyerPages) {
+    if (row.slug && row.locale) {
+      entries.push({
+        url: `${DOMAIN}/${row.locale}/${getBuyerBasePath(row.locale)}/${row.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.75,
       })
     }
   }

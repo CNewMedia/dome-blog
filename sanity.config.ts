@@ -1,7 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { cloudinarySchemaPlugin } from 'sanity-plugin-cloudinary'
-import { DocumentIcon, SparklesIcon, UsersIcon } from '@sanity/icons'
+import { DocumentIcon, SparklesIcon } from '@sanity/icons'
 import { schemaTypes } from './sanity/schemas'
 import { defaultDocumentNode, structure } from './sanity/structure'
 import { resolveProductionUrl } from './sanity/resolveProductionUrl'
@@ -16,6 +16,22 @@ export default defineConfig({
     cloudinarySchemaPlugin(),
   ],
   document: {
+    newDocumentOptions: (prev, context) => {
+      const creationContext = (context as any)?.creationContext as Record<string, unknown> | undefined
+      if (!creationContext || creationContext.type !== 'structure') return prev
+
+      const schemaType = creationContext.schemaType
+
+      if (schemaType === 'buyerPage') {
+        return prev.filter((item) => item.templateId === 'buyer-page-new')
+      }
+
+      if (schemaType === 'sectorPage') {
+        return prev.filter((item) => item.templateId === 'sector-page-klassiek')
+      }
+
+      return prev
+    },
     productionUrl: async (prev, context) => {
       const url = resolveProductionUrl(context.document as any)
       if (!url) return prev
@@ -47,21 +63,10 @@ export default defineConfig({
         }),
       },
       {
-        id: 'sector-page-buyer',
-        title: 'Nieuwe buyer page',
-        schemaType: 'sectorPage',
-        description: 'Doelgroeppagina voor kopers; vul sector-koppeling en slug in.',
-        icon: UsersIcon,
-        value: () => ({
-          pageCategory: 'audience',
-          audienceType: 'buyer',
-        }),
-      },
-      {
         id: 'buyer-page-new',
         title: 'Nieuwe buyer registratiepagina',
         schemaType: 'buyerPage',
-        description: 'Algemene veilingmeldingen / buyer registration; URL /{locale}/buyers/{slug}.',
+        description: 'Algemene veilingmeldingen / buyer registration; URL /{locale}/{kopers|acheteurs|buyers}/{slug}.',
         icon: SparklesIcon,
         value: () => ({}),
       },
