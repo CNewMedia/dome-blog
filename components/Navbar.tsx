@@ -1,6 +1,6 @@
 'use client'
 
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -13,6 +13,7 @@ import { getBuyerBasePath, isBuyerBasePath } from '../lib/buyerPaths'
 
 export default function Navbar({ settings }: { settings?: SiteSettings | null }) {
   const locale = useLocale()
+  const tNav = useTranslations('nav')
   const pathname = usePathname()
   const da = locale === 'nl-be' ? 'nl' : locale
   const [langOpen, setLangOpen] = useState(false)
@@ -42,12 +43,9 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
       return
     }
 
-    // Buyer registration landing: /{locale}/{kopers|acheteurs|buyers}/{slug}
+    // Buyer registration landing: show all configured locales (404 if target has no content).
     if (isBuyerBasePath(second) && third) {
-      fetch(`/api/buyer-locales?slug=${encodeURIComponent(third)}&locale=${encodeURIComponent(localeSeg)}`)
-        .then((res) => res.json())
-        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
-        .catch(() => setPageLocales([]))
+      setPageLocales([...activeLocales])
       return
     }
 
@@ -188,10 +186,10 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
           ) : (
             <>
               <Link href={`https://dome-auctions.com/${da}/auctions/`} className="nav-a">
-                {locale === 'nl-be' ? 'Alle veilingen' : locale === 'fr-be' ? 'Toutes les ventes' : locale === 'de' ? 'Alle Auktionen' : 'All auctions'}
+                {tNav('allAuctions')}
               </Link>
               <Link href={`/${locale}`} className="nav-a on">
-                Insights
+                {tNav('insights')}
               </Link>
             </>
           )}
@@ -203,7 +201,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-            {locale === 'nl-be' ? 'Zoek kavels...' : locale === 'fr-be' ? 'Rechercher...' : locale === 'de' ? 'Suchen...' : 'Search lots...'}
+            {tNav('searchPlaceholder')}
           </div>
 
           {showLangSelector && (
@@ -237,7 +235,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
           )}
 
           <Link href={`https://dome-auctions.com/${da}/login/`} className="nav-btn">
-            {locale === 'nl-be' ? 'Inloggen' : locale === 'fr-be' ? 'Se connecter' : locale === 'de' ? 'Einloggen' : 'Sign in'}
+            {tNav('signIn')}
           </Link>
         </div>
       </nav>

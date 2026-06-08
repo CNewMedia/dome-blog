@@ -1,0 +1,431 @@
+{
+  "_meta": {
+    "description": "Chrome-copy (navbar/footer) per locale voor dome-blog. NL=bron, EN/FR/DE native, PL/RO/HU/BG/SK/SL = AI-concept, te valideren door Raluca.",
+    "waar_elke_string_thuishoort": {
+      "sanity_siteChrome": [
+        "companyName",
+        "logoAlt",
+        "newsletterTitle (toggle)",
+        "footerPrimaryLinks[]",
+        "footerLegalLinks[]"
+      ],
+      "messages_json": [
+        "footer.newsletter",
+        "footer.newsletterPlaceholder",
+        "footer.subscribe",
+        "nav.allAuctions",
+        "nav.insights",
+        "nav.searchPlaceholder",
+        "nav.signIn"
+      ],
+      "code": [
+        "LOCALE_MAP uitbreiden met de 7 nieuwe locales",
+        "Navbar nav-strings uit messages laten lezen i.p.v. hardcoded"
+      ]
+    },
+    "footer_hrefs": "pl/ro/hu/bg/sk/sl wijzen naar /en/ op de hoofdsite (geen eigen taalversie); bevestig of DE-pagina's bestaan op /de/.",
+    "newsletterTitle": "Niet-leeg = newsletterblok AAN; zichtbare titel komt uit messages footer.newsletter."
+  },
+  "locales": {
+    "nl-be": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Dome Auctions-logo",
+        "newsletterTitle": "Schrijf je in voor de nieuwsbrief",
+        "footerPrimaryLinks": [
+          {
+            "label": "Over ons",
+            "href": "https://dome-auctions.com/nl/about/"
+          },
+          {
+            "label": "Veelgestelde vragen",
+            "href": "https://dome-auctions.com/nl/faq/"
+          },
+          {
+            "label": "Contacteer ons",
+            "href": "https://dome-auctions.com/nl/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Algemene voorwaarden",
+            "href": "https://dome-auctions.com/nl/terms-and-conditions/"
+          },
+          {
+            "label": "Privacybeleid",
+            "href": "https://dome-auctions.com/nl/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Schrijf je in voor de nieuwsbrief",
+        "footer.newsletterPlaceholder": "E-mail",
+        "footer.subscribe": "Inschrijven",
+        "nav.allAuctions": "Alle veilingen",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Zoeken...",
+        "nav.signIn": "Inloggen"
+      }
+    },
+    "en-be": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Dome Auctions logo",
+        "newsletterTitle": "Subscribe to Newsletter",
+        "footerPrimaryLinks": [
+          {
+            "label": "About us",
+            "href": "https://dome-auctions.com/en/about/"
+          },
+          {
+            "label": "FAQ",
+            "href": "https://dome-auctions.com/en/faq/"
+          },
+          {
+            "label": "Contact us",
+            "href": "https://dome-auctions.com/en/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Terms & Conditions",
+            "href": "https://dome-auctions.com/en/terms-and-conditions/"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "https://dome-auctions.com/en/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Subscribe to Newsletter",
+        "footer.newsletterPlaceholder": "Email",
+        "footer.subscribe": "Subscribe",
+        "nav.allAuctions": "All auctions",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Search...",
+        "nav.signIn": "Sign in"
+      }
+    },
+    "fr-be": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Logo Dome Auctions",
+        "newsletterTitle": "Inscrivez-vous à la newsletter",
+        "footerPrimaryLinks": [
+          {
+            "label": "À propos",
+            "href": "https://dome-auctions.com/fr/about/"
+          },
+          {
+            "label": "Questions fréquentes",
+            "href": "https://dome-auctions.com/fr/faq/"
+          },
+          {
+            "label": "Contactez-nous",
+            "href": "https://dome-auctions.com/fr/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Conditions générales",
+            "href": "https://dome-auctions.com/fr/terms-and-conditions/"
+          },
+          {
+            "label": "Politique de confidentialité",
+            "href": "https://dome-auctions.com/fr/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Inscrivez-vous à la newsletter",
+        "footer.newsletterPlaceholder": "E-mail",
+        "footer.subscribe": "S'inscrire",
+        "nav.allAuctions": "Toutes les enchères",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Rechercher...",
+        "nav.signIn": "Se connecter"
+      }
+    },
+    "de": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Dome Auctions Logo",
+        "newsletterTitle": "Newsletter abonnieren",
+        "footerPrimaryLinks": [
+          {
+            "label": "Über uns",
+            "href": "https://dome-auctions.com/de/about/"
+          },
+          {
+            "label": "Häufige Fragen",
+            "href": "https://dome-auctions.com/de/faq/"
+          },
+          {
+            "label": "Kontaktieren Sie uns",
+            "href": "https://dome-auctions.com/de/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "AGB",
+            "href": "https://dome-auctions.com/de/terms-and-conditions/"
+          },
+          {
+            "label": "Datenschutzerklärung",
+            "href": "https://dome-auctions.com/de/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Newsletter abonnieren",
+        "footer.newsletterPlaceholder": "E-Mail",
+        "footer.subscribe": "Abonnieren",
+        "nav.allAuctions": "Alle Auktionen",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Suchen...",
+        "nav.signIn": "Anmelden"
+      }
+    },
+    "pl": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Logo Dome Auctions",
+        "newsletterTitle": "Zapisz się do newslettera",
+        "footerPrimaryLinks": [
+          {
+            "label": "O nas",
+            "href": "https://dome-auctions.com/en/about/"
+          },
+          {
+            "label": "Najczęstsze pytania",
+            "href": "https://dome-auctions.com/en/faq/"
+          },
+          {
+            "label": "Skontaktuj się",
+            "href": "https://dome-auctions.com/en/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Regulamin",
+            "href": "https://dome-auctions.com/en/terms-and-conditions/"
+          },
+          {
+            "label": "Polityka prywatności",
+            "href": "https://dome-auctions.com/en/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Zapisz się do newslettera",
+        "footer.newsletterPlaceholder": "E-mail",
+        "footer.subscribe": "Zapisz się",
+        "nav.allAuctions": "Wszystkie aukcje",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Szukaj...",
+        "nav.signIn": "Zaloguj się"
+      }
+    },
+    "ro": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Logo Dome Auctions",
+        "newsletterTitle": "Abonează-te la newsletter",
+        "footerPrimaryLinks": [
+          {
+            "label": "Despre noi",
+            "href": "https://dome-auctions.com/en/about/"
+          },
+          {
+            "label": "Întrebări frecvente",
+            "href": "https://dome-auctions.com/en/faq/"
+          },
+          {
+            "label": "Contactează-ne",
+            "href": "https://dome-auctions.com/en/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Termeni și condiții",
+            "href": "https://dome-auctions.com/en/terms-and-conditions/"
+          },
+          {
+            "label": "Politica de confidențialitate",
+            "href": "https://dome-auctions.com/en/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Abonează-te la newsletter",
+        "footer.newsletterPlaceholder": "E-mail",
+        "footer.subscribe": "Abonează-te",
+        "nav.allAuctions": "Toate licitațiile",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Caută...",
+        "nav.signIn": "Autentificare"
+      }
+    },
+    "hu": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Dome Auctions logó",
+        "newsletterTitle": "Iratkozz fel a hírlevélre",
+        "footerPrimaryLinks": [
+          {
+            "label": "Rólunk",
+            "href": "https://dome-auctions.com/en/about/"
+          },
+          {
+            "label": "Gyakori kérdések",
+            "href": "https://dome-auctions.com/en/faq/"
+          },
+          {
+            "label": "Kapcsolat",
+            "href": "https://dome-auctions.com/en/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Általános szerződési feltételek",
+            "href": "https://dome-auctions.com/en/terms-and-conditions/"
+          },
+          {
+            "label": "Adatvédelmi szabályzat",
+            "href": "https://dome-auctions.com/en/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Iratkozz fel a hírlevélre",
+        "footer.newsletterPlaceholder": "E-mail",
+        "footer.subscribe": "Feliratkozás",
+        "nav.allAuctions": "Összes árverés",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Keresés...",
+        "nav.signIn": "Bejelentkezés"
+      }
+    },
+    "bg": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Лого на Dome Auctions",
+        "newsletterTitle": "Абонирайте се за бюлетина",
+        "footerPrimaryLinks": [
+          {
+            "label": "За нас",
+            "href": "https://dome-auctions.com/en/about/"
+          },
+          {
+            "label": "Често задавани въпроси",
+            "href": "https://dome-auctions.com/en/faq/"
+          },
+          {
+            "label": "Свържете се с нас",
+            "href": "https://dome-auctions.com/en/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Общи условия",
+            "href": "https://dome-auctions.com/en/terms-and-conditions/"
+          },
+          {
+            "label": "Политика за поверителност",
+            "href": "https://dome-auctions.com/en/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Абонирайте се за бюлетина",
+        "footer.newsletterPlaceholder": "Имейл",
+        "footer.subscribe": "Абониране",
+        "nav.allAuctions": "Всички търгове",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Търсене...",
+        "nav.signIn": "Вход"
+      }
+    },
+    "sk": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Logo Dome Auctions",
+        "newsletterTitle": "Prihláste sa na odber noviniek",
+        "footerPrimaryLinks": [
+          {
+            "label": "O nás",
+            "href": "https://dome-auctions.com/en/about/"
+          },
+          {
+            "label": "Časté otázky",
+            "href": "https://dome-auctions.com/en/faq/"
+          },
+          {
+            "label": "Kontaktujte nás",
+            "href": "https://dome-auctions.com/en/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Obchodné podmienky",
+            "href": "https://dome-auctions.com/en/terms-and-conditions/"
+          },
+          {
+            "label": "Zásady ochrany osobných údajov",
+            "href": "https://dome-auctions.com/en/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Prihláste sa na odber noviniek",
+        "footer.newsletterPlaceholder": "E-mail",
+        "footer.subscribe": "Prihlásiť sa",
+        "nav.allAuctions": "Všetky aukcie",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Hľadať...",
+        "nav.signIn": "Prihlásiť sa"
+      }
+    },
+    "sl": {
+      "siteChrome": {
+        "companyName": "Dome Auctions",
+        "logoAlt": "Logotip Dome Auctions",
+        "newsletterTitle": "Naročite se na e-novice",
+        "footerPrimaryLinks": [
+          {
+            "label": "O nas",
+            "href": "https://dome-auctions.com/en/about/"
+          },
+          {
+            "label": "Pogosta vprašanja",
+            "href": "https://dome-auctions.com/en/faq/"
+          },
+          {
+            "label": "Kontaktirajte nas",
+            "href": "https://dome-auctions.com/en/contact/"
+          }
+        ],
+        "footerLegalLinks": [
+          {
+            "label": "Splošni pogoji",
+            "href": "https://dome-auctions.com/en/terms-and-conditions/"
+          },
+          {
+            "label": "Politika zasebnosti",
+            "href": "https://dome-auctions.com/en/privacy-policy/"
+          }
+        ]
+      },
+      "messages": {
+        "footer.newsletter": "Naročite se na e-novice",
+        "footer.newsletterPlaceholder": "E-pošta",
+        "footer.subscribe": "Naročite se",
+        "nav.allAuctions": "Vse dražbe",
+        "nav.insights": "Insights",
+        "nav.searchPlaceholder": "Iskanje...",
+        "nav.signIn": "Prijava"
+      }
+    }
+  }
+}

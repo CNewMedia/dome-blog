@@ -17,6 +17,10 @@ export const structure = (S: StructureBuilder) =>
     .title('Dome Auctions Insights')
     .items([
       S.listItem()
+        .title('Site instellingen (globaal)')
+        .schemaType('siteSettings')
+        .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
+      S.listItem()
         .title('Site Chrome')
         .schemaType('siteChrome')
         .child(

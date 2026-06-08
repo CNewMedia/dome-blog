@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { draftMode } from 'next/headers'
-import { client, previewClient, urlFor } from '../../../../sanity/client'
+import { client, urlFor } from '../../../../sanity/client'
+import { previewClient } from '../../../../sanity/previewClient'
 import { getInsight, getRecentInsights, getInsights } from '../../../../sanity/queries'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -92,8 +93,8 @@ export default async function InsightPage({ params }: Props) {
   const { isEnabled } = await draftMode()
   const preview = isEnabled
   const [post, recentPosts] = await Promise.all([
-    (preview ? previewClient : client).fetch(getInsight(locale), { slug, locale }),
-    (preview ? previewClient : client).fetch(getRecentInsights(locale), { locale }),
+    (preview && previewClient ? previewClient : client).fetch(getInsight(locale), { slug, locale }),
+    (preview && previewClient ? previewClient : client).fetch(getRecentInsights(locale), { locale }),
   ])
 
   if (!post) notFound()

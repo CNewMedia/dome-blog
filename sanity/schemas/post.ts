@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { InsightsTranslationPanel } from '../components/InsightsTranslationPanel'
+import { appLocaleFieldOptions } from './appLocaleOptions'
 
 export const postSchema = defineType({
   name: 'post',
@@ -10,14 +11,7 @@ export const postSchema = defineType({
       name: 'locale',
       title: 'Locale',
       type: 'string',
-      options: {
-        list: [
-          { title: 'Nederlands (België)', value: 'nl-be' },
-          { title: 'Français (Belgique)', value: 'fr-be' },
-          { title: 'English (Belgium)', value: 'en-be' },
-        ],
-        layout: 'dropdown',
-      },
+      options: appLocaleFieldOptions,
       validation: (Rule) => Rule.required(),
       description: 'Language and region for this article (for example nl-be, fr-be or en-be).',
     }),

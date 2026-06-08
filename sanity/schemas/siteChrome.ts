@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {appLocaleFieldOptions} from './appLocaleOptions'
 
 export default defineType({
   name: 'siteChrome',
@@ -9,13 +10,7 @@ export default defineType({
       name: 'locale',
       title: 'Taal',
       type: 'string',
-      options: {
-        list: [
-          {title: 'Nederlands (België)', value: 'nl-be'},
-          {title: 'Français (Belgique)', value: 'fr-be'},
-          {title: 'English (Belgium)', value: 'en-be'},
-        ],
-      },
+      options: appLocaleFieldOptions,
       validation: (Rule) => Rule.required(),
     }),
 

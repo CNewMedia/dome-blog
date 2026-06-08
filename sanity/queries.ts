@@ -237,23 +237,7 @@ export const getTeamMembers = groq`*[_type == "teamMember" && actief == true] | 
 
 export const getSiteSettings = groq`*[_type == "siteSettings"][0]{
   _id,
-  logo,
-  logoAlt,
-  bedrijfsnaam,
-  tagline,
-  headerMenu[] {
-    label,
-    url,
-    submenu[] { label, url }
-  },
-  footerKolommen[] {
-    titel,
-    links[] { label, url }
-  },
-  socialLinks[] { platform, url },
-  adres,
-  copyrightTekst,
-  nieuwsbriefTitel
+  googleTagManagerId
 }`
 
 /** Buyer registration landing pages (general auction alerts; not sectorPage) */
@@ -269,6 +253,18 @@ export const getBuyerPage = groq`*[_type == "buyerPage" && slug.current == $slug
   heroImage,
   heroCtaLabel,
   heroCtaHref,
+  allAuctionsUrl,
+  heroCtaSecondary,
+  navRegisterCta,
+  urgencyLine,
+  auctionCards[]{ label, subtitle, href },
+  categoriesHeading,
+  categories[]{ label, href },
+  brandsHeading,
+  brandNames,
+  brands[]{ name, logo, href },
+  newsletter{ heading, placeholder, button },
+  pageFooter{ about, faq, contact },
   stats[]{ value, label },
   formEyebrow,
   formTitle,
@@ -306,6 +302,24 @@ export const getBuyerAvailableLocales = groq`{
     )
   )
 }`
+
+/** Publishable buyer variants in the same translation group (for hreflang). */
+export const getBuyerHreflangVariants = groq`
+  array::unique(
+    coalesce(
+      *[_type == "buyerPage" && defined(translationKey) && translationKey == *[
+        _type == "buyerPage" && locale == $locale && slug.current == $slug
+      ][0].translationKey && defined(heroTitle) && length(heroTitle) > 0 && defined(hubspotFormId) && hubspotFormId != "__TODO_HUBSPOT_FORM_ID__"]{
+        locale,
+        "slug": slug.current
+      },
+      *[_type == "buyerPage" && locale == $locale && slug.current == $slug && defined(heroTitle) && length(heroTitle) > 0 && defined(hubspotFormId) && hubspotFormId != "__TODO_HUBSPOT_FORM_ID__"]{
+        locale,
+        "slug": slug.current
+      }
+    )
+  )
+`
 
 export const getSiteChrome = (locale: string) => {
   return groq`*[_type == "siteChrome" && locale == $locale][0]{

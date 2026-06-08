@@ -27,17 +27,18 @@
     "react-dom": "^19.0.0",
     "sanity": "^3.88.0",
     "sanity-plugin-cloudinary": "^1.4.1",
+    "server-only": "^0.0.1",
     "styled-components": "^6.3.11"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0",
-    "slugify": "^1.6.6",
-    "tsx": "^4.19.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cheerio": "^1.0.0",
     "eslint": "^10.0.0",
     "eslint-config-next": "^16.1.6",
+    "slugify": "^1.6.6",
+    "tsx": "^4.19.0",
     "typescript": "^5"
   }
 }

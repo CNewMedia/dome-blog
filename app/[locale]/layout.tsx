@@ -27,7 +27,15 @@ export default async function LocaleLayout({ children, params }: Props) {
   ])
 
   const chromeSettings = buildSiteSettingsFromChrome(siteChrome, locale)
-  const effectiveSettings = chromeSettings ?? siteSettings
+  const effectiveSettings = chromeSettings ?? null
+  const trackingRaw =
+    (typeof siteSettings?.googleTagManagerId === 'string' && siteSettings.googleTagManagerId.trim()) || ''
+  const trackingId =
+    typeof trackingRaw === 'string' && /^(GTM-[A-Z0-9]+|G-[A-Z0-9]+)$/i.test(trackingRaw.trim())
+      ? trackingRaw.trim().toUpperCase()
+      : ''
+  const isGtmContainer = trackingId.startsWith('GTM-')
+  const isGa4Measurement = trackingId.startsWith('G-')
 
   const brandFontDisabled = process.env.NEXT_PUBLIC_BRAND_FONT_DISABLED === '1'
 
@@ -51,6 +59,39 @@ export default async function LocaleLayout({ children, params }: Props) {
         `}</style>
       </head>
       <body style={{ paddingTop: '60px' }}>
+        {isGtmContainer ? (
+          <Script id="gtm-init" strategy="afterInteractive">{`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${trackingId}');
+          `}</Script>
+        ) : null}
+        {isGtmContainer ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${trackingId}`}
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </noscript>
+        ) : null}
+        {isGa4Measurement ? (
+          <Script
+            id="ga4-src"
+            src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`}
+            strategy="afterInteractive"
+          />
+        ) : null}
+        {isGa4Measurement ? (
+          <Script id="ga4-init" strategy="afterInteractive">{`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${trackingId}');
+          `}</Script>
+        ) : null}
         <Script
           id="hs-script-loader"
           src="//js-eu1.hs-scripts.com/147410570.js"

@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "allAuctions": "Všetky aukcie",
+    "categories": "Categories",
+    "blog": "Insights",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Log in",
+    "insights": "Insights",
+    "searchPlaceholder": "Hľadať...",
+    "signIn": "Prihlásiť sa"
+  },
+  "insights": {
+    "title": "Insights",
+    "subtitle": "Insights, news and updates from Dome Auctions",
+    "backToInsights": "Back to insights",
+    "readMore": "Read article",
+    "minRead": "min read",
+    "featuredArticle": "Featured insight",
+    "allArticles": "All insights",
+    "latestInsights": "Latest insights",
+    "recentArticles": "Recent insights",
+    "topics": "Topics",
+    "share": "Share",
+    "noArticles": "No insights found.",
+    "filterAll": "All",
+    "filterMore": "More",
+    "filterFilters": "Filters",
+    "filterAllTopics": "All topics",
+    "viewAuctions": "View our auctions",
+    "viewAuctionsText": "Discover industrial machinery at competitive prices.",
+    "viewAllAuctions": "View all auctions"
+  },
+  "footer": {
+    "newsletter": "Prihláste sa na odber noviniek",
+    "newsletterPlaceholder": "E-mail",
+    "subscribe": "Prihlásiť sa",
+    "terms": "Terms & conditions",
+    "privacy": "Privacy policy",
+    "faq": "FAQ",
+    "about": "About us",
+    "contact": "Contact",
+    "allAuctions": "All auctions"
+  }
+}

@@ -5,7 +5,10 @@
     "blog": "Insights",
     "about": "Over ons",
     "contact": "Contact",
-    "login": "Inloggen"
+    "login": "Inloggen",
+    "insights": "Insights",
+    "searchPlaceholder": "Zoeken...",
+    "signIn": "Inloggen"
   },
   "insights": {
     "title": "Insights",
@@ -29,9 +32,9 @@
     "viewAllAuctions": "Alle veilingen bekijken"
   },
   "footer": {
-    "newsletter": "Nieuwsbrief abonneren",
-    "newsletterPlaceholder": "jouw@email.com",
-    "subscribe": "Abonneren",
+    "newsletter": "Schrijf je in voor de nieuwsbrief",
+    "newsletterPlaceholder": "E-mail",
+    "subscribe": "Inschrijven",
     "terms": "Algemene voorwaarden",
     "privacy": "Privacybeleid",
     "faq": "FAQ",

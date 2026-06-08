@@ -1,0 +1,1066 @@
+{
+  "translationKey": "buyer-heavy-equipment",
+  "slug": "heavy-equipment",
+  "brandNames": [
+    "Caterpillar",
+    "Komatsu",
+    "Volvo CE",
+    "Liebherr",
+    "Hitachi",
+    "JCB",
+    "Doosan",
+    "Case Construction"
+  ],
+  "locales": {
+    "nl-be": {
+      "publishReady": true,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Heavy equipment veiling",
+        "hero.title": "Wees als eerste op de hoogte van heavy equipment-kansen.",
+        "hero.subtitle": "Ontvang meldingen voor graafmachines, kranen en bouwmachines vóór de publieke lancering.",
+        "hero.body": "Schrijf u in en krijg toegang tot geselecteerde heavy equipment-veilingen in België en Europa.",
+        "hero.cta": "Blijf op de hoogte",
+        "hero.ctaSecondary": "Bekijk alle veilingen",
+        "nav.registerCta": "Gratis inschrijven",
+        "urgency.line": "Doorlopende veiling — nieuwe heavy equipment-kavels worden continu toegevoegd.",
+        "categories.heading": "Categorieën in deze veiling",
+        "brands.heading": "Merken in deze veiling",
+        "form.eyebrow": "Inschrijving",
+        "form.title": "Kies uw interesses. Wij sturen relevante meldingen.",
+        "form.subtitle": "U ontvangt alleen meldingen voor heavy equipment die past bij uw selectie.",
+        "newsletter.heading": "Blijf op de hoogte",
+        "newsletter.placeholder": "uw@email.com",
+        "newsletter.button": "Inschrijven",
+        "footer.about": "Over ons",
+        "footer.faq": "Veelgestelde vragen",
+        "footer.contact": "Contacteer ons",
+        "seo.title": "Heavy equipment veilingen | Dome Auctions",
+        "seo.description": "Ontvang als eerste meldingen voor heavy equipment-veilingen bij Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Heavy equipment veiling",
+            "subtitle": "Graafmachines, wielladers en bulldozers",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "label": "Bouw & infrastructuur",
+            "subtitle": "Kranen, compactors en hefplatforms",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "label": "Transport & logistiek",
+            "subtitle": "Trekkers, opleggers en trailers",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Graafmachines",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "label": "Wielladers",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "label": "Bulldozers",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "label": "Kranen",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "label": "Compactors",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "label": "Hefplatforms",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/nl/bouw-en-grondverzet/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/nl/bouw-en-grondverzet/"
+          }
+        ]
+      }
+    },
+    "fr-be": {
+      "publishReady": true,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Vente heavy equipment",
+        "hero.title": "Soyez les premiers informés des opportunités heavy equipment.",
+        "hero.subtitle": "Recevez des alertes pour pelles, grues et engins de chantier avant l’annonce publique.",
+        "hero.body": "Inscrivez-vous pour accéder à des ventes heavy equipment sélectionnées en Belgique et en Europe.",
+        "hero.cta": "Rester informé",
+        "hero.ctaSecondary": "Voir toutes les enchères",
+        "nav.registerCta": "Inscription gratuite",
+        "urgency.line": "Vente en continu — de nouveaux lots heavy equipment sont ajoutés en permanence.",
+        "categories.heading": "Catégories de cette vente",
+        "brands.heading": "Marques de cette vente",
+        "form.eyebrow": "Inscription",
+        "form.title": "Choisissez vos intérêts. Nous envoyons les alertes pertinentes.",
+        "form.subtitle": "Vous ne recevez que des notifications adaptées à votre sélection.",
+        "newsletter.heading": "Restez informé",
+        "newsletter.placeholder": "votre@email.com",
+        "newsletter.button": "S’inscrire",
+        "footer.about": "À propos",
+        "footer.faq": "FAQ",
+        "footer.contact": "Contactez-nous",
+        "seo.title": "Ventes heavy equipment | Dome Auctions",
+        "seo.description": "Recevez en premier les alertes de ventes heavy equipment chez Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Vente heavy equipment",
+            "subtitle": "Excavateurs, chargeuses et bulldozers",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "label": "Construction & infrastructure",
+            "subtitle": "Grues, compacteurs et nacelles",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "label": "Transport & logistique",
+            "subtitle": "Tracteurs, semi-remorques et remorques",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Excavateurs",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "label": "Chargeuses",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "label": "Bulldozers",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "label": "Grues",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "label": "Compacteurs",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "label": "Nacelles",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/fr/construction-et-terrassement/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/fr/construction-et-terrassement/"
+          }
+        ]
+      }
+    },
+    "en-be": {
+      "publishReady": true,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Heavy equipment auction",
+        "hero.title": "Be the first to know about heavy equipment opportunities.",
+        "hero.subtitle": "Get alerts for excavators, cranes and construction machinery before public launch.",
+        "hero.body": "Register to access selected heavy equipment auctions across Belgium and Europe.",
+        "hero.cta": "Stay informed",
+        "hero.ctaSecondary": "View all auctions",
+        "nav.registerCta": "Register for free",
+        "urgency.line": "Ongoing auction — new heavy equipment lots are added continuously.",
+        "categories.heading": "Categories in this auction",
+        "brands.heading": "Brands in this auction",
+        "form.eyebrow": "Registration",
+        "form.title": "Choose your interests. We send relevant alerts.",
+        "form.subtitle": "You only receive notifications that match your heavy equipment selection.",
+        "newsletter.heading": "Stay informed",
+        "newsletter.placeholder": "your@email.com",
+        "newsletter.button": "Subscribe",
+        "footer.about": "About us",
+        "footer.faq": "FAQ",
+        "footer.contact": "Contact us",
+        "seo.title": "Heavy equipment auctions | Dome Auctions",
+        "seo.description": "Get first alerts for heavy equipment auctions at Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Heavy equipment auction",
+            "subtitle": "Excavators, wheel loaders and bulldozers",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Construction & infrastructure",
+            "subtitle": "Cranes, compactors and lift platforms",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Transport & logistics",
+            "subtitle": "Tractors, trailers and semi-trailers",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Excavators",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Wheel loaders",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Bulldozers",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Cranes",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Compactors",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Lift platforms",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/en/construction/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ]
+      }
+    },
+    "de": {
+      "publishReady": true,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Heavy-Equipment-Auktion",
+        "hero.title": "Erfahren Sie als Erster von Heavy-Equipment-Chancen.",
+        "hero.subtitle": "Erhalten Sie Alerts für Bagger, Krane und Baumaschinen vor der öffentlichen Ankündigung.",
+        "hero.body": "Registrieren Sie sich für ausgewählte Heavy-Equipment-Auktionen in Belgien und Europa.",
+        "hero.cta": "Informiert bleiben",
+        "hero.ctaSecondary": "Alle Auktionen ansehen",
+        "nav.registerCta": "Kostenlos registrieren",
+        "urgency.line": "Verpassen Sie keine Auktion für schwere Maschinen",
+        "categories.heading": "Kategorien in dieser Auktion",
+        "brands.heading": "Marken in dieser Auktion",
+        "form.eyebrow": "Registrierung",
+        "form.title": "Wählen Sie Ihre Interessen. Wir senden relevante Alerts.",
+        "form.subtitle": "Sie erhalten nur Benachrichtigungen passend zu Ihrer Auswahl.",
+        "newsletter.heading": "Informiert bleiben",
+        "newsletter.placeholder": "ihre@email.com",
+        "newsletter.button": "Anmelden",
+        "footer.about": "Über uns",
+        "footer.faq": "FAQ",
+        "footer.contact": "Kontakt",
+        "seo.title": "Heavy-Equipment-Auktionen | Dome Auctions",
+        "seo.description": "Erhalten Sie als Erster Alerts für Heavy-Equipment-Auktionen bei Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Heavy-Equipment-Auktion",
+            "subtitle": "Bagger, Radlader und Bulldozer",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "label": "Bau & Infrastruktur",
+            "subtitle": "Krane, Verdichter und Hebebühnen",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "label": "Transport & Logistik",
+            "subtitle": "Zugmaschinen, Auflieger und Anhänger",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Bagger",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "label": "Radlader",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "label": "Bulldozer",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "label": "Krane",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "label": "Verdichter",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "label": "Hebebühnen",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/de/bau-und-erdbewegung/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/de/bau-und-erdbewegung/"
+          }
+        ]
+      }
+    },
+    "pl": {
+      "publishReady": false,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Aukcja heavy equipment",
+        "hero.title": "Dowiedz się jako pierwszy o okazjach heavy equipment.",
+        "hero.subtitle": "Otrzymuj alerty o koparkach, dźwigach i maszynach budowlanych przed publikacją.",
+        "hero.body": "Zarejestruj się, aby uzyskać dostęp do wybranych aukcji heavy equipment w Belgii i Europie.",
+        "hero.cta": "Bądź na bieżąco",
+        "hero.ctaSecondary": "Zobacz wszystkie aukcje",
+        "nav.registerCta": "Zarejestruj się za darmo",
+        "urgency.line": "Aukcja ciągła — nowe pozycje heavy equipment są dodawane na bieżąco.",
+        "categories.heading": "Kategorie w tej aukcji",
+        "brands.heading": "Marki w tej aukcji",
+        "form.eyebrow": "Rejestracja",
+        "form.title": "Wybierz zainteresowania. Wyślemy trafne alerty.",
+        "form.subtitle": "Otrzymujesz tylko powiadomienia dopasowane do Twojego wyboru.",
+        "newsletter.heading": "Bądź na bieżąco",
+        "newsletter.placeholder": "twoj@email.com",
+        "newsletter.button": "Zapisz się",
+        "footer.about": "O nas",
+        "footer.faq": "FAQ",
+        "footer.contact": "Kontakt",
+        "seo.title": "Aukcje heavy equipment | Dome Auctions",
+        "seo.description": "Otrzymuj jako pierwszy alerty o aukcjach heavy equipment w Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Aukcja heavy equipment",
+            "subtitle": "Koparki, ładowarki i buldożery",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Budownictwo i infrastruktura",
+            "subtitle": "Dźwigi, walce i podesty",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Transport i logistyka",
+            "subtitle": "Ciągniki, naczepy i przyczepy",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Koparki",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Ładowarki",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Buldożery",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Dźwigi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Walce",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Podesty robocze",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/en/construction/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ]
+      }
+    },
+    "ro": {
+      "publishReady": false,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Licitație heavy equipment",
+        "hero.title": "Fiți primii care află despre oportunități heavy equipment.",
+        "hero.subtitle": "Primiți alerte pentru excavatoare, macarale și utilaje înainte de lansarea publică.",
+        "hero.body": "Înregistrați-vă pentru acces la licitații heavy equipment selectate în Belgia și Europa.",
+        "hero.cta": "Rămâneți la curent",
+        "hero.ctaSecondary": "Vedeți toate licitațiile",
+        "nav.registerCta": "Înregistrare gratuită",
+        "urgency.line": "Licitație continuă — loturi heavy equipment noi sunt adăugate permanent.",
+        "categories.heading": "Categorii în această licitație",
+        "brands.heading": "Mărci în această licitație",
+        "form.eyebrow": "Înregistrare",
+        "form.title": "Alegeți interesele. Trimitem alerte relevante.",
+        "form.subtitle": "Primiți doar notificări potrivite selecției dvs.",
+        "newsletter.heading": "Rămâneți la curent",
+        "newsletter.placeholder": "email@dvs.com",
+        "newsletter.button": "Abonați-vă",
+        "footer.about": "Despre noi",
+        "footer.faq": "Întrebări frecvente",
+        "footer.contact": "Contactați-ne",
+        "seo.title": "Licitații heavy equipment | Dome Auctions",
+        "seo.description": "Primiți primele alerte pentru licitații heavy equipment la Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Licitație heavy equipment",
+            "subtitle": "Excavatoare, încărcătoare și buldozere",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Construcții și infrastructură",
+            "subtitle": "Macarale, compactoare și platforme",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Transport și logistică",
+            "subtitle": "Tractoare, semiremorci și remorci",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Excavatoare",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Încărcătoare",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Buldozere",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Macarale",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Compactors",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Platforme",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/en/construction/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ]
+      }
+    },
+    "hu": {
+      "publishReady": false,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Heavy equipment aukció",
+        "hero.title": "Legyen Ön az első, aki értesül a heavy equipment lehetőségekről.",
+        "hero.subtitle": "Kapjon értesítéseket kotrókról, darukról és építőgépekről a nyilvános bejelentés előtt.",
+        "hero.body": "Regisztráljon a kiválasztott heavy equipment aukciókhoz Belgiumban és Európában.",
+        "hero.cta": "Maradjon naprakész",
+        "hero.ctaSecondary": "Összes árverés megtekintése",
+        "nav.registerCta": "Ingyenes regisztráció",
+        "urgency.line": "Folyamatos aukció — új heavy equipment tételek folyamatosan érkeznek.",
+        "categories.heading": "Kategóriák ebben az aukcióban",
+        "brands.heading": "Márkák ebben az aukcióban",
+        "form.eyebrow": "Regisztráció",
+        "form.title": "Válassza ki érdeklődési köreit. Releváns értesítéseket küldünk.",
+        "form.subtitle": "Csak az Ön választásának megfelelő értesítéseket kap.",
+        "newsletter.heading": "Maradjon naprakész",
+        "newsletter.placeholder": "email@cim.com",
+        "newsletter.button": "Feliratkozás",
+        "footer.about": "Rólunk",
+        "footer.faq": "GYIK",
+        "footer.contact": "Kapcsolat",
+        "seo.title": "Heavy equipment aukciók | Dome Auctions",
+        "seo.description": "Kapja meg elsőként a heavy equipment aukciók értesítéseit a Dome Auctions-nál.",
+        "auctionCards": [
+          {
+            "label": "Heavy equipment aukció",
+            "subtitle": "Kotrók, rakodók és buldózerek",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Építés és infrastruktúra",
+            "subtitle": "Daruk, tömörítők és emelők",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Szállítás és logisztika",
+            "subtitle": "Vontatók, pótkocsik és félpótkocsik",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Kotrók",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Rakodók",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Buldózerek",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Daruk",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Tömörítők",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Emelők",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/en/construction/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ]
+      }
+    },
+    "bg": {
+      "publishReady": false,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Търг heavy equipment",
+        "hero.title": "Бъдете първите, които научават за възможности за heavy equipment.",
+        "hero.subtitle": "Получавайте известия за багери, кранове и строителна техника преди публичното обявяване.",
+        "hero.body": "Регистрирайте се за достъп до подбрани търгове за heavy equipment в Белгия и Европа.",
+        "hero.cta": "Бъдете информирани",
+        "hero.ctaSecondary": "Вижте всички търгове",
+        "nav.registerCta": "Безплатна регистрация",
+        "urgency.line": "Продължаващ търг — нови heavy equipment позиции се добавят непрекъснато.",
+        "categories.heading": "Категории в този търг",
+        "brands.heading": "Марки в този търг",
+        "form.eyebrow": "Регистрация",
+        "form.title": "Изберете интересите си. Изпращаме релевантни известия.",
+        "form.subtitle": "Получавате само известия, съответстващи на избора ви.",
+        "newsletter.heading": "Бъдете информирани",
+        "newsletter.placeholder": "vashe@email.com",
+        "newsletter.button": "Абонирайте се",
+        "footer.about": "За нас",
+        "footer.faq": "ЧЗВ",
+        "footer.contact": "Свържете се с нас",
+        "seo.title": "Търгове heavy equipment | Dome Auctions",
+        "seo.description": "Получавайте първи известия за търгове heavy equipment в Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Търг heavy equipment",
+            "subtitle": "Багери, товарачи и булдозери",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Строителство и инфраструктура",
+            "subtitle": "Кранове, компактори и платформи",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Транспорт и логистика",
+            "subtitle": "Влекачи, ремаркета и полуремаркета",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Багери",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Товарачи",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Булдозери",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Кранове",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Компактори",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Платформи",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/en/construction/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ]
+      }
+    },
+    "sk": {
+      "publishReady": false,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Aukcia heavy equipment",
+        "hero.title": "Buďte prví, kto sa dozvie o príležitostiach heavy equipment.",
+        "hero.subtitle": "Dostávajte upozornenia na bagre, žeriavy a stavebné stroje pred verejným spustením.",
+        "hero.body": "Zaregistrujte sa a získajte prístup k vybraným aukciám heavy equipment v Belgicku a Európe.",
+        "hero.cta": "Zostaňte informovaní",
+        "hero.ctaSecondary": "Zobraziť všetky aukcie",
+        "nav.registerCta": "Registrácia zdarma",
+        "urgency.line": "Priebežná aukcia — nové heavy equipment položky sa pridávajú nepretržite.",
+        "categories.heading": "Kategórie v tejto aukcii",
+        "brands.heading": "Značky v tejto aukcii",
+        "form.eyebrow": "Registrácia",
+        "form.title": "Vyberte si záujmy. Pošleme relevantné upozornenia.",
+        "form.subtitle": "Dostanete len upozornenia podľa vášho výberu.",
+        "newsletter.heading": "Zostaňte informovaní",
+        "newsletter.placeholder": "vas@email.com",
+        "newsletter.button": "Prihlásiť sa",
+        "footer.about": "O nás",
+        "footer.faq": "FAQ",
+        "footer.contact": "Kontaktujte nás",
+        "seo.title": "Aukcie heavy equipment | Dome Auctions",
+        "seo.description": "Získajte ako prví upozornenia na aukcie heavy equipment v Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Aukcia heavy equipment",
+            "subtitle": "Bager, nakladače a buldozéry",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Stavebníctvo a infraštruktúra",
+            "subtitle": "Žeriavy, kompaktory a plošiny",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Doprava a logistika",
+            "subtitle": "Ťahače, návesy a prívesy",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Bagre",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Nakladače",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Buldozéry",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Žeriavy",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Kompaktory",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Plošiny",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/en/construction/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ]
+      }
+    },
+    "sl": {
+      "publishReady": false,
+      "hubspotFormId": "__TODO_HUBSPOT_FORM_ID__",
+      "copy": {
+        "hero.eyebrow": "Dražba heavy equipment",
+        "hero.title": "Bodite prvi obveščeni o priložnostih heavy equipment.",
+        "hero.subtitle": "Prejemajte obvestila o bagrih, žerjavih in gradbenih strojih pred javno objavo.",
+        "hero.body": "Prijavite se za dostop do izbranih dražb heavy equipment v Belgiji in Evropi.",
+        "hero.cta": "Ostanite obveščeni",
+        "hero.ctaSecondary": "Oglejte si vse dražbe",
+        "nav.registerCta": "Brezplačna prijava",
+        "urgency.line": "Trajajoča dražba — nove heavy equipment postavke se dodajajo neprekinjeno.",
+        "categories.heading": "Kategorije v tej dražbi",
+        "brands.heading": "Znamke v tej dražbi",
+        "form.eyebrow": "Prijava",
+        "form.title": "Izberite interese. Pošljemo relevantna obvestila.",
+        "form.subtitle": "Prejmete le obvestila, ki ustrezajo vaši izbiri.",
+        "newsletter.heading": "Ostanite obveščeni",
+        "newsletter.placeholder": "vas@email.com",
+        "newsletter.button": "Naročite se",
+        "footer.about": "O nas",
+        "footer.faq": "Pogosta vprašanja",
+        "footer.contact": "Kontaktirajte nas",
+        "seo.title": "Dražbe heavy equipment | Dome Auctions",
+        "seo.description": "Prejmite prva obvestila o dražbah heavy equipment pri Dome Auctions.",
+        "auctionCards": [
+          {
+            "label": "Dražba heavy equipment",
+            "subtitle": "Bagerji, nakladalniki in buldožerji",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Gradbeništvo in infrastruktura",
+            "subtitle": "Žerjavi, kompaktori in delovne ploščadi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Transport in logistika",
+            "subtitle": "Tovornjaki, polprikolice in prikolice",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "categories": [
+          {
+            "label": "Bagerji",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Nakladalniki",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Buldožerji",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Žerjavi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Kompaktori",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "label": "Delovne ploščadi",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ],
+        "allAuctionsUrl": "https://dome-auctions.com/en/construction/",
+        "brands": [
+          {
+            "name": "Caterpillar",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Komatsu",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Volvo CE",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Liebherr",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Hitachi",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "JCB",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Doosan",
+            "href": "https://dome-auctions.com/en/construction/"
+          },
+          {
+            "name": "Case Construction",
+            "href": "https://dome-auctions.com/en/construction/"
+          }
+        ]
+      }
+    }
+  }
+}

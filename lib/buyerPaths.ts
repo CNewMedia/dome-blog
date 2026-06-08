@@ -2,6 +2,13 @@ export const BUYER_BASE_BY_LOCALE: Record<string, string> = {
   'nl-be': 'kopers',
   'fr-be': 'acheteurs',
   'en-be': 'buyers',
+  de: 'kaeufer',
+  pl: 'kupujacy',
+  ro: 'cumparatori',
+  hu: 'vasarlok',
+  bg: 'kupuvachi',
+  sk: 'kupujuci',
+  sl: 'kupci',
 }
 
 export function getBuyerBasePath(locale: string): string {

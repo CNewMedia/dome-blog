@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { appLocaleFieldOptions } from './appLocaleOptions'
 
 export const buyerPageSchema = defineType({
   name: 'buyerPage',
@@ -11,6 +12,7 @@ export const buyerPageSchema = defineType({
     { name: 'steps', title: 'Hoe het werkt' },
     { name: 'sectors', title: 'Sectoren' },
     { name: 'finalCta', title: 'Slot-CTA' },
+    { name: 'heavyEquipment', title: 'Heavy equipment' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
@@ -19,14 +21,7 @@ export const buyerPageSchema = defineType({
       title: 'Taal / markt',
       type: 'string',
       group: 'basis',
-      options: {
-        list: [
-          { title: 'Nederlands (België)', value: 'nl-be' },
-          { title: 'Français (Belgique)', value: 'fr-be' },
-          { title: 'English (Belgium)', value: 'en-be' },
-        ],
-        layout: 'dropdown',
-      },
+      options: appLocaleFieldOptions,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -108,6 +103,34 @@ export const buyerPageSchema = defineType({
       type: 'string',
       group: 'hero',
       description: 'Leeg = anker #buyer-form op deze pagina.',
+    }),
+    defineField({
+      name: 'allAuctionsUrl',
+      title: 'URL alle veilingen',
+      type: 'url',
+      group: 'hero',
+      description: 'Bestemming voor de secundaire hero-knop (“Bekijk alle veilingen”).',
+    }),
+    defineField({
+      name: 'heroCtaSecondary',
+      title: 'Hero secundaire knop',
+      type: 'string',
+      group: 'hero',
+      description: 'Optioneel tweede CTA-label in de hero (linkt naar URL alle veilingen).',
+    }),
+    defineField({
+      name: 'navRegisterCta',
+      title: 'Navigatie inschrijf-CTA',
+      type: 'string',
+      group: 'hero',
+      description: 'Optioneel label voor inschrijf-knop in pagina-navigatie.',
+    }),
+    defineField({
+      name: 'urgencyLine',
+      title: 'Urgentielijn',
+      type: 'string',
+      group: 'hero',
+      description: 'Optionele evergreen tagline onder de hero (geen datum of sluitingstermijn).',
     }),
     defineField({
       name: 'stats',
@@ -254,6 +277,98 @@ export const buyerPageSchema = defineType({
       type: 'string',
       group: 'finalCta',
       description: 'Leeg = scroll naar formulier (#buyer-form).',
+    }),
+    defineField({
+      name: 'auctionCards',
+      title: 'Veilingkaarten',
+      type: 'array',
+      group: 'heavyEquipment',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Label', type: 'string', validation: (Rule) => Rule.required() },
+            { name: 'subtitle', title: 'Ondertitel', type: 'string' },
+            { name: 'href', title: 'Link URL', type: 'url', description: 'Optioneel; maakt de kaart klikbaar.' },
+          ],
+          preview: { select: { title: 'label', subtitle: 'subtitle' } },
+        },
+      ],
+    }),
+    defineField({
+      name: 'categoriesHeading',
+      title: 'Categorieën kop',
+      type: 'string',
+      group: 'heavyEquipment',
+    }),
+    defineField({
+      name: 'categories',
+      title: 'Categorieën',
+      type: 'array',
+      group: 'heavyEquipment',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Label', type: 'string', validation: (Rule) => Rule.required() },
+            { name: 'href', title: 'Link URL', type: 'url', description: 'Optioneel; maakt de tegel klikbaar.' },
+          ],
+          preview: { select: { title: 'label' } },
+        },
+      ],
+    }),
+    defineField({
+      name: 'brandsHeading',
+      title: 'Merken kop',
+      type: 'string',
+      group: 'heavyEquipment',
+    }),
+    defineField({
+      name: 'brandNames',
+      title: 'Merknamen (legacy)',
+      type: 'array',
+      group: 'heavyEquipment',
+      of: [{ type: 'string' }],
+      description: 'Alleen tekst; gebruik bij voorkeur Merken hieronder voor links.',
+    }),
+    defineField({
+      name: 'brands',
+      title: 'Merken',
+      type: 'array',
+      group: 'heavyEquipment',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'name', title: 'Naam', type: 'string', validation: (Rule) => Rule.required() },
+            { name: 'logo', title: 'Logo', type: 'image', options: { hotspot: true } },
+            { name: 'href', title: 'Link URL', type: 'url', description: 'Optioneel; maakt het merk klikbaar.' },
+          ],
+          preview: { select: { title: 'name', subtitle: 'href' } },
+        },
+      ],
+    }),
+    defineField({
+      name: 'newsletter',
+      title: 'Nieuwsbrief (pagina)',
+      type: 'object',
+      group: 'heavyEquipment',
+      fields: [
+        { name: 'heading', title: 'Kop', type: 'string' },
+        { name: 'placeholder', title: 'Placeholder', type: 'string' },
+        { name: 'button', title: 'Knoplabel', type: 'string' },
+      ],
+    }),
+    defineField({
+      name: 'pageFooter',
+      title: 'Pagina-footer links',
+      type: 'object',
+      group: 'heavyEquipment',
+      fields: [
+        { name: 'about', title: 'Over ons', type: 'string' },
+        { name: 'faq', title: 'FAQ', type: 'string' },
+        { name: 'contact', title: 'Contact', type: 'string' },
+      ],
     }),
     defineField({
       name: 'seoTitle',

@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { appLocaleFieldOptions } from './appLocaleOptions'
 
 export const tagSchema = defineType({
   name: 'tag',
@@ -9,14 +10,7 @@ export const tagSchema = defineType({
       name: 'locale',
       title: 'Locale',
       type: 'string',
-      options: {
-        list: [
-          { title: 'Nederlands (België)', value: 'nl-be' },
-          { title: 'Français (Belgique)', value: 'fr-be' },
-          { title: 'English (Belgium)', value: 'en-be' },
-        ],
-        layout: 'dropdown',
-      },
+      options: appLocaleFieldOptions,
       validation: (Rule) => Rule.required(),
     }),
     defineField({

@@ -1,10 +1,14 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { presentationTool } from 'sanity/presentation'
 import { cloudinarySchemaPlugin } from 'sanity-plugin-cloudinary'
 import { DocumentIcon, SparklesIcon } from '@sanity/icons'
 import { schemaTypes } from './sanity/schemas'
 import { defaultDocumentNode, structure } from './sanity/structure'
 import { resolveProductionUrl } from './sanity/resolveProductionUrl'
+import { resolve as presentationResolve } from './sanity/presentation/resolve'
+
+const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.dome-auctions.com'
 
 export default defineConfig({
   name: 'dome-auctions',
@@ -13,6 +17,23 @@ export default defineConfig({
   dataset: 'production',
   plugins: [
     structureTool({ structure, defaultDocumentNode }),
+    presentationTool({
+      resolve: presentationResolve,
+      previewUrl: {
+        initial: siteOrigin,
+        previewMode: {
+          enable: '/api/preview',
+          disable: '/api/exit-preview',
+        },
+      },
+      allowOrigins: [
+        'http://localhost:3000',
+        'http://localhost:3002',
+        'https://insights.dome-auctions.com',
+        'https://stagingdome-auctions.oryen.solutions',
+        'https://domeblog.vercel.app',
+      ],
+    }),
     cloudinarySchemaPlugin(),
   ],
   document: {

@@ -1,11 +1,14 @@
 {
   "nav": {
-    "allAuctions": "Toutes les ventes",
+    "allAuctions": "Toutes les enchères",
     "categories": "Catégories",
     "blog": "Insights",
     "about": "À propos",
     "contact": "Contact",
-    "login": "Se connecter"
+    "login": "Se connecter",
+    "insights": "Insights",
+    "searchPlaceholder": "Rechercher...",
+    "signIn": "Se connecter"
   },
   "insights": {
     "title": "Insights",
@@ -29,9 +32,9 @@
     "viewAllAuctions": "Voir toutes les ventes"
   },
   "footer": {
-    "newsletter": "S'abonner à la newsletter",
-    "newsletterPlaceholder": "votre@email.com",
-    "subscribe": "S'abonner",
+    "newsletter": "Inscrivez-vous à la newsletter",
+    "newsletterPlaceholder": "E-mail",
+    "subscribe": "S'inscrire",
     "terms": "Conditions générales",
     "privacy": "Politique de confidentialité",
     "faq": "FAQ",

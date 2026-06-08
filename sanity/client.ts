@@ -12,20 +12,10 @@ export const client = createClient({
   useCdn: true,
 })
 
-export const previewClient =
-  process.env.SANITY_API_READ_TOKEN
-    ? createClient({
-        projectId,
-        dataset,
-        apiVersion,
-        useCdn: false,
-        token: process.env.SANITY_API_READ_TOKEN,
-        perspective: 'previewDrafts',
-      })
-    : client
-
 export function getClient(options?: { preview?: boolean }) {
-  if (options?.preview) return previewClient
+  if (options?.preview) {
+    throw new Error('Use sanity/previewClient on the server for preview queries.')
+  }
   return client
 }
 

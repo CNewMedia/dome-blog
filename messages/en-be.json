@@ -5,7 +5,10 @@
     "blog": "Insights",
     "about": "About",
     "contact": "Contact",
-    "login": "Log in"
+    "login": "Log in",
+    "insights": "Insights",
+    "searchPlaceholder": "Search...",
+    "signIn": "Sign in"
   },
   "insights": {
     "title": "Insights",
@@ -29,8 +32,8 @@
     "viewAllAuctions": "View all auctions"
   },
   "footer": {
-    "newsletter": "Subscribe to newsletter",
-    "newsletterPlaceholder": "your@email.com",
+    "newsletter": "Subscribe to Newsletter",
+    "newsletterPlaceholder": "Email",
     "subscribe": "Subscribe",
     "terms": "Terms & conditions",
     "privacy": "Privacy policy",

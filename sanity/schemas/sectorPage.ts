@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity'
+import { appLocaleFieldOptions } from './appLocaleOptions'
 
 export const sectorPageSchema = defineType({
   name: 'sectorPage',
@@ -28,14 +29,7 @@ export const sectorPageSchema = defineType({
       type: 'string',
       group: 'basis',
       description: 'Taal en regio voor deze pagina (URL begint met deze waarde).',
-      options: {
-        list: [
-          { title: 'Nederlands (België)', value: 'nl-be' },
-          { title: 'Français (Belgique)', value: 'fr-be' },
-          { title: 'English (Belgium)', value: 'en-be' },
-        ],
-        layout: 'dropdown',
-      },
+      options: appLocaleFieldOptions,
       validation: (Rule) => Rule.required(),
     }),
     defineField({

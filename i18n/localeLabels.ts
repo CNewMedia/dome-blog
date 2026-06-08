@@ -4,11 +4,18 @@
  * Add new entries when adding locales to keep labels in one place.
  */
 const localeDisplayLabels: Record<string, string> = {
-  'nl-be': 'Nederlands (België)',
-  'nl-nl': 'Nederlands (Nederland)',
-  'fr-be': 'Français (Belgique)',
-  'fr-fr': 'Français (France)',
-  'en-be': 'English (Belgium)',
+  'nl-be': 'Nederlands',
+  'nl-nl': 'Nederlands',
+  'fr-be': 'Français',
+  'fr-fr': 'Français',
+  'en-be': 'English',
+  de: 'Deutsch',
+  pl: 'Polski',
+  ro: 'Română',
+  hu: 'Magyar',
+  bg: 'Български',
+  sk: 'Slovenčina',
+  sl: 'Slovenščina',
 }
 
 /** Short labels for compact UI (e.g. header language button). */
@@ -18,6 +25,13 @@ const localeShortLabels: Record<string, string> = {
   'fr-be': 'FR',
   'fr-fr': 'FR',
   'en-be': 'EN',
+  de: 'DE',
+  pl: 'PL',
+  ro: 'RO',
+  hu: 'HU',
+  bg: 'BG',
+  sk: 'SK',
+  sl: 'SL',
 }
 
 export function getLocaleDisplayLabel(localeCode: string): string {

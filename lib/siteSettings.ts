@@ -7,6 +7,12 @@ export type LocaleString = {
   fr_be?: string
   en?: string
   de?: string
+  pl?: string
+  ro?: string
+  hu?: string
+  bg?: string
+  sk?: string
+  sl?: string
 }
 
 export type HeaderMenuItem = {
@@ -69,6 +75,7 @@ export type FooterLinkSetting = {
 
 export type SiteSettings = {
   _id?: string
+  googleTagManagerId?: string
   logo?: { asset?: { _ref?: string }; [key: string]: unknown }
   footerLogo?: { asset?: { _ref?: string }; [key: string]: unknown }
   logoAlt?: string
@@ -90,6 +97,13 @@ const LOCALE_MAP: Record<string, keyof LocaleString> = {
   'nl-be': 'nl_be',
   'fr-be': 'fr_be',
   'en-be': 'en',
+  de: 'de',
+  pl: 'pl',
+  ro: 'ro',
+  hu: 'hu',
+  bg: 'bg',
+  sk: 'sk',
+  sl: 'sl',
 }
 
 const makeLocaleString = (value: string | undefined | null, locale: string): LocaleString | undefined => {
