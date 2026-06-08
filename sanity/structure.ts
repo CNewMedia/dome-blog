@@ -1,5 +1,44 @@
 import { DefaultDocumentNodeResolver, StructureBuilder } from 'sanity/structure'
+import { activeLocales } from '../i18n/locales'
 import { ProductionUrl } from './components/ProductionUrl'
+
+const LOCALE_DESK_LABELS: Record<string, string> = {
+  'nl-be': 'NL-BE',
+  'fr-be': 'FR-BE',
+  'en-be': 'EN-BE',
+  de: 'DE',
+  pl: 'PL',
+  ro: 'RO',
+  hu: 'HU',
+  bg: 'BG',
+  sk: 'SK',
+  sl: 'SL',
+}
+
+function buyerLocaleListItems(S: StructureBuilder) {
+  return activeLocales.map((locale) => {
+    const label = LOCALE_DESK_LABELS[locale] ?? locale.toUpperCase()
+    return S.listItem()
+      .title(label)
+      .id(`lp-buyer-locale-${locale}`)
+      .child(
+        S.documentList()
+          .title(`Buyer registratie – ${label}`)
+          .filter(`_type == "buyerPage" && locale == "${locale}"`)
+          .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
+          .defaultOrdering([
+            { field: 'slug.current', direction: 'asc' },
+            { field: '_updatedAt', direction: 'desc' },
+          ])
+          .child((documentId) =>
+            S.document()
+              .schemaType('buyerPage')
+              .documentId(documentId)
+              .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+          )
+      )
+  })
+}
 
 export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, context) => {
   const withLinks = ['sectorPage', 'buyerPage', 'post']
@@ -120,65 +159,7 @@ export const structure = (S: StructureBuilder) =>
                 .child(
                   S.list()
                     .title('Buyer registratiepagina’s')
-                    .items([
-                      S.listItem()
-                        .title('NL-BE')
-                        .id('lp-buyer-locale-nl-be')
-                        .child(
-                          S.documentList()
-                            .title('Buyer registratie – NL-BE')
-                            .filter('_type == "buyerPage" && locale == "nl-be"')
-                            .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                            .child((documentId) =>
-                              S.document()
-                                .schemaType('buyerPage')
-                                .documentId(documentId)
-                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-                            )
-                        ),
-                      S.listItem()
-                        .title('FR-BE')
-                        .id('lp-buyer-locale-fr-be')
-                        .child(
-                          S.documentList()
-                            .title('Buyer registratie – FR-BE')
-                            .filter('_type == "buyerPage" && locale == "fr-be"')
-                            .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                            .child((documentId) =>
-                              S.document()
-                                .schemaType('buyerPage')
-                                .documentId(documentId)
-                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-                            )
-                        ),
-                      S.listItem()
-                        .title('EN-BE')
-                        .id('lp-buyer-locale-en-be')
-                        .child(
-                          S.documentList()
-                            .title('Buyer registratie – EN-BE')
-                            .filter('_type == "buyerPage" && locale == "en-be"')
-                            .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
-                            .defaultOrdering([
-                              { field: 'slug.current', direction: 'asc' },
-                              { field: '_updatedAt', direction: 'desc' },
-                            ])
-                            .child((documentId) =>
-                              S.document()
-                                .schemaType('buyerPage')
-                                .documentId(documentId)
-                                .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-                            )
-                        ),
-                    ])
+                    .items(buyerLocaleListItems(S))
                 ),
               S.listItem()
                 .title('Sectorpagina’s')

@@ -1,12 +1,15 @@
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import Script from 'next/script'
+import { VisualEditing } from 'next-sanity'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { brandFont } from '../../lib/brand-font'
 import { buildSiteSettingsFromChrome } from '../../lib/siteSettings'
 import { client } from '../../sanity/client'
+import { SanityLive } from '../../sanity/live'
 import { getSiteChrome, getSiteSettings } from '../../sanity/queries'
 import { activeLocales, isAppLocale } from '../../i18n/locales'
 
@@ -21,6 +24,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!isAppLocale(locale)) notFound()
 
   const messages = await getMessages()
+  const { isEnabled: isDraftMode } = await draftMode()
   const [siteChrome, siteSettings] = await Promise.all([
     client.fetch(getSiteChrome(locale), { locale }),
     client.fetch(getSiteSettings),
@@ -102,6 +106,8 @@ export default async function LocaleLayout({ children, params }: Props) {
           {children}
           <Footer settings={effectiveSettings} />
         </NextIntlClientProvider>
+        <SanityLive />
+        {isDraftMode ? <VisualEditing /> : null}
       </body>
     </html>
   )

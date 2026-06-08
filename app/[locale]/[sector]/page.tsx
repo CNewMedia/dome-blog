@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { client, urlFor } from '../../../sanity/client'
-import { previewClient } from '../../../sanity/previewClient'
+import { sanityFetch } from '../../../sanity/live'
 import {
   getSectorPage,
   getSectorPageLegacy,
@@ -77,12 +76,19 @@ function normalizeLocalizedValue(value: unknown, locale: string): unknown {
   )
 }
 
-async function getSectorData(slug: string, locale: AppLocale): Promise<SectorPageData | null> {
+async function getSectorData(
+  slug: string,
+  locale: AppLocale,
+  options?: { stega?: boolean }
+): Promise<SectorPageData | null> {
   const localeAlt = locale.replace('-', '_')
-
   const normalizedSlug = slug.toLowerCase()
 
-  const next = await client.fetch(getSectorPage(locale), { slug: normalizedSlug, locale, localeAlt })
+  const { data: next } = await sanityFetch({
+    query: getSectorPage(locale),
+    params: { slug: normalizedSlug, locale, localeAlt },
+    stega: options?.stega,
+  })
   if (isSectorPageData(next)) return next
 
   if (next) {
@@ -90,7 +96,11 @@ async function getSectorData(slug: string, locale: AppLocale): Promise<SectorPag
     if (isSectorPageData(normalizedNext)) return normalizedNext
   }
 
-  const legacy = await client.fetch(getSectorPageLegacy(locale), { slug: normalizedSlug })
+  const { data: legacy } = await sanityFetch({
+    query: getSectorPageLegacy(locale),
+    params: { slug: normalizedSlug },
+    stega: false,
+  })
   if (!legacy) return null
 
   const normalizedLegacy = normalizeLocalizedValue(legacy, locale)
@@ -104,19 +114,11 @@ export default async function SectorPage({ params }: Props) {
 
   if (!isAppLocale(locale)) notFound()
 
-  const { isEnabled } = await draftMode()
-  const preview = isEnabled
-
-  const [data, rawTeamMembers] = await Promise.all([
-    preview && previewClient
-      ? previewClient.fetch(getSectorPage(locale), {
-          slug: sector.toLowerCase(),
-          locale,
-          localeAlt: locale.replace('-', '_'),
-        })
-      : getSectorData(sector, locale),
-    (preview && previewClient ? previewClient : client).fetch(getTeamMembers),
+  const [data, teamResult] = await Promise.all([
+    getSectorData(sector, locale),
+    sanityFetch({ query: getTeamMembers }),
   ])
+  const rawTeamMembers = teamResult.data
 
   const normalizedTeamMembers = normalizeLocalizedValue(rawTeamMembers ?? [], locale)
   const teamMembers: TeamMember[] = Array.isArray(normalizedTeamMembers)
@@ -154,7 +156,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Dome Auctions' }
   }
 
-  const data = await getSectorData(sector, locale)
+  const data = await getSectorData(sector, locale, { stega: false })
 
   if (!data) {
     return { title: 'Sector | Dome Auctions' }

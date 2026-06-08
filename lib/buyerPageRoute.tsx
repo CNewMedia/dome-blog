@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { client, urlFor } from '../sanity/client'
-import { previewClient } from '../sanity/previewClient'
+import { sanityFetch } from '../sanity/live'
 import { getBuyerHreflangVariants, getBuyerPage, getBuyerSlugs } from '../sanity/queries'
 import BuyerLandingPage from '../components/BuyerLandingPage'
 import type { BuyerPageData } from '../components/BuyerLandingPage'
@@ -56,11 +56,12 @@ function buildBuyerUrl(locale: string, slug: string): string {
   return `${DOMAIN}/${locale}/${getBuyerBasePath(locale)}/${slug}`
 }
 
-async function fetchBuyerPage(locale: string, slug: string, preview: boolean) {
-  return (preview && previewClient ? previewClient : client).fetch(getBuyerPage, {
-    slug: slug.toLowerCase(),
-    locale,
+async function fetchBuyerPage(locale: string, slug: string) {
+  const { data } = await sanityFetch({
+    query: getBuyerPage,
+    params: { slug: slug.toLowerCase(), locale },
   })
+  return data
 }
 
 export function createBuyerPageRoute(expectedLocale: string) {
@@ -70,7 +71,7 @@ export function createBuyerPageRoute(expectedLocale: string) {
     if (locale !== expectedLocale) notFound()
 
     const { isEnabled } = await draftMode()
-    const data = await fetchBuyerPage(locale, slug, isEnabled)
+    const data = await fetchBuyerPage(locale, slug)
 
     if (!hasPublishableBuyerContent(data, { preview: isEnabled })) notFound()
 
@@ -102,9 +103,10 @@ export function createBuyerPageRoute(expectedLocale: string) {
       return { title: 'Dome Auctions' }
     }
 
-    const data = await client.fetch(getBuyerPage, {
-      slug: slug.toLowerCase(),
-      locale,
+    const { data } = await sanityFetch({
+      query: getBuyerPage,
+      params: { slug: slug.toLowerCase(), locale },
+      stega: false,
     })
 
     if (!hasPublishableBuyerContent(data)) {
