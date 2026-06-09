@@ -41,5 +41,20 @@
     "about": "Over ons",
     "contact": "Contact",
     "allAuctions": "Alle veilingen"
+  },
+  "buyer": {
+    "formSubtitleFallback": "U ontvangt alleen meldingen voor de sectoren die u selecteert — relevant en op tijd.",
+    "formPoint1": "Meldingen volgens uw voorkeuren",
+    "formPoint2": "Alleen relevante veilingkansen",
+    "formPoint3": "Altijd als eerste op de hoogte",
+    "formBoxKicker": "Inschrijving",
+    "formBoxTitle": "Ontvang als eerste relevante kansen in uw sectoren",
+    "hubspotMissingId": "Configureer een HubSpot formulier-ID in Sanity.",
+    "sectorEyebrowFallback": "Sectoren",
+    "sectorTitleFallback": "Kies uw interesses",
+    "moreInfo": "Meer info",
+    "emailAriaLabel": "E-mail",
+    "finalCtaKicker": "Koperregistratie",
+    "pageFooterAriaLabel": "Paginafooter"
   }
 }

@@ -1,11 +1,11 @@
 {
   "nav": {
     "allAuctions": "Vse dražbe",
-    "categories": "Categories",
+    "categories": "Kategorije",
     "blog": "Insights",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Log in",
+    "about": "O nas",
+    "contact": "Kontakt",
+    "login": "Prijava",
     "insights": "Insights",
     "searchPlaceholder": "Iskanje...",
     "signIn": "Prijava"
@@ -35,11 +35,26 @@
     "newsletter": "Naročite se na e-novice",
     "newsletterPlaceholder": "E-pošta",
     "subscribe": "Naročite se",
-    "terms": "Terms & conditions",
-    "privacy": "Privacy policy",
+    "terms": "Splošni pogoji",
+    "privacy": "Politika zasebnosti",
     "faq": "FAQ",
-    "about": "About us",
-    "contact": "Contact",
-    "allAuctions": "All auctions"
+    "about": "O nas",
+    "contact": "Kontakt",
+    "allAuctions": "Vse dražbe"
+  },
+  "buyer": {
+    "formSubtitleFallback": "",
+    "formPoint1": "Obvestila glede na vaše preference",
+    "formPoint2": "Samo relevantne dražbene priložnosti",
+    "formPoint3": "Vedno prvi obveščeni",
+    "formBoxKicker": "Registracija",
+    "formBoxTitle": "Bodite prvi obveščeni o relevantnih priložnostih v vaših sektorjih",
+    "hubspotMissingId": "Konfigurirajte ID obrazca HubSpot v Sanity.",
+    "sectorEyebrowFallback": "Sektorji",
+    "sectorTitleFallback": "Izberite svoje interese",
+    "moreInfo": "Več informacij",
+    "emailAriaLabel": "E-pošta",
+    "finalCtaKicker": "Registracija kupca",
+    "pageFooterAriaLabel": "Noga strani"
   }
 }

@@ -41,5 +41,20 @@
     "about": "À propos",
     "contact": "Contact",
     "allAuctions": "Toutes les ventes"
+  },
+  "buyer": {
+    "formSubtitleFallback": "",
+    "formPoint1": "Alertes selon vos préférences",
+    "formPoint2": "Uniquement des opportunités pertinentes",
+    "formPoint3": "Toujours informé en premier",
+    "formBoxKicker": "Inscription",
+    "formBoxTitle": "Soyez le premier informé des opportunités dans vos secteurs",
+    "hubspotMissingId": "Configurez un ID de formulaire HubSpot dans Sanity.",
+    "sectorEyebrowFallback": "Secteurs",
+    "sectorTitleFallback": "Choisissez vos intérêts",
+    "moreInfo": "En savoir plus",
+    "emailAriaLabel": "E-mail",
+    "finalCtaKicker": "Inscription acheteur",
+    "pageFooterAriaLabel": "Pied de page"
   }
 }

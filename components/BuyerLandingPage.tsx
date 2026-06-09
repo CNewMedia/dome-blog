@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import '../styles/sector-landing.css'
 import '../styles/buyer-landing.css'
 import { urlFor } from '../sanity/client'
@@ -59,6 +62,7 @@ export type BuyerPageData = {
 }
 
 export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
+  const t = useTranslations('buyer')
   const {
     heroEyebrow,
     heroTitle,
@@ -77,7 +81,6 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
     brandsHeading,
     brandNames,
     brands,
-    newsletter,
     pageFooter,
     stats,
     formEyebrow,
@@ -315,28 +318,27 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
           <div className="buyer-form-left">
             {formEyebrow && <div className="sector-cta-eyebrow">{formEyebrow}</div>}
             {formTitle && <h2 className="sector-cta-title">{formTitle}</h2>}
-            <p className="sector-cta-sub buyer-form-sub">
-              {formSubtitle ??
-                'U ontvangt alleen meldingen voor de sectoren die u selecteert — relevant en op tijd.'}
-            </p>
+            {(formSubtitle || t('formSubtitleFallback')) && (
+              <p className="sector-cta-sub buyer-form-sub">
+                {formSubtitle || t('formSubtitleFallback')}
+              </p>
+            )}
             <ul className="buyer-form-points">
-              <li>Meldingen volgens uw voorkeuren</li>
-              <li>Alleen relevante veilingkansen</li>
-              <li>Altijd als eerste op de hoogte</li>
+              <li>{t('formPoint1')}</li>
+              <li>{t('formPoint2')}</li>
+              <li>{t('formPoint3')}</li>
             </ul>
           </div>
           <div className="sector-cta-form-box buyer-form-box">
             <div className="buyer-form-box-head">
-              <div className="buyer-form-box-kicker">Inschrijving</div>
-              <div className="buyer-form-box-title">
-                Ontvang als eerste relevante kansen in uw sectoren
-              </div>
+              <div className="buyer-form-box-kicker">{t('formBoxKicker')}</div>
+              <div className="buyer-form-box-title">{t('formBoxTitle')}</div>
             </div>
             <HubSpotFormOverrides />
             {hubspotFormId ? (
               <HubSpotForm formId={hubspotFormId} />
             ) : (
-              <p style={{ color: BRAND.muted, fontSize: '0.95rem' }}>Configureer een HubSpot formulier-ID in Sanity.</p>
+              <p style={{ color: BRAND.muted, fontSize: '0.95rem' }}>{t('hubspotMissingId')}</p>
             )}
           </div>
         </div>
@@ -371,8 +373,8 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
       {showSectors && (
         <section className="buyer-sectors-wrap">
           <div className="buyer-sectors-in">
-            <div className="sector-eyebrow">{sectorCardsSectionEyebrow ?? 'Sectoren'}</div>
-            <h2 className="sector-section-title">{sectorCardsSectionTitle ?? 'Kies uw interesses'}</h2>
+            <div className="sector-eyebrow">{sectorCardsSectionEyebrow ?? t('sectorEyebrowFallback')}</div>
+            <h2 className="sector-section-title">{sectorCardsSectionTitle ?? t('sectorTitleFallback')}</h2>
             <div className="buyer-sectors-grid">
               {safeSectorCards.map((card, i) => (
                 <article key={i} className="buyer-sector-card">
@@ -387,7 +389,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
                       target={card.openInNewTab ? '_blank' : undefined}
                       rel={card.openInNewTab ? 'noopener noreferrer' : undefined}
                     >
-                      {card.buttonLabel || 'Meer info'}
+                      {card.buttonLabel || t('moreInfo')}
                     </a>
                   )}
                 </article>
@@ -397,30 +399,14 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
         </section>
       )}
 
-      {(newsletter?.heading || pageFooter?.about || pageFooter?.faq || pageFooter?.contact) && (
+      {(pageFooter?.about || pageFooter?.faq || pageFooter?.contact) && (
         <section className="buyer-page-footer-wrap">
           <div className="buyer-page-footer-in">
-            {newsletter?.heading && (
-              <div className="buyer-page-newsletter">
-                <h2 className="buyer-heavy-heading">{newsletter.heading}</h2>
-                <div className="buyer-page-newsletter-form">
-                  <input
-                    type="email"
-                    placeholder={newsletter.placeholder ?? ''}
-                    aria-label={newsletter.placeholder ?? 'Email'}
-                    readOnly
-                  />
-                  {newsletter.button && <button type="button">{newsletter.button}</button>}
-                </div>
-              </div>
-            )}
-            {(pageFooter?.about || pageFooter?.faq || pageFooter?.contact) && (
-              <nav className="buyer-page-footer-links" aria-label="Page footer">
-                {pageFooter.about && <span>{pageFooter.about}</span>}
-                {pageFooter.faq && <span>{pageFooter.faq}</span>}
-                {pageFooter.contact && <span>{pageFooter.contact}</span>}
-              </nav>
-            )}
+            <nav className="buyer-page-footer-links" aria-label={t('pageFooterAriaLabel')}>
+              {pageFooter.about && <span>{pageFooter.about}</span>}
+              {pageFooter.faq && <span>{pageFooter.faq}</span>}
+              {pageFooter.contact && <span>{pageFooter.contact}</span>}
+            </nav>
           </div>
         </section>
       )}
@@ -429,7 +415,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
         <section className="buyer-final-wrap">
           <div className="buyer-final-bg" aria-hidden />
           <div className="buyer-final-in">
-            <div className="buyer-final-kicker">Buyer registration</div>
+            <div className="buyer-final-kicker">{t('finalCtaKicker')}</div>
             {finalCtaTitle && <h2 className="buyer-final-title">{finalCtaTitle}</h2>}
             {finalCtaBody && <p className="buyer-final-body">{finalCtaBody}</p>}
             {finalCtaButtonLabel?.trim() && (

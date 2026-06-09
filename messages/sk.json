@@ -1,11 +1,11 @@
 {
   "nav": {
     "allAuctions": "Všetky aukcie",
-    "categories": "Categories",
+    "categories": "Kategórie",
     "blog": "Insights",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Log in",
+    "about": "O nás",
+    "contact": "Kontakt",
+    "login": "Prihlásiť sa",
     "insights": "Insights",
     "searchPlaceholder": "Hľadať...",
     "signIn": "Prihlásiť sa"
@@ -35,11 +35,26 @@
     "newsletter": "Prihláste sa na odber noviniek",
     "newsletterPlaceholder": "E-mail",
     "subscribe": "Prihlásiť sa",
-    "terms": "Terms & conditions",
-    "privacy": "Privacy policy",
+    "terms": "Obchodné podmienky",
+    "privacy": "Zásady ochrany osobných údajov",
     "faq": "FAQ",
-    "about": "About us",
-    "contact": "Contact",
-    "allAuctions": "All auctions"
+    "about": "O nás",
+    "contact": "Kontakt",
+    "allAuctions": "Všetky aukcie"
+  },
+  "buyer": {
+    "formSubtitleFallback": "",
+    "formPoint1": "Upozornenia podľa vašich preferencií",
+    "formPoint2": "Iba relevantné aukčné príležitosti",
+    "formPoint3": "Vždy medzi prvými informovaní",
+    "formBoxKicker": "Registrácia",
+    "formBoxTitle": "Dozviete sa ako prví o relevantných príležitostiach vo vašich sektoroch",
+    "hubspotMissingId": "Nakonfigurujte ID formulára HubSpot v Sanity.",
+    "sectorEyebrowFallback": "Sektory",
+    "sectorTitleFallback": "Vyberte si záujmy",
+    "moreInfo": "Viac informácií",
+    "emailAriaLabel": "E-mail",
+    "finalCtaKicker": "Registrácia kupujúceho",
+    "pageFooterAriaLabel": "Pätička stránky"
   }
 }

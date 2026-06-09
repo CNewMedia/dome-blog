@@ -1,11 +1,11 @@
 {
   "nav": {
     "allAuctions": "Összes árverés",
-    "categories": "Categories",
+    "categories": "Kategóriák",
     "blog": "Insights",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Log in",
+    "about": "Rólunk",
+    "contact": "Kapcsolat",
+    "login": "Bejelentkezés",
     "insights": "Insights",
     "searchPlaceholder": "Keresés...",
     "signIn": "Bejelentkezés"
@@ -35,11 +35,26 @@
     "newsletter": "Iratkozz fel a hírlevélre",
     "newsletterPlaceholder": "E-mail",
     "subscribe": "Feliratkozás",
-    "terms": "Terms & conditions",
-    "privacy": "Privacy policy",
+    "terms": "Általános szerződési feltételek",
+    "privacy": "Adatvédelmi szabályzat",
     "faq": "FAQ",
-    "about": "About us",
-    "contact": "Contact",
-    "allAuctions": "All auctions"
+    "about": "Rólunk",
+    "contact": "Kapcsolat",
+    "allAuctions": "Összes árverés"
+  },
+  "buyer": {
+    "formSubtitleFallback": "",
+    "formPoint1": "Értesítések az Ön preferenciái szerint",
+    "formPoint2": "Csak releváns aukciós lehetőségek",
+    "formPoint3": "Mindig elsőként értesül",
+    "formBoxKicker": "Regisztráció",
+    "formBoxTitle": "Értesüljön elsőként a releváns lehetőségekről az Ön szektorában",
+    "hubspotMissingId": "Állítson be HubSpot űrlapazonosítót a Sanity-ben.",
+    "sectorEyebrowFallback": "Szektorok",
+    "sectorTitleFallback": "Válassza ki érdeklődési köreit",
+    "moreInfo": "További információ",
+    "emailAriaLabel": "E-mail",
+    "finalCtaKicker": "Vevőregisztráció",
+    "pageFooterAriaLabel": "Oldallábléc"
   }
 }

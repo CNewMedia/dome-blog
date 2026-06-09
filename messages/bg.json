@@ -1,11 +1,11 @@
 {
   "nav": {
     "allAuctions": "Всички търгове",
-    "categories": "Categories",
+    "categories": "Категории",
     "blog": "Insights",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Log in",
+    "about": "За нас",
+    "contact": "Контакт",
+    "login": "Вход",
     "insights": "Insights",
     "searchPlaceholder": "Търсене...",
     "signIn": "Вход"
@@ -35,11 +35,26 @@
     "newsletter": "Абонирайте се за бюлетина",
     "newsletterPlaceholder": "Имейл",
     "subscribe": "Абониране",
-    "terms": "Terms & conditions",
-    "privacy": "Privacy policy",
+    "terms": "Общи условия",
+    "privacy": "Политика за поверителност",
     "faq": "FAQ",
-    "about": "About us",
-    "contact": "Contact",
-    "allAuctions": "All auctions"
+    "about": "За нас",
+    "contact": "Контакт",
+    "allAuctions": "Всички търгове"
+  },
+  "buyer": {
+    "formSubtitleFallback": "",
+    "formPoint1": "Известия според предпочитанията ви",
+    "formPoint2": "Само релевантни търгове",
+    "formPoint3": "Винаги първи информирани",
+    "formBoxKicker": "Регистрация",
+    "formBoxTitle": "Научете първи за релевантни възможности във вашите сектори",
+    "hubspotMissingId": "Конфигурирайте HubSpot формуляр ID в Sanity.",
+    "sectorEyebrowFallback": "Сектори",
+    "sectorTitleFallback": "Изберете интересите си",
+    "moreInfo": "Повече информация",
+    "emailAriaLabel": "Имейл",
+    "finalCtaKicker": "Регистрация на купувач",
+    "pageFooterAriaLabel": "Футър на страницата"
   }
 }

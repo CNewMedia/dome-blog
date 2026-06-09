@@ -1,11 +1,11 @@
 {
   "nav": {
     "allAuctions": "Toate licitațiile",
-    "categories": "Categories",
+    "categories": "Categorii",
     "blog": "Insights",
-    "about": "About",
+    "about": "Despre noi",
     "contact": "Contact",
-    "login": "Log in",
+    "login": "Autentificare",
     "insights": "Insights",
     "searchPlaceholder": "Caută...",
     "signIn": "Autentificare"
@@ -35,11 +35,26 @@
     "newsletter": "Abonează-te la newsletter",
     "newsletterPlaceholder": "E-mail",
     "subscribe": "Abonează-te",
-    "terms": "Terms & conditions",
-    "privacy": "Privacy policy",
+    "terms": "Termeni și condiții",
+    "privacy": "Politica de confidențialitate",
     "faq": "FAQ",
-    "about": "About us",
+    "about": "Despre noi",
     "contact": "Contact",
-    "allAuctions": "All auctions"
+    "allAuctions": "Toate licitațiile"
+  },
+  "buyer": {
+    "formSubtitleFallback": "",
+    "formPoint1": "Notificări conform preferințelor",
+    "formPoint2": "Doar oportunități de licitație relevante",
+    "formPoint3": "Întotdeauna primul la curent",
+    "formBoxKicker": "Înregistrare",
+    "formBoxTitle": "Aflați primul despre oportunități relevante în sectoarele dvs.",
+    "hubspotMissingId": "Configurați un ID de formular HubSpot în Sanity.",
+    "sectorEyebrowFallback": "Sectoare",
+    "sectorTitleFallback": "Alegeți interesele",
+    "moreInfo": "Mai multe informații",
+    "emailAriaLabel": "E-mail",
+    "finalCtaKicker": "Înregistrare cumpărător",
+    "pageFooterAriaLabel": "Subsol pagină"
   }
 }

@@ -1,11 +1,11 @@
 {
   "nav": {
     "allAuctions": "Alle Auktionen",
-    "categories": "Categories",
+    "categories": "Kategorien",
     "blog": "Insights",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Log in",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "login": "Anmelden",
     "insights": "Insights",
     "searchPlaceholder": "Suchen...",
     "signIn": "Anmelden"
@@ -35,11 +35,26 @@
     "newsletter": "Newsletter abonnieren",
     "newsletterPlaceholder": "E-Mail",
     "subscribe": "Abonnieren",
-    "terms": "Terms & conditions",
-    "privacy": "Privacy policy",
+    "terms": "AGB",
+    "privacy": "Datenschutzerklärung",
     "faq": "FAQ",
-    "about": "About us",
-    "contact": "Contact",
-    "allAuctions": "All auctions"
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "allAuctions": "Alle Auktionen"
+  },
+  "buyer": {
+    "formSubtitleFallback": "",
+    "formPoint1": "Benachrichtigungen nach Ihren Präferenzen",
+    "formPoint2": "Nur relevante Auktionschancen",
+    "formPoint3": "Immer als Erster informiert",
+    "formBoxKicker": "Registrierung",
+    "formBoxTitle": "Erfahren Sie als Erster von relevanten Chancen in Ihren Sektoren",
+    "hubspotMissingId": "Konfigurieren Sie eine HubSpot-Formular-ID in Sanity.",
+    "sectorEyebrowFallback": "Sektoren",
+    "sectorTitleFallback": "Wählen Sie Ihre Interessen",
+    "moreInfo": "Mehr erfahren",
+    "emailAriaLabel": "E-Mail",
+    "finalCtaKicker": "Käuferregistrierung",
+    "pageFooterAriaLabel": "Seitenfußzeile"
   }
 }

@@ -10,12 +10,13 @@ import { getLocaleString, type SiteSettings } from '../lib/siteSettings'
 import { activeLocales } from '../i18n/locales'
 import { getLocaleDisplayLabel, getLocaleShortLabel } from '../i18n/localeLabels'
 import { getBuyerBasePath, isBuyerBasePath } from '../lib/buyerPaths'
+import { getMainSiteHomeUrl, getMainSiteLocaleSegment } from '../lib/mainSitePaths'
 
 export default function Navbar({ settings }: { settings?: SiteSettings | null }) {
   const locale = useLocale()
   const tNav = useTranslations('nav')
   const pathname = usePathname()
-  const da = locale === 'nl-be' ? 'nl' : locale
+  const mainSiteLocale = getMainSiteLocaleSegment(locale)
   const [langOpen, setLangOpen] = useState(false)
   const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null)
   const [pageLocales, setPageLocales] = useState<string[] | null>(null)
@@ -123,7 +124,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
       `}</style>
       <nav className="nav">
         <div className="nav-in">
-          <Link href={`https://dome-auctions.com/${da}/`} className="nav-logo">
+          <Link href={getMainSiteHomeUrl(locale)} className="nav-logo">
             {settings?.logo ? (
               <Image
                 src={urlFor(settings.logo).width(400).height(100).fit('max').url()}
@@ -185,7 +186,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
             </>
           ) : (
             <>
-              <Link href={`https://dome-auctions.com/${da}/auctions/`} className="nav-a">
+              <Link href={`https://dome-auctions.com/${mainSiteLocale}/auctions/`} className="nav-a">
                 {tNav('allAuctions')}
               </Link>
               <Link href={`/${locale}`} className="nav-a on">
@@ -196,7 +197,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
 
           <div className="nav-sp" />
 
-          <div className="nav-search" onClick={() => window.open(`https://dome-auctions.com/${da}/auctions/`, '_blank')}>
+          <div className="nav-search" onClick={() => window.open(`https://dome-auctions.com/${mainSiteLocale}/auctions/`, '_blank')}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
@@ -234,7 +235,7 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
             </div>
           )}
 
-          <Link href={`https://dome-auctions.com/${da}/login/`} className="nav-btn">
+          <Link href={`https://dome-auctions.com/${mainSiteLocale}/login/`} className="nav-btn">
             {tNav('signIn')}
           </Link>
         </div>
