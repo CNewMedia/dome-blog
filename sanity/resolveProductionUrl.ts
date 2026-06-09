@@ -44,6 +44,8 @@ export function resolvePreviewUrl(doc: Doc | null | undefined): string | null {
   if (!liveUrl) return null
 
   const base = process.env.NEXT_PUBLIC_SITE_URL || DOMAIN
+  // SANITY_STUDIO_* is inlined into the Studio client bundle at build time (Vercel Production).
+  // Must match SANITY_PREVIEW_SECRET on the server (/api/preview).
   const secret = process.env.SANITY_STUDIO_PREVIEW_SECRET
   const path = liveUrl.replace(DOMAIN, '') || '/'
 

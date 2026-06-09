@@ -5,7 +5,7 @@ import { cloudinarySchemaPlugin } from 'sanity-plugin-cloudinary'
 import { DocumentIcon, SparklesIcon } from '@sanity/icons'
 import { schemaTypes } from './sanity/schemas'
 import { defaultDocumentNode, structure } from './sanity/structure'
-import { resolveProductionUrl } from './sanity/resolveProductionUrl'
+import { resolvePreviewUrl } from './sanity/resolveProductionUrl'
 import { resolve as presentationResolve } from './sanity/presentation/resolve'
 
 const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.dome-auctions.com'
@@ -54,19 +54,8 @@ export default defineConfig({
       return prev
     },
     productionUrl: async (prev, context) => {
-      const url = resolveProductionUrl(context.document as any)
-      if (!url) return prev
-
-      const path = url.replace('https://insights.dome-auctions.com', '') || '/'
-      const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.dome-auctions.com'
-      const preview = new URL('/api/preview', base)
-
-      if (process.env.SANITY_PREVIEW_SECRET) {
-        preview.searchParams.set('secret', process.env.SANITY_PREVIEW_SECRET)
-      }
-      preview.searchParams.set('redirect', path)
-
-      return preview.toString()
+      const preview = resolvePreviewUrl(context.document as any)
+      return preview ?? prev
     },
   },
   schema: {
