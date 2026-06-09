@@ -101,6 +101,21 @@ function isHubspotFilled(id: string): boolean {
   return Boolean(id.trim()) && !id.includes('__TODO')
 }
 
+function withArrayKeys<T extends Record<string, unknown>>(
+  items: unknown[],
+  prefix: string
+): Array<T & { _key: string }> {
+  return items.map((item, index) => {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      throw new Error(`Expected object at ${prefix}[${index}]`)
+    }
+    return {
+      _key: `${prefix}-${index}`,
+      ...(item as T),
+    }
+  })
+}
+
 function mapCopyToDocument(entry: LocaleEntry, brandNames: string[]) {
   const { copy } = entry
   const doc: Record<string, unknown> = { brandNames: [...brandNames] }
@@ -113,13 +128,13 @@ function mapCopyToDocument(entry: LocaleEntry, brandNames: string[]) {
   }
 
   if (Array.isArray(copy['auctionCards'])) {
-    doc.auctionCards = copy['auctionCards']
+    doc.auctionCards = withArrayKeys(copy['auctionCards'], 'auctionCard')
   }
   if (Array.isArray(copy['categories'])) {
-    doc.categories = copy['categories']
+    doc.categories = withArrayKeys(copy['categories'], 'category')
   }
   if (Array.isArray(copy['brands'])) {
-    doc.brands = copy['brands']
+    doc.brands = withArrayKeys(copy['brands'], 'brand')
   }
 
   const newsletter = {
@@ -196,7 +211,7 @@ async function main() {
       _type: 'buyerPage',
       locale,
       translationKey: data.translationKey,
-      slug: { _type: 'slug', current: data.slug },
+      slug: { _type: 'slug', current: data.slug.toLowerCase() },
       hubspotFormId,
       ...mapCopyToDocument(entry, data.brandNames),
     }

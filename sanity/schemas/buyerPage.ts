@@ -38,6 +38,27 @@ export const buyerPageSchema = defineType({
             .trim()
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, ''),
+        isUnique: async (slug, context) => {
+          const { document, getClient } = context
+          const locale = document?.locale
+          if (!locale || typeof slug !== 'string') return true
+
+          const client = getClient({ apiVersion: '2024-01-01' })
+          const publishedId = document._id.replace(/^drafts\./, '')
+          const draftId = `drafts.${publishedId}`
+
+          const count = await client.fetch<number>(
+            `count(*[
+              _type == "buyerPage" &&
+              slug.current == $slug &&
+              locale == $locale &&
+              !(_id in [$publishedId, $draftId])
+            ])`,
+            { slug, locale, publishedId, draftId }
+          )
+
+          return count === 0
+        },
       },
       validation: (Rule) =>
         Rule.required().custom((value) => {
