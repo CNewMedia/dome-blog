@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import '../styles/sector-landing.css'
 import '../styles/buyer-landing.css'
@@ -9,6 +10,152 @@ import { BRAND } from '../lib/constants'
 import HubSpotForm from './HubSpotForm'
 import HubSpotFormOverrides from './HubSpotFormOverrides'
 import StepIcon from './buyer/StepIcon'
+
+type SanityImageLike =
+  | { asset?: { _ref?: string; _id?: string; url?: string } | null; alt?: string }
+  | null
+  | undefined
+
+function hasSanityImage(image: SanityImageLike): boolean {
+  const asset = image?.asset
+  if (!asset || typeof asset !== 'object') return false
+  if (typeof asset._ref === 'string' && asset._ref.trim()) return true
+  if (typeof asset._id === 'string' && asset._id.trim()) return true
+  if (typeof asset.url === 'string' && asset.url.trim()) return true
+  return false
+}
+
+function sanityImageUrl(image: SanityImageLike, width: number, height: number): string | null {
+  if (!hasSanityImage(image)) return null
+  try {
+    return urlFor(image).width(width).height(height).fit('max').url()
+  } catch {
+    return null
+  }
+}
+
+function BuyerBrandChip({ brand }: { brand: BuyerBrandItem }) {
+  const brandHref = brand.href?.trim()
+  const logoSrc = sanityImageUrl(brand.logo, 240, 80)
+  const [logoFailed, setLogoFailed] = useState(false)
+  const showLogo = Boolean(logoSrc && !logoFailed)
+  const chipClass = `buyer-brand-chip${brandHref ? ' buyer-brand-chip--link' : ''}${showLogo ? ' buyer-brand-chip--logo' : ''}`
+  const chipContent = showLogo ? (
+    // eslint-disable-next-line @next/next/no-img-element -- Sanity SVG brand marks; Next/Image blocks SVG
+    <img
+      src={logoSrc!}
+      alt={brand.logo?.alt || brand.name}
+      className="buyer-brand-logo"
+      loading="lazy"
+      decoding="async"
+      onError={() => setLogoFailed(true)}
+    />
+  ) : (
+    brand.name
+  )
+
+  if (brandHref) {
+    return (
+      <a
+        href={brandHref}
+        className={chipClass}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={showLogo ? brand.name : undefined}
+      >
+        {chipContent}
+      </a>
+    )
+  }
+
+  return <span className={chipClass}>{chipContent}</span>
+}
+
+function BuyerCategoryChip({ category }: { category: BuyerCategoryItem }) {
+  const catHref = category.href?.trim()
+  const iconSrc = sanityImageUrl(category.icon, 64, 64)
+  const [iconFailed, setIconFailed] = useState(false)
+  const showIcon = Boolean(iconSrc && !iconFailed)
+  const chipClass = `buyer-category-chip${catHref ? ' buyer-category-chip--link' : ''}${showIcon ? ' buyer-category-chip--has-icon' : ''}`
+  const chipContent = (
+    <>
+      {showIcon && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={iconSrc!}
+          alt={category.icon?.alt || category.label}
+          className="buyer-category-icon"
+          loading="lazy"
+          decoding="async"
+          onError={() => setIconFailed(true)}
+        />
+      )}
+      <span>{category.label}</span>
+    </>
+  )
+
+  if (catHref) {
+    return (
+      <a href={catHref} className={chipClass} target="_blank" rel="noopener noreferrer">
+        {chipContent}
+      </a>
+    )
+  }
+
+  return <span className={chipClass}>{chipContent}</span>
+}
+
+function SectorCardVisual({
+  card,
+  variant,
+}: {
+  card: NonNullable<BuyerPageData['sectorCards']>[number]
+  variant: 'badge' | 'tile'
+}) {
+  const imageSrc = sanityImageUrl(card.image, variant === 'badge' ? 96 : 640, variant === 'badge' ? 96 : 400)
+  const [imageFailed, setImageFailed] = useState(false)
+  const showImage = Boolean(imageSrc && !imageFailed)
+
+  if (showImage) {
+    return (
+      <div className={`buyer-sector-card-image buyer-sector-card-image--${variant}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imageSrc!}
+          alt={card.image?.alt || card.title}
+          loading="lazy"
+          decoding="async"
+          onError={() => setImageFailed(true)}
+        />
+      </div>
+    )
+  }
+
+  if (variant === 'badge') {
+    return <span className="buyer-sector-pill-dot">{card.icon?.trim() || '◆'}</span>
+  }
+
+  return <div className="buyer-sector-card-icon">{card.icon?.trim() || '◆'}</div>
+}
+
+export type BuyerBrandItem = {
+  name: string
+  href?: string | null
+  logo?: { asset?: { _ref?: string }; alt?: string } | null
+}
+
+export type BuyerCategoryItem = {
+  label: string
+  href?: string | null
+  icon?: { asset?: { _ref?: string; _id?: string; url?: string }; alt?: string } | null
+}
+
+export type BuyerAuctionCardItem = {
+  label: string
+  subtitle?: string | null
+  href?: string | null
+  image?: { asset?: { _ref?: string; _id?: string; url?: string }; alt?: string } | null
+}
 
 export type BuyerPageData = {
   _id: string
@@ -25,14 +172,13 @@ export type BuyerPageData = {
   heroCtaSecondary?: string | null
   navRegisterCta?: string | null
   urgencyLine?: string | null
-  auctionCards?: { label: string; subtitle?: string | null; href?: string | null }[] | null
+  auctionCards?: BuyerAuctionCardItem[] | null
   categoriesHeading?: string | null
-  categories?: { label: string; href?: string | null }[] | null
+  categories?: BuyerCategoryItem[] | null
   brandsHeading?: string | null
   brandNames?: string[] | null
-  brands?: { name: string; href?: string | null; logo?: { asset?: { _ref?: string }; alt?: string } | null }[] | null
+  brands?: BuyerBrandItem[] | null
   newsletter?: { heading?: string | null; placeholder?: string | null; button?: string | null } | null
-  pageFooter?: { about?: string | null; faq?: string | null; contact?: string | null } | null
   stats?: { value: string; label: string }[] | null
   formEyebrow?: string | null
   formTitle?: string | null
@@ -47,7 +193,7 @@ export type BuyerPageData = {
     icon?: string | null
     title: string
     description?: string | null
-    image?: { asset?: { _ref?: string }; alt?: string } | null
+    image?: { asset?: { _ref?: string; _id?: string; url?: string }; alt?: string } | null
     href?: string | null
     buttonLabel?: string | null
     openInNewTab?: boolean | null
@@ -81,7 +227,6 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
     brandsHeading,
     brandNames,
     brands,
-    pageFooter,
     stats,
     formEyebrow,
     formTitle,
@@ -118,18 +263,18 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
   const secondaryAuctionsUrl = allAuctionsUrl?.trim() || ''
   const showHeroCtaSecondary = Boolean(heroCtaSecondary?.trim() && secondaryAuctionsUrl)
   const safeAuctionCards = (auctionCards ?? []).filter(
-    (c): c is { label: string; subtitle?: string | null; href?: string | null } =>
+    (c): c is BuyerAuctionCardItem =>
       Boolean(c && typeof c.label === 'string' && c.label.trim().length > 0)
   )
   const safeCategories = (categories ?? []).filter(
-    (c): c is { label: string; href?: string | null } =>
+    (c): c is BuyerCategoryItem =>
       Boolean(c && typeof c.label === 'string' && c.label.trim().length > 0)
   )
   const safeBrands = (
     brands && brands.length > 0
       ? brands
       : (brandNames ?? []).map((name) => ({ name }))
-  ).filter((b): b is { name: string; href?: string | null } => Boolean(b?.name && b.name.trim().length > 0))
+  ).filter((b): b is BuyerBrandItem => Boolean(b?.name && b.name.trim().length > 0))
   const showHeavyEquipment =
     safeAuctionCards.length > 0 ||
     safeCategories.length > 0 ||
@@ -144,10 +289,16 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
     Boolean(finalCtaBody?.trim()) ||
     Boolean(finalCtaButtonLabel?.trim())
 
+  const hasHeroImage = hasSanityImage(heroImage)
+  const heroRightShowsImage = hasHeroImage && safeSectorCards.length === 0
+  const heroRightShowsSectors = safeSectorCards.length > 0
+  const showHeroRight = heroRightShowsImage || heroRightShowsSectors
+  const showHeroBackground = hasHeroImage && !heroRightShowsImage
+
   return (
     <div className="sector-lp buyer-lp">
-      <section className="sector-hero">
-        {heroImage?.asset && (
+      <section className={`sector-hero${showHeroRight ? ' sector-hero--split' : ''}`}>
+        {showHeroBackground && heroImage && (
           <div className="sector-hero-bg">
             <Image
               src={urlFor(heroImage).width(1920).height(1080).url()}
@@ -206,28 +357,43 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
                 </div>
               ) : null}
             </div>
-            <div className="buyer-hero-right" aria-hidden>
-              <div className="buyer-hero-right-bg" />
-              <div className="buyer-hero-grid-lines" />
-              <div className="buyer-hero-right-halo" />
-              {safeSectorCards.length ? (
-                <div className="buyer-sector-badges">
-                  {safeSectorCards.slice(0, 5).map((card, i) => (
-                    <div key={i} className="buyer-sector-badge buyer-sector-badge--chip">
-                      <span className="buyer-sector-pill-dot">{card.icon?.trim() || '◆'}</span>
-                      <div>
-                        <div className="buyer-sector-badge-title">{card.title}</div>
-                        {card.description && (
-                          <div className="buyer-sector-badge-sub">
-                            {card.description}
+            {showHeroRight && (
+              <div className="buyer-hero-right">
+                {heroRightShowsImage && heroImage ? (
+                  <div className="buyer-hero-right-image">
+                    <Image
+                      src={urlFor(heroImage).width(960).height(720).fit('crop').url()}
+                      alt={heroImage.alt || heroTitle}
+                      fill
+                      priority
+                      sizes="(max-width: 960px) 100vw, 45vw"
+                      className="buyer-hero-right-image-el"
+                    />
+                  </div>
+                ) : heroRightShowsSectors ? (
+                  <>
+                    <div className="buyer-hero-right-bg" aria-hidden />
+                    <div className="buyer-hero-grid-lines" aria-hidden />
+                    <div className="buyer-hero-right-halo" aria-hidden />
+                    <div className="buyer-sector-badges">
+                      {safeSectorCards.slice(0, 5).map((card, i) => (
+                        <div key={i} className="buyer-sector-badge buyer-sector-badge--chip">
+                          <SectorCardVisual card={card} variant="badge" />
+                          <div>
+                            <div className="buyer-sector-badge-title">{card.title}</div>
+                            {card.description && (
+                              <div className="buyer-sector-badge-sub">
+                                {card.description}
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              ) : null}
-            </div>
+                  </>
+                ) : null}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -239,24 +405,39 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               <div className="buyer-auction-cards">
                 {safeAuctionCards.map((card, i) => {
                   const cardHref = card.href?.trim()
+                  const imageSrc = sanityImageUrl(card.image, 640, 400)
+                  const cardClass = `buyer-auction-card${cardHref ? ' buyer-auction-card--link' : ''}${imageSrc ? ' buyer-auction-card--has-image' : ''}`
                   const cardBody = (
                     <>
-                      <h3 className="buyer-auction-card-label">{card.label}</h3>
-                      {card.subtitle && <p className="buyer-auction-card-sub">{card.subtitle}</p>}
+                      {imageSrc && (
+                        <div className="buyer-auction-card-image">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imageSrc}
+                            alt={card.image?.alt || card.label}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </div>
+                      )}
+                      <div className="buyer-auction-card-body">
+                        <h3 className="buyer-auction-card-label">{card.label}</h3>
+                        {card.subtitle && <p className="buyer-auction-card-sub">{card.subtitle}</p>}
+                      </div>
                     </>
                   )
                   return cardHref ? (
                     <a
                       key={i}
                       href={cardHref}
-                      className="buyer-auction-card buyer-auction-card--link"
+                      className={cardClass}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       {cardBody}
                     </a>
                   ) : (
-                    <article key={i} className="buyer-auction-card">
+                    <article key={i} className={cardClass}>
                       {cardBody}
                     </article>
                   )
@@ -267,20 +448,11 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               <div className="buyer-categories-block">
                 {categoriesHeading && <h2 className="buyer-heavy-heading">{categoriesHeading}</h2>}
                 <ul className="buyer-categories-list">
-                  {safeCategories.map((cat, i) => {
-                    const catHref = cat.href?.trim()
-                    return (
-                      <li key={i}>
-                        {catHref ? (
-                          <a href={catHref} target="_blank" rel="noopener noreferrer">
-                            {cat.label}
-                          </a>
-                        ) : (
-                          cat.label
-                        )}
-                      </li>
-                    )
-                  })}
+                  {safeCategories.map((cat, i) => (
+                    <li key={i}>
+                      <BuyerCategoryChip category={cat} />
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -288,24 +460,9 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               <div className="buyer-brands-block">
                 {brandsHeading && <h2 className="buyer-heavy-heading">{brandsHeading}</h2>}
                 <div className="buyer-brands-list">
-                  {safeBrands.map((brand, i) => {
-                    const brandHref = brand.href?.trim()
-                    return brandHref ? (
-                      <a
-                        key={i}
-                        href={brandHref}
-                        className="buyer-brand-chip buyer-brand-chip--link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {brand.name}
-                      </a>
-                    ) : (
-                      <span key={i} className="buyer-brand-chip">
-                        {brand.name}
-                      </span>
-                    )
-                  })}
+                  {safeBrands.map((brand, i) => (
+                    <BuyerBrandChip key={i} brand={brand} />
+                  ))}
                 </div>
               </div>
             )}
@@ -377,9 +534,12 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
             <h2 className="sector-section-title">{sectorCardsSectionTitle ?? t('sectorTitleFallback')}</h2>
             <div className="buyer-sectors-grid">
               {safeSectorCards.map((card, i) => (
-                <article key={i} className="buyer-sector-card">
+                <article
+                  key={i}
+                  className={`buyer-sector-card${hasSanityImage(card.image) ? ' buyer-sector-card--has-image' : ''}`}
+                >
                   <div className="buyer-sector-card-number">{String(i + 1).padStart(2, '0')}</div>
-                  <div className="buyer-sector-card-icon">{card.icon?.trim() || '◆'}</div>
+                  <SectorCardVisual card={card} variant="tile" />
                   <h3 className="buyer-sector-card-title">{card.title}</h3>
                   {card.description && <p className="buyer-sector-card-body">{card.description}</p>}
                   {card.href && (
@@ -395,18 +555,6 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
                 </article>
               ))}
             </div>
-          </div>
-        </section>
-      )}
-
-      {(pageFooter?.about || pageFooter?.faq || pageFooter?.contact) && (
-        <section className="buyer-page-footer-wrap">
-          <div className="buyer-page-footer-in">
-            <nav className="buyer-page-footer-links" aria-label={t('pageFooterAriaLabel')}>
-              {pageFooter.about && <span>{pageFooter.about}</span>}
-              {pageFooter.faq && <span>{pageFooter.faq}</span>}
-              {pageFooter.contact && <span>{pageFooter.contact}</span>}
-            </nav>
           </div>
         </section>
       )}

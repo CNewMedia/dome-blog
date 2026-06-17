@@ -257,12 +257,43 @@ export const getBuyerPage = groq`*[_type == "buyerPage" && slug.current == $slug
   heroCtaSecondary,
   navRegisterCta,
   urgencyLine,
-  auctionCards[]{ label, subtitle, href },
+  auctionCards[]{
+    label,
+    subtitle,
+    href,
+    image{
+      alt,
+      asset->{
+        _id,
+        url
+      }
+    }
+  },
   categoriesHeading,
-  categories[]{ label, href },
+  categories[]{
+    label,
+    href,
+    icon{
+      alt,
+      asset->{
+        _id,
+        url
+      }
+    }
+  },
   brandsHeading,
   brandNames,
-  brands[]{ name, logo, href },
+  brands[]{
+    name,
+    href,
+    logo{
+      alt,
+      asset->{
+        _id,
+        url
+      }
+    }
+  },
   newsletter{ heading, placeholder, button },
   pageFooter{ about, faq, contact },
   stats[]{ value, label },
@@ -275,7 +306,21 @@ export const getBuyerPage = groq`*[_type == "buyerPage" && slug.current == $slug
   steps[]{ icon, title, description },
   sectorCardsSectionEyebrow,
   sectorCardsSectionTitle,
-  sectorCards[]{ icon, title, description, image, href, buttonLabel, openInNewTab },
+  sectorCards[]{
+    icon,
+    title,
+    description,
+    image{
+      alt,
+      asset->{
+        _id,
+        url
+      }
+    },
+    href,
+    buttonLabel,
+    openInNewTab
+  },
   finalCtaTitle,
   finalCtaBody,
   finalCtaButtonLabel,
@@ -321,13 +366,26 @@ export const getBuyerHreflangVariants = groq`
   )
 `
 
-export const getSiteChrome = (locale: string) => {
-  return groq`*[_type == "siteChrome" && locale == $locale][0]{
+const siteChromeProjection = groq`{
     _id,
     locale,
     companyName,
-    headerLogo,
-    footerLogo,
+    headerLogo{
+      _type,
+      alt,
+      asset->{
+        _id,
+        url
+      }
+    },
+    footerLogo{
+      _type,
+      alt,
+      asset->{
+        _id,
+        url
+      }
+    },
     logoAlt,
     headerMenu[]{
       label,
@@ -350,4 +408,5 @@ export const getSiteChrome = (locale: string) => {
     address,
     copyrightText
   }`
-}
+
+export const getSiteChrome = groq`*[_type == "siteChrome" && locale == $locale][0]${siteChromeProjection}`
