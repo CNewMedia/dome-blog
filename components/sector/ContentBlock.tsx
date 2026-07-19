@@ -18,16 +18,16 @@ export default function ContentBlock({ content, image }: ContentBlockProps) {
       >
         {hasContent && (
           <div className="sector-content">
-            <PortableText value={content} />
+            <PortableText value={content} variant="inherit" />
           </div>
         )}
         {image && (
           <div className="sector-content-image-wrap">
             <Image
-              src={urlFor(image).width(560).height(400).fit('crop').url()}
+              src={urlFor(image).width(800).height(1000).fit('max').url()}
               alt={image.alt || ''}
-              width={560}
-              height={400}
+              fill
+              sizes="(max-width: 768px) 100vw, 380px"
               className="sector-content-image"
             />
           </div>

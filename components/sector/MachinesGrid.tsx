@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { urlFor } from '../../sanity/client'
-import { BRAND } from '../../lib/constants'
 import type { Machine } from './types'
 
 type MachinesGridProps = {
@@ -32,16 +31,7 @@ export default function MachinesGrid({
                 />
               </div>
             ) : (
-              <div
-                className="sector-machine-img-wrap"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: BRAND.muted,
-                  fontSize: '2rem',
-                }}
-              >
+              <div className="sector-machine-img-wrap sector-machine-img-wrap--placeholder" aria-hidden>
                 ◆
               </div>
             )}
