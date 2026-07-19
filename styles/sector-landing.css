@@ -546,6 +546,118 @@
   transform: translateY(-1px);
 }
 
+.sector-machine-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: fit-content;
+  margin-top: 0.85rem;
+  padding: 0.45rem 0.85rem;
+  border: 1.5px solid var(--sector-border);
+  border-radius: 999px;
+  background: var(--sector-off);
+  color: var(--sector-black);
+  font-family: var(--sector-font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.sector-machine-toggle:hover,
+.sector-machine-toggle:focus-visible {
+  border-color: var(--sector-gold-acc);
+  background: #fff;
+  outline: none;
+}
+
+.sector-machine-toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.sector-machine-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.32s ease, opacity 0.28s ease;
+}
+
+.sector-machine-details.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 0.85rem;
+}
+
+.sector-machine-details-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.sector-machine-details-block + .sector-machine-details-block {
+  margin-top: 0.85rem;
+}
+
+.sector-machine-details-label {
+  font-family: var(--sector-font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sector-muted);
+  margin-bottom: 0.45rem;
+}
+
+.sector-machine-types {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sector-machine-types li {
+  position: relative;
+  padding-left: 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--sector-black);
+}
+
+.sector-machine-types li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--sector-gold);
+}
+
+.sector-machine-brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sector-machine-brand-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--sector-border);
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--sector-black);
+  line-height: 1.2;
+}
+
 /* ----- Team section ----- */
 .sector-team-wrap {
   background: var(--sector-black);

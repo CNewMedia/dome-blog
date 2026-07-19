@@ -20,6 +20,8 @@ export type Machine = {
   buttonLabel?: string
   buttonHref?: string
   openInNewTab?: boolean
+  machineTypes?: string[]
+  brands?: string[]
 }
 
 export type SuccessStory = {

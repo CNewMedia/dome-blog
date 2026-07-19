@@ -141,7 +141,9 @@ export const getSectorPage = (locale: string) => {
       image,
       buttonLabel,
       buttonHref,
-      openInNewTab
+      openInNewTab,
+      machineTypes,
+      brands
     },
     machinesSectionVisible,
     referenceAuctionsTitle,
@@ -218,7 +220,9 @@ export const getSectorPageLegacy = (locale: string) => {
       image,
       buttonLabel,
       buttonHref,
-      openInNewTab
+      openInNewTab,
+      machineTypes,
+      brands
     },
     machinesSectionVisible,
     referenceAuctionsTitle,

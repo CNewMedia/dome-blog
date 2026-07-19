@@ -376,6 +376,22 @@ export const sectorPageSchema = defineType({
             { name: 'buttonLabel', title: 'Button label', type: 'string', description: 'Optional CTA text (e.g. Bekijk machines).' },
             { name: 'buttonHref', title: 'Button URL', type: 'string', description: 'Link for the button. Leave empty to hide the button.' },
             { name: 'openInNewTab', title: 'Open in new tab', type: 'boolean', initialValue: false, description: 'Open link in a new tab.' },
+            {
+              name: 'machineTypes',
+              title: 'Machinetypes',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Types die uitklapbaar getoond worden (optioneel).',
+              options: { layout: 'tags' },
+            },
+            {
+              name: 'brands',
+              title: 'Merken',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Merken die als tags getoond worden (optioneel).',
+              options: { layout: 'tags' },
+            },
           ],
           preview: {
             select: { title: 'name' },
