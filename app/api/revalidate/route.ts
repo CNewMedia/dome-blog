@@ -39,7 +39,7 @@ function buildPaths(body: RevalidatePayload): string[] {
     }
   }
 
-  return [...paths]
+  return Array.from(paths)
 }
 
 function isAuthorizedSecret(secret: string | null): boolean {
