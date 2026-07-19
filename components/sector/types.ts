@@ -20,6 +20,8 @@ export type Machine = {
   buttonLabel?: string
   buttonHref?: string
   openInNewTab?: boolean
+  machineTypes?: string[]
+  brands?: string[]
 }
 
 export type SuccessStory = {
@@ -34,6 +36,29 @@ export type StatsSection = { isVisible?: boolean; items?: StatsSectionItem[] }
 export type ProcessStep = { title?: string; description?: string }
 export type ProcessSection = { isVisible?: boolean; eyebrow?: string; title?: string; steps?: ProcessStep[] }
 
+export type ReferenceAuction = {
+  title?: string
+  text?: string
+  image?: SanityImage
+  link?: string
+}
+
+/** Team member from Sanity (getTeamMembers / page references) */
+export type TeamMember = {
+  _id: string
+  naam: LocalizedValue
+  functie?: LocalizedValue
+  beschrijving?: LocalizedValue
+  foto?: SanityImage
+  email?: string
+  telefoon?: string
+  linkedinUrl?: string
+  meetingCalendarUrl?: string
+  ctaLabel?: LocalizedValue
+  volgorde?: number
+  actief?: boolean
+}
+
 export type SectorPageData = {
   _id: string
   slug: string
@@ -44,6 +69,7 @@ export type SectorPageData = {
   audienceType?: 'buyer' | 'seller'
   sectorKey?: string
   heroTitle?: string
+  heroTagline?: string
   heroSubtitle?: string
   heroImage?: SanityImage
   heroEyebrow?: string
@@ -61,8 +87,12 @@ export type SectorPageData = {
   uspSectionVisible?: boolean
   machines?: Machine[]
   machinesSectionVisible?: boolean
+  referenceAuctionsTitle?: string
+  referenceAuctions?: ReferenceAuction[]
   successStory?: SuccessStory
   testimonialSectionVisible?: boolean
+  /** Resolved page-specific team members (from references); empty/undefined = use global list */
+  teamMembers?: TeamMember[]
   teamSectionEyebrow?: string
   teamSectionTitle?: string
   teamSectionVisible?: boolean
@@ -74,20 +104,4 @@ export type SectorPageData = {
   seoTitle?: string
   seoDescription?: string
   ogImage?: SanityImage
-}
-
-/** Team member from Sanity (getTeamMembers) */
-export type TeamMember = {
-  _id: string
-  naam: LocalizedValue
-  functie?: LocalizedValue
-  beschrijving?: LocalizedValue
-  foto?: SanityImage
-  email?: string
-  telefoon?: string
-  linkedinUrl?: string
-  meetingCalendarUrl?: string
-  ctaLabel?: LocalizedValue
-  volgorde?: number
-  actief?: boolean
 }

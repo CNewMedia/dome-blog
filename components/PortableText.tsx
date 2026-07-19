@@ -1,7 +1,7 @@
 import { PortableText as PT } from '@portabletext/react'
 import { urlFor } from '../sanity/client'
 
-const components = {
+const defaultComponents = {
   types: {
     image: ({ value }: any) => (
       <img
@@ -88,7 +88,41 @@ const components = {
   },
 }
 
-export default function PortableText({ value }: { value: any }) {
+/** Typography from parent CSS (sector landing); no competing inline font styles. */
+const inheritComponents = {
+  ...defaultComponents,
+  marks: {
+    strong: ({ children }: any) => <strong>{children}</strong>,
+    em: ({ children }: any) => <em>{children}</em>,
+    link: ({ value, children }: any) => (
+      <a href={value.href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    ),
+  },
+  block: {
+    h2: ({ children }: any) => <h2>{children}</h2>,
+    h3: ({ children }: any) => <h3>{children}</h3>,
+    normal: ({ children }: any) => <p>{children}</p>,
+    blockquote: ({ children }: any) => <blockquote>{children}</blockquote>,
+  },
+  list: {
+    bullet: ({ children }: any) => <ul>{children}</ul>,
+    number: ({ children }: any) => <ol>{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }: any) => <li>{children}</li>,
+    number: ({ children }: any) => <li>{children}</li>,
+  },
+}
+
+export default function PortableText({
+  value,
+  variant = 'default',
+}: {
+  value: any
+  variant?: 'default' | 'inherit'
+}) {
   if (!value) return null
-  return <PT value={value} components={components} />
+  return <PT value={value} components={variant === 'inherit' ? inheritComponents : defaultComponents} />
 }

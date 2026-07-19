@@ -18,6 +18,7 @@ export const sectorPageSchema = defineType({
     { name: 'content', title: 'Content', options: { collapsible: true, collapsed: true } },
     { name: 'usp', title: 'USP', options: { collapsible: true, collapsed: true } },
     { name: 'machines', title: 'Machines', options: { collapsible: true, collapsed: true } },
+    { name: 'referenceAuctions', title: 'Referentieveilingen', options: { collapsible: true, collapsed: true } },
     { name: 'testimonial', title: 'Testimonial', options: { collapsible: true, collapsed: true } },
     { name: 'team', title: 'Team', options: { collapsible: true, collapsed: true } },
     { name: 'contact', title: 'Contact', options: { collapsible: true, collapsed: true } },
@@ -141,11 +142,22 @@ export const sectorPageSchema = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'heroTagline',
+      title: 'Hero tagline (goud)',
+      type: 'string',
+      group: 'hero',
+      description:
+        'Korte slagzin, verschijnt in goud direct onder de hoofdtitel. Kort houden (max ±60 tekens).',
+      validation: (Rule) =>
+        Rule.max(80).warning('Houd de tagline kort (richtlijn max. ±60 tekens).'),
+    }),
+    defineField({
       name: 'heroSubtitle',
       title: 'Hero subtitle',
       type: 'text',
       group: 'hero',
       rows: 3,
+      description: 'Leadtekst onder de titel (en optionele gouden tagline).',
     }),
     defineField({
       name: 'heroImage',
@@ -368,6 +380,22 @@ export const sectorPageSchema = defineType({
             { name: 'buttonLabel', title: 'Button label', type: 'string', description: 'Optional CTA text (e.g. Bekijk machines).' },
             { name: 'buttonHref', title: 'Button URL', type: 'string', description: 'Link for the button. Leave empty to hide the button.' },
             { name: 'openInNewTab', title: 'Open in new tab', type: 'boolean', initialValue: false, description: 'Open link in a new tab.' },
+            {
+              name: 'machineTypes',
+              title: 'Machinetypes',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Types die uitklapbaar getoond worden (optioneel).',
+              options: { layout: 'tags' },
+            },
+            {
+              name: 'brands',
+              title: 'Merken',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Merken die als tags getoond worden (optioneel).',
+              options: { layout: 'tags' },
+            },
           ],
           preview: {
             select: { title: 'name' },
@@ -385,6 +413,65 @@ export const sectorPageSchema = defineType({
       title: 'Show machines section',
       type: 'boolean',
       initialValue: true,
+    }),
+    defineField({
+      name: 'referenceAuctionsTitle',
+      fieldset: 'referenceAuctions',
+      group: 'inhoud',
+      title: 'Titel referentieveilingen',
+      type: 'string',
+      description: 'Leeg laten = “Referentieveilingen”. Sectie verdwijnt als er geen items zijn.',
+    }),
+    defineField({
+      name: 'referenceAuctions',
+      fieldset: 'referenceAuctions',
+      group: 'inhoud',
+      title: 'Referentieveilingen',
+      type: 'array',
+      description:
+        'Optionele case-/referentiepanelen onder het proces. Leeg laten = sectie niet tonen.',
+      of: [
+        {
+          type: 'object',
+          name: 'referenceAuction',
+          title: 'Referentieveiling',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titel',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'text',
+              title: 'Tekst',
+              type: 'text',
+              rows: 3,
+              description: 'Korte tekst (richtlijn max. ±200 tekens).',
+              validation: (Rule) => Rule.max(240).warning('Houd het kort (±200 tekens).'),
+            },
+            {
+              name: 'image',
+              title: 'Afbeelding',
+              type: 'image',
+              options: { hotspot: true },
+              fields: [{ name: 'alt', type: 'string', title: 'Alt-tekst' }],
+            },
+            {
+              name: 'link',
+              title: 'Link',
+              type: 'url',
+              description: 'Optioneel. Hele paneel wordt klikbaar.',
+            },
+          ],
+          preview: {
+            select: { title: 'title', media: 'image' },
+            prepare({ title, media }) {
+              return { title: title || 'Referentieveiling', media }
+            },
+          },
+        },
+      ],
     }),
     defineField({
       name: 'successStory',
@@ -405,6 +492,16 @@ export const sectorPageSchema = defineType({
       title: 'Show testimonial section',
       type: 'boolean',
       initialValue: true,
+    }),
+    defineField({
+      name: 'teamMembers',
+      fieldset: 'team',
+      group: 'inhoud',
+      title: 'Teamleden voor deze pagina',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'teamMember' }] }],
+      description:
+        'Kies welke teamleden op deze pagina verschijnen (volgorde = weergavevolgorde). Leeg laten = alle actieve teamleden tonen.',
     }),
     defineField({
       name: 'teamSectionEyebrow',

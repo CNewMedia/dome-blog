@@ -112,6 +112,7 @@ export const getSectorPage = (locale: string) => {
     audienceType,
     sectorKey,
     heroTitle,
+    heroTagline,
     heroSubtitle,
     heroImage,
     heroEyebrow,
@@ -141,15 +142,38 @@ export const getSectorPage = (locale: string) => {
       image,
       buttonLabel,
       buttonHref,
-      openInNewTab
+      openInNewTab,
+      machineTypes,
+      brands
     },
     machinesSectionVisible,
+    referenceAuctionsTitle,
+    referenceAuctions[] {
+      title,
+      text,
+      image,
+      link
+    },
     successStory {
       quote,
       company,
       result
     },
     testimonialSectionVisible,
+    teamMembers[]->{
+      _id,
+      naam,
+      functie,
+      beschrijving,
+      foto,
+      email,
+      telefoon,
+      linkedinUrl,
+      meetingCalendarUrl,
+      ctaLabel,
+      volgorde,
+      actief
+    },
     teamSectionEyebrow,
     teamSectionTitle,
     teamSectionVisible,
@@ -172,6 +196,7 @@ export const getSectorPageLegacy = (locale: string) => {
     _id,
     "slug": lower(sector),
     "heroTitle": coalesce(heroTitle.${l}, heroTitle.${fallback}),
+    heroTagline,
     "heroSubtitle": coalesce(heroSubtitle.${l}, heroSubtitle.${fallback}),
     heroImage,
     heroEyebrow,
@@ -197,15 +222,38 @@ export const getSectorPageLegacy = (locale: string) => {
       image,
       buttonLabel,
       buttonHref,
-      openInNewTab
+      openInNewTab,
+      machineTypes,
+      brands
     },
     machinesSectionVisible,
+    referenceAuctionsTitle,
+    referenceAuctions[] {
+      title,
+      text,
+      image,
+      link
+    },
     "successStory": successStory {
       "quote": coalesce(quote.${l}, quote.${fallback}, quote),
       "company": coalesce(company.${l}, company.${fallback}, company),
       "result": coalesce(result.${l}, result.${fallback}, result)
     },
     testimonialSectionVisible,
+    teamMembers[]->{
+      _id,
+      naam,
+      functie,
+      beschrijving,
+      foto,
+      email,
+      telefoon,
+      linkedinUrl,
+      meetingCalendarUrl,
+      ctaLabel,
+      volgorde,
+      actief
+    },
     teamSectionEyebrow,
     teamSectionTitle,
     teamSectionVisible,

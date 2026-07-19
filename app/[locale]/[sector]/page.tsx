@@ -120,12 +120,19 @@ export default async function SectorPage({ params }: Props) {
   ])
   const rawTeamMembers = teamResult.data
 
-  const normalizedTeamMembers = normalizeLocalizedValue(rawTeamMembers ?? [], locale)
-  const teamMembers: TeamMember[] = Array.isArray(normalizedTeamMembers)
-    ? (normalizedTeamMembers as TeamMember[])
+  const normalizedGlobalTeam = normalizeLocalizedValue(rawTeamMembers ?? [], locale)
+  const globalTeamMembers: TeamMember[] = Array.isArray(normalizedGlobalTeam)
+    ? (normalizedGlobalTeam as TeamMember[]).filter((m) => m && typeof m._id === 'string')
     : []
 
   if (!data) notFound()
+
+  const pageTeamNormalized = normalizeLocalizedValue(data.teamMembers ?? [], locale)
+  const pageTeamMembers: TeamMember[] = Array.isArray(pageTeamNormalized)
+    ? (pageTeamNormalized as TeamMember[]).filter((m) => m && typeof m._id === 'string')
+    : []
+
+  const teamMembers = pageTeamMembers.length > 0 ? pageTeamMembers : globalTeamMembers
 
   const slugStr = typeof data.slug === 'string' ? data.slug : sector
   const canonicalUrl = `${DOMAIN}/${locale}/${slugStr}`
