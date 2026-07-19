@@ -69,6 +69,7 @@ export type SectorPageData = {
   audienceType?: 'buyer' | 'seller'
   sectorKey?: string
   heroTitle?: string
+  heroTagline?: string
   heroSubtitle?: string
   heroImage?: SanityImage
   heroEyebrow?: string

@@ -148,12 +148,22 @@ export const sectorPageSchema = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'heroSubtitle',
-      title: 'Hero ondertitel',
+      name: 'heroTagline',
+      title: 'Hero tagline (goud)',
       type: 'string',
       group: 'hero',
       description:
-        'Korte regel direct onder de hoofdtitel (H1), in merkgoud. Leeg laten = geen ondertitel.',
+        'Korte slagzin, verschijnt in goud direct onder de hoofdtitel. Kort houden (max ±60 tekens).',
+      validation: (Rule) =>
+        Rule.max(80).warning('Houd de tagline kort (richtlijn max. ±60 tekens).'),
+    }),
+    defineField({
+      name: 'heroSubtitle',
+      title: 'Hero subtitle',
+      type: 'text',
+      group: 'hero',
+      rows: 3,
+      description: 'Leadtekst onder de titel (en optionele gouden tagline).',
     }),
     defineField({
       name: 'heroImage',

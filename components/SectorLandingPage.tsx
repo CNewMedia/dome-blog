@@ -26,6 +26,7 @@ export default function SectorLandingPage({
 }) {
   const {
     heroTitle,
+    heroTagline,
     heroSubtitle,
     heroImage,
     heroEyebrow,
@@ -74,6 +75,7 @@ export default function SectorLandingPage({
       {showHero && (
         <Hero
           title={heroTitle || 'Industrial Auctions'}
+          tagline={heroTagline}
           subtitle={heroSubtitle}
           image={heroImage}
           eyebrow={heroEyebrow}
