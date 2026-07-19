@@ -4,6 +4,7 @@ import {
   StatsBar,
   UspGrid,
   MachinesGrid,
+  ReferenceAuctions,
   TeamSection,
   ProcessSteps,
   SuccessStory,
@@ -42,6 +43,8 @@ export default function SectorLandingPage({
     uspSectionVisible,
     machines,
     machinesSectionVisible,
+    referenceAuctions,
+    referenceAuctionsTitle,
     successStory,
     testimonialSectionVisible,
     teamSectionEyebrow,
@@ -59,6 +62,9 @@ export default function SectorLandingPage({
   const showContent = contentSectionVisible !== false && content && Array.isArray(content) && content.length > 0
   const showUsp = uspSectionVisible !== false && uspBlocks && uspBlocks.length > 0
   const showMachines = machinesSectionVisible !== false && machines && machines.length > 0
+  const showReferenceAuctions =
+    Array.isArray(referenceAuctions) &&
+    referenceAuctions.some((item) => Boolean(item?.title?.trim()))
   const showTestimonial = testimonialSectionVisible !== false && successStory && (successStory.quote || successStory.company)
   const showTeam = teamSectionVisible !== false && teamMembers?.length
   const showContact = contactSectionVisible !== false
@@ -102,6 +108,12 @@ export default function SectorLandingPage({
       <Reveal>
         <ProcessSteps processSection={processSection} />
       </Reveal>
+
+      {showReferenceAuctions && (
+        <Reveal>
+          <ReferenceAuctions items={referenceAuctions!} title={referenceAuctionsTitle} />
+        </Reveal>
+      )}
 
       {showTestimonial && (
         <SuccessStory

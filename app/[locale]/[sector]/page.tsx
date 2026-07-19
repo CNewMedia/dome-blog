@@ -106,7 +106,7 @@ export default async function SectorPage({ params }: Props) {
   const { isEnabled } = await draftMode()
   const preview = isEnabled
 
-  const [data, rawTeamMembers] = await Promise.all([
+  const [dataRaw, rawTeamMembers] = await Promise.all([
     preview
       ? previewClient.fetch(getSectorPage(locale), {
           slug: sector.toLowerCase(),
@@ -117,12 +117,27 @@ export default async function SectorPage({ params }: Props) {
     (preview ? previewClient : client).fetch(getTeamMembers),
   ])
 
-  const normalizedTeamMembers = normalizeLocalizedValue(rawTeamMembers ?? [], locale)
-  const teamMembers: TeamMember[] = Array.isArray(normalizedTeamMembers)
-    ? (normalizedTeamMembers as TeamMember[])
+  let data: SectorPageData | null = null
+  if (isSectorPageData(dataRaw)) {
+    data = dataRaw
+  } else if (dataRaw) {
+    const normalized = normalizeLocalizedValue(dataRaw, locale)
+    if (isSectorPageData(normalized)) data = normalized
+  }
+
+  const normalizedGlobalTeam = normalizeLocalizedValue(rawTeamMembers ?? [], locale)
+  const globalTeamMembers: TeamMember[] = Array.isArray(normalizedGlobalTeam)
+    ? (normalizedGlobalTeam as TeamMember[]).filter((m) => m && typeof m._id === 'string')
     : []
 
   if (!data) notFound()
+
+  const pageTeamNormalized = normalizeLocalizedValue(data.teamMembers ?? [], locale)
+  const pageTeamMembers: TeamMember[] = Array.isArray(pageTeamNormalized)
+    ? (pageTeamNormalized as TeamMember[]).filter((m) => m && typeof m._id === 'string')
+    : []
+
+  const teamMembers = pageTeamMembers.length > 0 ? pageTeamMembers : globalTeamMembers
 
   const slugStr = typeof data.slug === 'string' ? data.slug : sector
   const canonicalUrl = `${DOMAIN}/${locale}/${slugStr}`

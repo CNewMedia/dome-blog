@@ -32,7 +32,7 @@ export default function Hero({ title, subtitle, image, eyebrow, ctaLabel, ctaHre
       <div className="sector-hero-in">
         <div className="sector-hero-eyebrow">{eyebrowText}</div>
         <h1 className="sector-hero-h1">{title || 'Industrial Auctions'}</h1>
-        {subtitle && <p className="sector-hero-sub">{subtitle}</p>}
+        {subtitle?.trim() ? <p className="sector-hero-sub">{subtitle.trim()}</p> : null}
         <a href={href} className="sector-hero-cta">
           {label}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

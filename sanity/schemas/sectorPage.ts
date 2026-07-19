@@ -17,6 +17,7 @@ export const sectorPageSchema = defineType({
     { name: 'content', title: 'Content', options: { collapsible: true, collapsed: true } },
     { name: 'usp', title: 'USP', options: { collapsible: true, collapsed: true } },
     { name: 'machines', title: 'Machines', options: { collapsible: true, collapsed: true } },
+    { name: 'referenceAuctions', title: 'Referentieveilingen', options: { collapsible: true, collapsed: true } },
     { name: 'testimonial', title: 'Testimonial', options: { collapsible: true, collapsed: true } },
     { name: 'team', title: 'Team', options: { collapsible: true, collapsed: true } },
     { name: 'contact', title: 'Contact', options: { collapsible: true, collapsed: true } },
@@ -148,10 +149,11 @@ export const sectorPageSchema = defineType({
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero subtitle',
-      type: 'text',
+      title: 'Hero ondertitel',
+      type: 'string',
       group: 'hero',
-      rows: 3,
+      description:
+        'Korte regel direct onder de hoofdtitel (H1), in merkgoud. Leeg laten = geen ondertitel.',
     }),
     defineField({
       name: 'heroImage',
@@ -393,6 +395,65 @@ export const sectorPageSchema = defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'referenceAuctionsTitle',
+      fieldset: 'referenceAuctions',
+      group: 'inhoud',
+      title: 'Titel referentieveilingen',
+      type: 'string',
+      description: 'Leeg laten = “Referentieveilingen”. Sectie verdwijnt als er geen items zijn.',
+    }),
+    defineField({
+      name: 'referenceAuctions',
+      fieldset: 'referenceAuctions',
+      group: 'inhoud',
+      title: 'Referentieveilingen',
+      type: 'array',
+      description:
+        'Optionele case-/referentiepanelen onder het proces. Leeg laten = sectie niet tonen.',
+      of: [
+        {
+          type: 'object',
+          name: 'referenceAuction',
+          title: 'Referentieveiling',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titel',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'text',
+              title: 'Tekst',
+              type: 'text',
+              rows: 3,
+              description: 'Korte tekst (richtlijn max. ±200 tekens).',
+              validation: (Rule) => Rule.max(240).warning('Houd het kort (±200 tekens).'),
+            },
+            {
+              name: 'image',
+              title: 'Afbeelding',
+              type: 'image',
+              options: { hotspot: true },
+              fields: [{ name: 'alt', type: 'string', title: 'Alt-tekst' }],
+            },
+            {
+              name: 'link',
+              title: 'Link',
+              type: 'url',
+              description: 'Optioneel. Hele paneel wordt klikbaar.',
+            },
+          ],
+          preview: {
+            select: { title: 'title', media: 'image' },
+            prepare({ title, media }) {
+              return { title: title || 'Referentieveiling', media }
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: 'successStory',
       fieldset: 'testimonial',
       group: 'inhoud',
@@ -411,6 +472,16 @@ export const sectorPageSchema = defineType({
       title: 'Show testimonial section',
       type: 'boolean',
       initialValue: true,
+    }),
+    defineField({
+      name: 'teamMembers',
+      fieldset: 'team',
+      group: 'inhoud',
+      title: 'Teamleden voor deze pagina',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'teamMember' }] }],
+      description:
+        'Kies welke teamleden op deze pagina verschijnen (volgorde = weergavevolgorde). Leeg laten = alle actieve teamleden tonen.',
     }),
     defineField({
       name: 'teamSectionEyebrow',

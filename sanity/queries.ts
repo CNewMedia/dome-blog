@@ -144,12 +144,33 @@ export const getSectorPage = (locale: string) => {
       openInNewTab
     },
     machinesSectionVisible,
+    referenceAuctionsTitle,
+    referenceAuctions[] {
+      title,
+      text,
+      image,
+      link
+    },
     successStory {
       quote,
       company,
       result
     },
     testimonialSectionVisible,
+    teamMembers[]->{
+      _id,
+      naam,
+      functie,
+      beschrijving,
+      foto,
+      email,
+      telefoon,
+      linkedinUrl,
+      meetingCalendarUrl,
+      ctaLabel,
+      volgorde,
+      actief
+    },
     teamSectionEyebrow,
     teamSectionTitle,
     teamSectionVisible,
@@ -200,12 +221,33 @@ export const getSectorPageLegacy = (locale: string) => {
       openInNewTab
     },
     machinesSectionVisible,
+    referenceAuctionsTitle,
+    referenceAuctions[] {
+      title,
+      text,
+      image,
+      link
+    },
     "successStory": successStory {
       "quote": coalesce(quote.${l}, quote.${fallback}, quote),
       "company": coalesce(company.${l}, company.${fallback}, company),
       "result": coalesce(result.${l}, result.${fallback}, result)
     },
     testimonialSectionVisible,
+    teamMembers[]->{
+      _id,
+      naam,
+      functie,
+      beschrijving,
+      foto,
+      email,
+      telefoon,
+      linkedinUrl,
+      meetingCalendarUrl,
+      ctaLabel,
+      volgorde,
+      actief
+    },
     teamSectionEyebrow,
     teamSectionTitle,
     teamSectionVisible,
