@@ -26,7 +26,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
   const { isEnabled: isDraftMode } = await draftMode()
   const [siteChrome, siteSettings] = await Promise.all([
-    client.fetch(getSiteChrome(locale), { locale }),
+    client.fetch(getSiteChrome, { locale }),
     client.fetch(getSiteSettings),
   ])
 
