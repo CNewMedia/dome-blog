@@ -104,12 +104,36 @@ export const buyerPageSchema = defineType({
       description: 'Optioneel; korte intro onder de ondertitel.',
     }),
     defineField({
+      name: 'heroImages',
+      title: 'Hero afbeeldingen (slider)',
+      type: 'array',
+      group: 'hero',
+      description:
+        'Meerdere foto\'s voor de hero-slider. Indien ingevuld, heeft voorrang op de enkelvoudige hero-afbeelding. Optioneel.',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [{ name: 'alt', type: 'string', title: 'Alt-tekst' }],
+        },
+      ],
+    }),
+    defineField({
       name: 'heroImage',
-      title: 'Hero afbeelding',
+      title: 'Hero afbeelding (legacy)',
       type: 'image',
       group: 'hero',
       options: { hotspot: true },
       fields: [{ name: 'alt', type: 'string', title: 'Alt-tekst' }],
+      description: 'Enkelvoudige fallback wanneer Hero afbeeldingen (slider) leeg is. Optioneel.',
+    }),
+    defineField({
+      name: 'heroLinkHref',
+      title: 'Hero link (URL)',
+      type: 'url',
+      group: 'hero',
+      description:
+        'Optioneel. Maakt de hero (incl. slider) klikbaar naar deze URL. Leeg = geen hero-link.',
     }),
     defineField({
       name: 'heroCtaLabel',
@@ -300,10 +324,96 @@ export const buyerPageSchema = defineType({
       description: 'Leeg = scroll naar formulier (#buyer-form).',
     }),
     defineField({
+      name: 'auctionBlocks',
+      title: 'Veilingblokken',
+      type: 'object',
+      group: 'heavyEquipment',
+      description:
+        'Huidige en toekomstige veiling (titel, ondertitel, afbeelding, optionele link en kaderstijl). Alles optioneel.',
+      fields: [
+        {
+          name: 'current',
+          title: 'Huidige veiling',
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Titel', type: 'string' },
+            { name: 'subtitle', title: 'Ondertitel', type: 'text', rows: 3 },
+            {
+              name: 'href',
+              title: 'Link URL',
+              type: 'url',
+              description: 'Optioneel; maakt het blok klikbaar.',
+            },
+            {
+              name: 'image',
+              title: 'Afbeelding',
+              type: 'image',
+              options: { hotspot: true },
+              fields: [{ name: 'alt', type: 'string', title: 'Alt-tekst' }],
+            },
+            {
+              name: 'frameStyle',
+              title: 'Kaderstijl',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Geel accent', value: 'yellow' },
+                  { title: 'Zwart', value: 'black' },
+                  { title: 'Geen kader', value: 'none' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'black',
+            },
+          ],
+          preview: { select: { title: 'title', subtitle: 'subtitle', media: 'image' } },
+        },
+        {
+          name: 'future',
+          title: 'Toekomstige veiling',
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Titel', type: 'string' },
+            { name: 'subtitle', title: 'Ondertitel', type: 'text', rows: 3 },
+            {
+              name: 'href',
+              title: 'Link URL',
+              type: 'url',
+              description: 'Optioneel; future-blokken hebben vaak nog geen link.',
+            },
+            {
+              name: 'image',
+              title: 'Afbeelding',
+              type: 'image',
+              options: { hotspot: true },
+              fields: [{ name: 'alt', type: 'string', title: 'Alt-tekst' }],
+            },
+            {
+              name: 'frameStyle',
+              title: 'Kaderstijl',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Zwart', value: 'black' },
+                  { title: 'Geel accent', value: 'yellow' },
+                  { title: 'Geen kader', value: 'none' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'black',
+            },
+          ],
+          preview: { select: { title: 'title', subtitle: 'subtitle', media: 'image' } },
+        },
+      ],
+    }),
+    defineField({
       name: 'auctionCards',
-      title: 'Veilingkaarten',
+      title: 'Veilingkaarten (legacy)',
       type: 'array',
       group: 'heavyEquipment',
+      description:
+        'Oude vrije kaartenlijst. Wordt als fallback gebruikt wanneer Veilingblokken leeg is.',
       of: [
         {
           type: 'object',
