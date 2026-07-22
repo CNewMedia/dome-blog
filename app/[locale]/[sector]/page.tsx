@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { client, urlFor } from '../../../sanity/client'
-import { sanityFetch } from '../../../sanity/live'
+import { fetchSanity } from '../../../lib/sanityPublished'
 import {
   getSectorPage,
   getSectorPageLegacy,
@@ -78,16 +78,15 @@ function normalizeLocalizedValue(value: unknown, locale: string): unknown {
 
 async function getSectorData(
   slug: string,
-  locale: AppLocale,
-  options?: { stega?: boolean }
+  locale: AppLocale
 ): Promise<SectorPageData | null> {
   const localeAlt = locale.replace('-', '_')
   const normalizedSlug = slug.toLowerCase()
 
-  const { data: next } = await sanityFetch({
-    query: getSectorPage(locale),
-    params: { slug: normalizedSlug, locale, localeAlt },
-    stega: options?.stega,
+  const next = await fetchSanity<unknown>(getSectorPage(locale), {
+    slug: normalizedSlug,
+    locale,
+    localeAlt,
   })
   if (isSectorPageData(next)) return next
 
@@ -96,10 +95,8 @@ async function getSectorData(
     if (isSectorPageData(normalizedNext)) return normalizedNext
   }
 
-  const { data: legacy } = await sanityFetch({
-    query: getSectorPageLegacy(locale),
-    params: { slug: normalizedSlug },
-    stega: false,
+  const legacy = await fetchSanity<unknown>(getSectorPageLegacy(locale), {
+    slug: normalizedSlug,
   })
   if (!legacy) return null
 
@@ -114,11 +111,10 @@ export default async function SectorPage({ params }: Props) {
 
   if (!isAppLocale(locale)) notFound()
 
-  const [data, teamResult] = await Promise.all([
+  const [data, rawTeamMembers] = await Promise.all([
     getSectorData(sector, locale),
-    sanityFetch({ query: getTeamMembers }),
+    fetchSanity<unknown>(getTeamMembers),
   ])
-  const rawTeamMembers = teamResult.data
 
   const normalizedGlobalTeam = normalizeLocalizedValue(rawTeamMembers ?? [], locale)
   const globalTeamMembers: TeamMember[] = Array.isArray(normalizedGlobalTeam)
@@ -163,7 +159,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Dome Auctions' }
   }
 
-  const data = await getSectorData(sector, locale, { stega: false })
+  const data = await getSectorData(sector, locale)
 
   if (!data) {
     return { title: 'Sector | Dome Auctions' }
