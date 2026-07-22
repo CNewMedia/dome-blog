@@ -2,6 +2,8 @@ import { revalidatePath } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
 import { getBuyerBasePath } from '../../../lib/buyerPaths'
+import { client } from '../../../sanity/client'
+import { getSectorSlugs } from '../../../sanity/queries'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,7 +17,17 @@ type RevalidatePayload = {
   paths?: string[]
 }
 
-function buildPaths(body: RevalidatePayload): string[] {
+type SectorSlugRow = { slug?: string; locale?: string }
+
+/**
+ * Resolve paths to revalidate for a webhook payload.
+ *
+ * teamMember: dynamic GROQ over all sectorPage locale+slug pairs. A tag-based
+ * approach (revalidateTag on sector fetches) would be cleaner at scale, but our
+ * fetches are not tagged today and teamMember changes affect every sector page
+ * (global fallback + per-page teamMembers refs).
+ */
+async function resolvePaths(body: RevalidatePayload): Promise<string[]> {
   const paths = new Set<string>()
 
   if (typeof body.path === 'string' && body.path.startsWith('/')) {
@@ -36,6 +48,15 @@ function buildPaths(body: RevalidatePayload): string[] {
     }
     if (body._type === 'buyerPage') {
       paths.add(`/${locale}/${getBuyerBasePath(locale)}/${slug}`)
+    }
+  }
+
+  if (body._type === 'teamMember') {
+    const pages = (await client.fetch(getSectorSlugs)) as SectorSlugRow[]
+    for (const page of pages) {
+      if (typeof page.locale === 'string' && typeof page.slug === 'string') {
+        paths.add(`/${page.locale}/${page.slug.toLowerCase()}`)
+      }
     }
   }
 
@@ -116,12 +137,12 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const paths = buildPaths(body)
+    const paths = await resolvePaths(body)
     if (paths.length === 0) {
       return new Response(
         JSON.stringify({
           message:
-            'Bad Request: could not resolve paths (need path/paths, or _type+locale+slug)',
+            'Bad Request: could not resolve paths (need path/paths, _type+locale+slug, or teamMember)',
           body,
         }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
