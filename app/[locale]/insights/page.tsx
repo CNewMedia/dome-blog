@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { urlFor } from '../../../sanity/client'
-import { sanityFetch } from '../../../sanity/live'
+import { fetchSanity } from '../../../lib/sanityPublished'
 import { getInsights, getTags } from '../../../sanity/queries'
 import InsightsFilterTabs from '../../../components/InsightsFilterTabs'
 
@@ -74,18 +74,14 @@ export default async function InsightsPage({ params, searchParams }: Props) {
   const { locale } = await params
   const { tag: tagSlug } = await searchParams
   const t = await getTranslations('insights')
-  const [postsResult, tagsResult] = await Promise.all([
-    sanityFetch({
-      query: getInsights(locale, tagSlug),
-      params: tagSlug ? { locale, tagSlug } : { locale },
-    }).catch(() => null),
-    sanityFetch({
-      query: getTags(locale),
-      params: { locale },
-    }).catch(() => null),
+  const [postsRaw, tagsRaw] = await Promise.all([
+    fetchSanity<any[]>(getInsights(locale, tagSlug), tagSlug ? { locale, tagSlug } : { locale }).catch(
+      () => null
+    ),
+    fetchSanity<{ _id: string; title: string; slug: string }[]>(getTags(locale), { locale }).catch(
+      () => null
+    ),
   ])
-  const postsRaw = postsResult?.data ?? null
-  const tagsRaw = tagsResult?.data ?? null
   const fetchFailed = postsRaw === null || tagsRaw === null
   const posts: any[] = postsRaw ?? []
   const tags: { _id: string; title: string; slug: string }[] = tagsRaw ?? []

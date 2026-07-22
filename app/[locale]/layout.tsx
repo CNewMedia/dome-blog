@@ -106,7 +106,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           {children}
           <Footer settings={effectiveSettings} />
         </NextIntlClientProvider>
-        <SanityLive />
+        {isDraftMode ? <SanityLive /> : null}
         {isDraftMode ? <VisualEditing /> : null}
       </body>
     </html>

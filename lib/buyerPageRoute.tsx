@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { client, urlFor } from '../sanity/client'
-import { sanityFetch } from '../sanity/live'
+import { fetchSanity } from './sanityPublished'
 import { getBuyerHreflangVariants, getBuyerPage, getBuyerSlugs } from '../sanity/queries'
 import BuyerLandingPage from '../components/BuyerLandingPage'
 import type { BuyerPageData } from '../components/BuyerLandingPage'
@@ -57,11 +57,10 @@ function buildBuyerUrl(locale: string, slug: string): string {
 }
 
 async function fetchBuyerPage(locale: string, slug: string) {
-  const { data } = await sanityFetch({
-    query: getBuyerPage,
-    params: { slug: slug.toLowerCase(), locale },
+  return fetchSanity<BuyerPageData | null>(getBuyerPage, {
+    slug: slug.toLowerCase(),
+    locale,
   })
-  return data
 }
 
 export function createBuyerPageRoute(expectedLocale: string) {
@@ -103,10 +102,9 @@ export function createBuyerPageRoute(expectedLocale: string) {
       return { title: 'Dome Auctions' }
     }
 
-    const { data } = await sanityFetch({
-      query: getBuyerPage,
-      params: { slug: slug.toLowerCase(), locale },
-      stega: false,
+    const data = await fetchSanity<BuyerPageData | null>(getBuyerPage, {
+      slug: slug.toLowerCase(),
+      locale,
     })
 
     if (!hasPublishableBuyerContent(data)) {
