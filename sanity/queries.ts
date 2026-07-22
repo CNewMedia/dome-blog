@@ -298,13 +298,55 @@ export const getBuyerPage = groq`*[_type == "buyerPage" && slug.current == $slug
   heroTitle,
   heroSubtitle,
   heroBody,
-  heroImage,
+  heroImages[]{
+    alt,
+    asset->{
+      _id,
+      url
+    }
+  },
+  heroImage{
+    alt,
+    asset->{
+      _id,
+      url
+    }
+  },
+  heroLinkHref,
   heroCtaLabel,
   heroCtaHref,
   allAuctionsUrl,
   heroCtaSecondary,
   navRegisterCta,
   urgencyLine,
+  auctionBlocks{
+    current{
+      title,
+      subtitle,
+      href,
+      frameStyle,
+      image{
+        alt,
+        asset->{
+          _id,
+          url
+        }
+      }
+    },
+    future{
+      title,
+      subtitle,
+      href,
+      frameStyle,
+      image{
+        alt,
+        asset->{
+          _id,
+          url
+        }
+      }
+    }
+  },
   auctionCards[]{
     label,
     subtitle,

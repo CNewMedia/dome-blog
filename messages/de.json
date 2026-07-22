@@ -55,6 +55,16 @@
     "moreInfo": "Mehr erfahren",
     "emailAriaLabel": "E-Mail",
     "finalCtaKicker": "Käuferregistrierung",
-    "pageFooterAriaLabel": "Seitenfußzeile"
+    "pageFooterAriaLabel": "Seitenfußzeile",
+    "blocks": {
+      "status": {
+        "current": "Laufend",
+        "future": "Bevorstehend"
+      },
+      "view": "Ansehen",
+      "relevantHeading": "Weitere relevante Auktionen"
+    },
+    "carouselPrev": "Vorherige Folie",
+    "carouselNext": "Nächste Folie"
   }
 }

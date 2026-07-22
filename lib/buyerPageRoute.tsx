@@ -132,7 +132,12 @@ export function createBuyerPageRoute(expectedLocale: string) {
       languages[hreflang] = buildBuyerUrl(variant.locale, variant.slug)
     }
 
-    const ogImageSource = data.ogImage ?? data.heroImage
+    const ogImageSource =
+      data.ogImage ??
+      (Array.isArray(data.heroImages) && data.heroImages.find((img) => img?.asset)
+        ? data.heroImages.find((img) => img?.asset)
+        : null) ??
+      data.heroImage
     const ogImages = ogImageSource?.asset
       ? [
           {

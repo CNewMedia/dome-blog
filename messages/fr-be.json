@@ -55,6 +55,16 @@
     "moreInfo": "En savoir plus",
     "emailAriaLabel": "E-mail",
     "finalCtaKicker": "Inscription acheteur",
-    "pageFooterAriaLabel": "Pied de page"
+    "pageFooterAriaLabel": "Pied de page",
+    "blocks": {
+      "status": {
+        "current": "En cours",
+        "future": "À venir"
+      },
+      "view": "Voir",
+      "relevantHeading": "Autres enchères pertinentes"
+    },
+    "carouselPrev": "Diapositive précédente",
+    "carouselNext": "Diapositive suivante"
   }
 }

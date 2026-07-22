@@ -55,6 +55,16 @@
     "moreInfo": "Więcej informacji",
     "emailAriaLabel": "E-mail",
     "finalCtaKicker": "Rejestracja kupującego",
-    "pageFooterAriaLabel": "Stopka strony"
+    "pageFooterAriaLabel": "Stopka strony",
+    "blocks": {
+      "status": {
+        "current": "Trwa",
+        "future": "Nadchodzące"
+      },
+      "view": "Zobacz",
+      "relevantHeading": "Inne istotne aukcje"
+    },
+    "carouselPrev": "Poprzedni slajd",
+    "carouselNext": "Następny slajd"
   }
 }

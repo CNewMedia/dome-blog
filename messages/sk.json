@@ -55,6 +55,16 @@
     "moreInfo": "Viac informácií",
     "emailAriaLabel": "E-mail",
     "finalCtaKicker": "Registrácia kupujúceho",
-    "pageFooterAriaLabel": "Pätička stránky"
+    "pageFooterAriaLabel": "Pätička stránky",
+    "blocks": {
+      "status": {
+        "current": "Prebieha",
+        "future": "Nadchádzajúce"
+      },
+      "view": "Zobraziť",
+      "relevantHeading": "Ďalšie relevantné aukcie"
+    },
+    "carouselPrev": "Predchádzajúca snímka",
+    "carouselNext": "Ďalšia snímka"
   }
 }

@@ -55,6 +55,16 @@
     "moreInfo": "Learn more",
     "emailAriaLabel": "Email",
     "finalCtaKicker": "Buyer registration",
-    "pageFooterAriaLabel": "Page footer"
+    "pageFooterAriaLabel": "Page footer",
+    "blocks": {
+      "status": {
+        "current": "On going",
+        "future": "Coming up"
+      },
+      "view": "View",
+      "relevantHeading": "Other relevant auctions"
+    },
+    "carouselPrev": "Previous slide",
+    "carouselNext": "Next slide"
   }
 }

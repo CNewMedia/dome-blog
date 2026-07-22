@@ -10,6 +10,12 @@ import { BRAND } from '../lib/constants'
 import HubSpotForm from './HubSpotForm'
 import HubSpotFormOverrides from './HubSpotFormOverrides'
 import StepIcon from './buyer/StepIcon'
+import BuyerHeroCarousel, { type BuyerHeroSlide } from './buyer/BuyerHeroCarousel'
+import BuyerMainAuctionCard from './buyer/BuyerMainAuctionCard'
+import {
+  resolveMainAuctionBlocks,
+  type BuyerAuctionBlocksRaw,
+} from '../lib/resolveBuyerAuctionBlocks'
 
 type SanityImageLike =
   | { asset?: { _ref?: string; _id?: string; url?: string } | null; alt?: string }
@@ -138,6 +144,31 @@ function SectorCardVisual({
   return <div className="buyer-sector-card-icon">{card.icon?.trim() || '◆'}</div>
 }
 
+function resolveHeroSlides(
+  heroImages: SanityImageLike[] | null | undefined,
+  heroImage: SanityImageLike,
+  fallbackAlt: string
+): BuyerHeroSlide[] {
+  const fromArray = (heroImages ?? []).filter(hasSanityImage)
+  const sources = fromArray.length > 0 ? fromArray : hasSanityImage(heroImage) ? [heroImage] : []
+
+  return sources
+    .map((image) => {
+      const src =
+        sanityImageUrl(image, 1400, 1050) ||
+        (() => {
+          try {
+            return urlFor(image).width(1400).url()
+          } catch {
+            return null
+          }
+        })()
+      if (!src) return null
+      return { src, alt: image?.alt || fallbackAlt }
+    })
+    .filter((slide): slide is BuyerHeroSlide => Boolean(slide))
+}
+
 export type BuyerBrandItem = {
   name: string
   href?: string | null
@@ -165,13 +196,16 @@ export type BuyerPageData = {
   heroTitle: string
   heroSubtitle?: string | null
   heroBody?: string | null
+  heroImages?: SanityImageLike[] | null
   heroImage?: { asset?: { _ref?: string }; alt?: string } | null
+  heroLinkHref?: string | null
   heroCtaLabel?: string | null
   heroCtaHref?: string | null
   allAuctionsUrl?: string | null
   heroCtaSecondary?: string | null
   navRegisterCta?: string | null
   urgencyLine?: string | null
+  auctionBlocks?: BuyerAuctionBlocksRaw | null
   auctionCards?: BuyerAuctionCardItem[] | null
   categoriesHeading?: string | null
   categories?: BuyerCategoryItem[] | null
@@ -214,13 +248,16 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
     heroTitle,
     heroSubtitle,
     heroBody,
+    heroImages,
     heroImage,
+    heroLinkHref,
     heroCtaLabel,
     heroCtaHref,
     allAuctionsUrl,
     heroCtaSecondary,
     navRegisterCta,
     urgencyLine,
+    auctionBlocks,
     auctionCards,
     categoriesHeading,
     categories,
@@ -262,6 +299,13 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
   const showHeroCta = Boolean(heroCtaLabel?.trim())
   const secondaryAuctionsUrl = allAuctionsUrl?.trim() || ''
   const showHeroCtaSecondary = Boolean(heroCtaSecondary?.trim() && secondaryAuctionsUrl)
+  const heroLinkUrl =
+    heroLinkHref?.trim() || heroCtaHref?.trim() || allAuctionsUrl?.trim() || ''
+  const showHeroLink = Boolean(heroLinkUrl)
+  const heroSlides = resolveHeroSlides(heroImages, heroImage, heroTitle)
+  const hasHeroSlides = heroSlides.length > 0
+  const mainAuctionBlocks = resolveMainAuctionBlocks(auctionBlocks)
+  const showMainAuctions = mainAuctionBlocks.length > 0
   const safeAuctionCards = (auctionCards ?? []).filter(
     (c): c is BuyerAuctionCardItem =>
       Boolean(c && typeof c.label === 'string' && c.label.trim().length > 0)
@@ -276,11 +320,10 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
       : (brandNames ?? []).map((name) => ({ name }))
   ).filter((b): b is BuyerBrandItem => Boolean(b?.name && b.name.trim().length > 0))
   const showHeavyEquipment =
+    showMainAuctions ||
     safeAuctionCards.length > 0 ||
     safeCategories.length > 0 ||
-    safeBrands.length > 0 ||
-    Boolean(categoriesHeading?.trim()) ||
-    Boolean(brandsHeading?.trim())
+    safeBrands.length > 0
 
   const showSteps = safeSteps.length > 0
   const showSectors = safeSectorCards.length > 0
@@ -289,25 +332,37 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
     Boolean(finalCtaBody?.trim()) ||
     Boolean(finalCtaButtonLabel?.trim())
 
-  const hasHeroImage = hasSanityImage(heroImage)
-  const heroRightShowsImage = hasHeroImage && safeSectorCards.length === 0
+  const heroRightShowsImage = hasHeroSlides && safeSectorCards.length === 0
   const heroRightShowsSectors = safeSectorCards.length > 0
   const showHeroRight = heroRightShowsImage || heroRightShowsSectors
-  const showHeroBackground = hasHeroImage && !heroRightShowsImage
+  const showHeroBackground = hasHeroSlides && !heroRightShowsImage
 
   return (
     <div className="sector-lp buyer-lp">
-      <section className={`sector-hero${showHeroRight ? ' sector-hero--split' : ''}`}>
-        {showHeroBackground && heroImage && (
+      <section
+        className={`sector-hero${showHeroRight ? ' sector-hero--split' : ''}${
+          heroRightShowsImage ? ' buyer-hero--has-image-panel' : ''
+        }${showHeroLink ? ' buyer-hero--linked' : ''}`}
+      >
+        {showHeroBackground && heroSlides[0] && (
           <div className="sector-hero-bg">
             <Image
-              src={urlFor(heroImage).width(1920).height(1080).url()}
-              alt={heroImage.alt || heroTitle}
+              src={heroSlides[0].src}
+              alt={heroSlides[0].alt}
               fill
               priority
               sizes="100vw"
             />
           </div>
+        )}
+        {showHeroLink && (
+          <a
+            href={heroLinkUrl}
+            className="buyer-hero-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={heroTitle}
+          />
         )}
         <div className="sector-hero-overlay" aria-hidden />
         <div className="sector-hero-overlay-v" aria-hidden />
@@ -359,17 +414,12 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
             </div>
             {showHeroRight && (
               <div className="buyer-hero-right">
-                {heroRightShowsImage && heroImage ? (
-                  <div className="buyer-hero-right-image">
-                    <Image
-                      src={urlFor(heroImage).width(960).height(720).fit('crop').url()}
-                      alt={heroImage.alt || heroTitle}
-                      fill
-                      priority
-                      sizes="(max-width: 960px) 100vw, 45vw"
-                      className="buyer-hero-right-image-el"
-                    />
-                  </div>
+                {heroRightShowsImage ? (
+                  <BuyerHeroCarousel
+                    slides={heroSlides}
+                    prevLabel={t('carouselPrev')}
+                    nextLabel={t('carouselNext')}
+                  />
                 ) : heroRightShowsSectors ? (
                   <>
                     <div className="buyer-hero-right-bg" aria-hidden />
@@ -401,7 +451,19 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
       {showHeavyEquipment && (
         <section className="buyer-heavy-wrap">
           <div className="buyer-heavy-in">
-            {safeAuctionCards.length > 0 && (
+            {showMainAuctions ? (
+              <div className="buyer-main-auction-grid">
+                {mainAuctionBlocks.map(({ key, block }) => (
+                  <BuyerMainAuctionCard
+                    key={key}
+                    blockKey={key}
+                    block={block}
+                    statusLabel={t(`blocks.status.${key}`)}
+                    viewLabel={t('blocks.view')}
+                  />
+                ))}
+              </div>
+            ) : safeAuctionCards.length > 0 ? (
               <div className="buyer-auction-cards">
                 {safeAuctionCards.map((card, i) => {
                   const cardHref = card.href?.trim()
@@ -443,7 +505,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
                   )
                 })}
               </div>
-            )}
+            ) : null}
             {safeCategories.length > 0 && (
               <div className="buyer-categories-block">
                 {categoriesHeading && <h2 className="buyer-heavy-heading">{categoriesHeading}</h2>}

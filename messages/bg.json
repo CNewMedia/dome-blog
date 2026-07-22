@@ -55,6 +55,16 @@
     "moreInfo": "Повече информация",
     "emailAriaLabel": "Имейл",
     "finalCtaKicker": "Регистрация на купувач",
-    "pageFooterAriaLabel": "Футър на страницата"
+    "pageFooterAriaLabel": "Футър на страницата",
+    "blocks": {
+      "status": {
+        "current": "В ход",
+        "future": "Предстоящи"
+      },
+      "view": "Виж",
+      "relevantHeading": "Други релевантни търгове"
+    },
+    "carouselPrev": "Предишен слайд",
+    "carouselNext": "Следващ слайд"
   }
 }

@@ -55,6 +55,16 @@
     "moreInfo": "További információ",
     "emailAriaLabel": "E-mail",
     "finalCtaKicker": "Vevőregisztráció",
-    "pageFooterAriaLabel": "Oldallábléc"
+    "pageFooterAriaLabel": "Oldallábléc",
+    "blocks": {
+      "status": {
+        "current": "Folyamatban",
+        "future": "Közelgő"
+      },
+      "view": "Megnézem",
+      "relevantHeading": "További releváns árverések"
+    },
+    "carouselPrev": "Előző dia",
+    "carouselNext": "Következő dia"
   }
 }

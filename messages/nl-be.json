@@ -55,6 +55,16 @@
     "moreInfo": "Meer info",
     "emailAriaLabel": "E-mail",
     "finalCtaKicker": "Koperregistratie",
-    "pageFooterAriaLabel": "Paginafooter"
+    "pageFooterAriaLabel": "Paginafooter",
+    "blocks": {
+      "status": {
+        "current": "Lopend",
+        "future": "Komend"
+      },
+      "view": "Bekijk",
+      "relevantHeading": "Andere relevante veilingen"
+    },
+    "carouselPrev": "Vorige slide",
+    "carouselNext": "Volgende slide"
   }
 }

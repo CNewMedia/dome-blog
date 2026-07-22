@@ -55,6 +55,16 @@
     "moreInfo": "Več informacij",
     "emailAriaLabel": "E-pošta",
     "finalCtaKicker": "Registracija kupca",
-    "pageFooterAriaLabel": "Noga strani"
+    "pageFooterAriaLabel": "Noga strani",
+    "blocks": {
+      "status": {
+        "current": "V teku",
+        "future": "Prihajajoče"
+      },
+      "view": "Oglej si",
+      "relevantHeading": "Druge relevantne dražbe"
+    },
+    "carouselPrev": "Prejšnji diapozitiv",
+    "carouselNext": "Naslednji diapozitiv"
   }
 }

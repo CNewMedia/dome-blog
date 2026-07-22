@@ -55,6 +55,16 @@
     "moreInfo": "Mai multe informații",
     "emailAriaLabel": "E-mail",
     "finalCtaKicker": "Înregistrare cumpărător",
-    "pageFooterAriaLabel": "Subsol pagină"
+    "pageFooterAriaLabel": "Subsol pagină",
+    "blocks": {
+      "status": {
+        "current": "În desfășurare",
+        "future": "Viitoare"
+      },
+      "view": "Vezi",
+      "relevantHeading": "Alte licitații relevante"
+    },
+    "carouselPrev": "Slide anterior",
+    "carouselNext": "Slide următor"
   }
 }
