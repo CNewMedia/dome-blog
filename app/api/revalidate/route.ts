@@ -22,10 +22,10 @@ type SectorSlugRow = { slug?: string; locale?: string }
 /**
  * Resolve paths to revalidate for a webhook payload.
  *
- * teamMember: dynamic GROQ over all sectorPage locale+slug pairs. A tag-based
- * approach (revalidateTag on sector fetches) would be cleaner at scale, but our
- * fetches are not tagged today and teamMember changes affect every sector page
- * (global fallback + per-page teamMembers refs).
+ * post: one document per locale. Revalidate article (/articles/{slug} + /insights/{slug}
+ * alias), overview (/insights), and locale home (/{locale}).
+ *
+ * teamMember: dynamic GROQ over all sectorPage locale+slug pairs.
  */
 async function resolvePaths(body: RevalidatePayload): Promise<string[]> {
   const paths = new Set<string>()
@@ -48,6 +48,13 @@ async function resolvePaths(body: RevalidatePayload): Promise<string[]> {
     }
     if (body._type === 'buyerPage') {
       paths.add(`/${locale}/${getBuyerBasePath(locale)}/${slug}`)
+    }
+    if (body._type === 'post') {
+      // Canonical article URL is /articles/{slug}; /insights/{slug} is an alias route.
+      paths.add(`/${locale}/articles/${slug}`)
+      paths.add(`/${locale}/insights/${slug}`)
+      paths.add(`/${locale}/insights`)
+      paths.add(`/${locale}`)
     }
   }
 
@@ -142,7 +149,7 @@ export async function POST(request: NextRequest) {
       return new Response(
         JSON.stringify({
           message:
-            'Bad Request: could not resolve paths (need path/paths, _type+locale+slug, or teamMember)',
+            'Bad Request: could not resolve paths (need path/paths, _type+locale+slug, teamMember, or post)',
           body,
         }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
