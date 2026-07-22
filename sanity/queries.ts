@@ -396,17 +396,17 @@ export const getBuyerAvailableLocales = groq`{
   )
 }`
 
-/** Publishable buyer variants in the same translation group (for hreflang). */
+/** Buyer variants in the same translation group (for hreflang). */
 export const getBuyerHreflangVariants = groq`
   array::unique(
     coalesce(
       *[_type == "buyerPage" && defined(translationKey) && translationKey == *[
         _type == "buyerPage" && locale == $locale && slug.current == $slug
-      ][0].translationKey && defined(heroTitle) && length(heroTitle) > 0 && defined(hubspotFormId) && hubspotFormId != "__TODO_HUBSPOT_FORM_ID__"]{
+      ][0].translationKey && defined(heroTitle) && length(heroTitle) > 0]{
         locale,
         "slug": slug.current
       },
-      *[_type == "buyerPage" && locale == $locale && slug.current == $slug && defined(heroTitle) && length(heroTitle) > 0 && defined(hubspotFormId) && hubspotFormId != "__TODO_HUBSPOT_FORM_ID__"]{
+      *[_type == "buyerPage" && locale == $locale && slug.current == $slug && defined(heroTitle) && length(heroTitle) > 0]{
         locale,
         "slug": slug.current
       }

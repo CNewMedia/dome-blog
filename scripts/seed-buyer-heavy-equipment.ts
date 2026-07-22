@@ -159,12 +159,22 @@ function mapCopyToDocument(entry: LocaleEntry, brandNames: string[]) {
 }
 
 function documentIdFor(locale: BuyerLocale, published: boolean): string {
-  const base = `buyerPage.heavy-equipment.${locale}`
+  // Hyphenated IDs (no dots) are publicly readable under Sanity ACL path("*").
+  // Dotted IDs like buyerPage.heavy-equipment.en-be require auth and break CDN fetches.
+  const base = `buyerPage-heavy-equipment-${locale}`
   return published ? base : `drafts.${base}`
 }
 
 function oppositeDocumentId(locale: BuyerLocale, published: boolean): string {
-  return published ? `drafts.buyerPage.heavy-equipment.${locale}` : `buyerPage.heavy-equipment.${locale}`
+  return published
+    ? `drafts.buyerPage-heavy-equipment-${locale}`
+    : `buyerPage-heavy-equipment-${locale}`
+}
+
+/** Legacy dotted IDs from earlier seeds — delete when migrating. */
+function legacyDocumentIds(locale: BuyerLocale): string[] {
+  const base = `buyerPage.heavy-equipment.${locale}`
+  return [base, `drafts.${base}`]
 }
 
 async function main() {
@@ -193,7 +203,9 @@ async function main() {
     const entry = data.locales[locale]
     const hubspotFormId = resolveHubspotId(locale, entry)
     const hubspotFilled = isHubspotFilled(hubspotFormId)
-    const published = Boolean(entry.publishReady) && hubspotFilled
+    // Publish when editors marked publishReady; missing HubSpot must not keep pages as drafts
+    // (public route no longer 404s on placeholder form ids).
+    const published = Boolean(entry.publishReady)
     const docId = documentIdFor(locale, published)
     const oppositeId = oppositeDocumentId(locale, published)
 
@@ -233,6 +245,13 @@ async function main() {
     const stale = await client.fetch<{ _id: string } | null>(`*[_id == $id][0]{ _id }`, { id: oppositeId })
     if (stale?._id) {
       await client.delete(stale._id)
+    }
+    for (const legacyId of legacyDocumentIds(locale)) {
+      const legacy = await client.fetch<{ _id: string } | null>(`*[_id == $id][0]{ _id }`, { id: legacyId })
+      if (legacy?._id) {
+        await client.delete(legacy._id)
+        console.log(`  deleted legacy ${legacy._id}`)
+      }
     }
   }
 

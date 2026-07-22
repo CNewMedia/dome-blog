@@ -41,14 +41,17 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>
 }
 
+/**
+ * Public buyer pages require real content (hero title). A missing/placeholder
+ * HubSpot form id must not 404 the page — BuyerLandingPage hides the embed.
+ */
 export function hasPublishableBuyerContent(
   data: BuyerPageData | null | undefined,
   options?: { preview?: boolean }
 ): data is BuyerPageData {
   if (!data) return false
-  if (!data.heroTitle?.trim()) return false
   if (options?.preview) return true
-  if (!data.hubspotFormId?.trim() || data.hubspotFormId === '__TODO_HUBSPOT_FORM_ID__') return false
+  if (!data.heroTitle?.trim()) return false
   return true
 }
 

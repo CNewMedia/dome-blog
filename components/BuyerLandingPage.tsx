@@ -492,7 +492,7 @@ export default function BuyerLandingPage({ data }: { data: BuyerPageData }) {
               <div className="buyer-form-box-title">{t('formBoxTitle')}</div>
             </div>
             <HubSpotFormOverrides />
-            {hubspotFormId ? (
+            {hubspotFormId?.trim() && hubspotFormId !== '__TODO_HUBSPOT_FORM_ID__' ? (
               <HubSpotForm formId={hubspotFormId} />
             ) : (
               <p style={{ color: BRAND.muted, fontSize: '0.95rem' }}>{t('hubspotMissingId')}</p>
