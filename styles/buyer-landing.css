@@ -866,7 +866,7 @@
 }
 
 
-/* Fase B: auctionBlocks + heroImages carousel (recovered from stash) */
+/* Fase B: auctionBlocks + heroImages carousel */
 
 .buyer-lp .buyer-hero--linked .buyer-hero-link {
   position: absolute;
@@ -895,15 +895,6 @@
   z-index: 4;
   pointer-events: auto;
 }
-
-.buyer-lp .buyer-hero--linked .buyer-hero-carousel {
-  cursor: pointer;
-}
-
-.buyer-lp .sector-hero-in {
-  padding-top: 7rem;
-
-/* --- */
 
 .buyer-lp .buyer-hero-carousel {
   position: absolute;
@@ -942,7 +933,6 @@
   position: absolute;
   left: 1.25rem;
   bottom: 1.25rem;
-  transform: none;
   z-index: 4;
   display: flex;
   align-items: center;
@@ -955,74 +945,54 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1px solid var(--buyer-main-black);
+  border: 1px solid var(--buyer-main-black, #212529);
   padding: 0;
   background: transparent;
   cursor: pointer;
-  transition: background 0.15s ease;
 }
 
 .buyer-lp .buyer-hero-carousel-dot--active {
-  background: var(--buyer-main-black);
+  background: var(--buyer-main-black, #212529);
 }
-
-.buyer-lp .buyer-hero-left {
-  position: relative;
-  z-index: 2;
-
-/* --- */
 
 .buyer-lp .buyer-main-auction-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
   align-items: stretch;
-  max-width: var(--buyer-content-width);
-  margin: 0 auto;
+  max-width: var(--buyer-content-width, 1120px);
+  margin: 0 auto 2rem;
 }
 
 .buyer-lp .buyer-main-auction-card {
   display: flex;
   flex-direction: column;
   min-height: 280px;
-  border-radius: 0;
   border: 2px solid transparent;
   background: #fff;
   overflow: hidden;
   box-sizing: border-box;
+  color: inherit;
 }
 
-.buyer-lp .buyer-main-auction-card--frame-yellow {
-  border-color: #f5c518;
-  box-shadow: 0 0 0 1px rgba(245, 197, 24, 0.35);
-}
-
-.buyer-lp .buyer-main-auction-card--frame-black {
-  border-color: #212529;
-  box-shadow: 0 0 0 1px rgba(33, 37, 41, 0.2);
-}
-
+.buyer-lp .buyer-main-auction-card--frame-yellow,
 .buyer-lp .buyer-main-auction-card--frame-current {
   border-color: #f5c518;
 }
 
+.buyer-lp .buyer-main-auction-card--frame-black,
 .buyer-lp .buyer-main-auction-card--frame-future {
   border-color: #212529;
 }
 
 .buyer-lp .buyer-main-auction-card--link {
   text-decoration: none;
-  color: inherit;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .buyer-lp .buyer-main-auction-card--link:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-}
-
-.buyer-lp .buyer-main-auction-card--link:hover .buyer-main-auction-card-view {
-  text-decoration: underline;
 }
 
 .buyer-lp .buyer-main-auction-card--has-image {
@@ -1053,7 +1023,6 @@
   display: inline-flex;
   align-self: flex-start;
   padding: 0.35rem 0.7rem;
-  border-radius: 0;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1076,14 +1045,13 @@
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.25;
-  color: var(--buyer-main-text);
 }
 
 .buyer-lp .buyer-main-auction-card-sub {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.45;
-  color: var(--buyer-main-muted);
+  color: #5c5854;
 }
 
 .buyer-lp .buyer-main-auction-card-view {
@@ -1091,44 +1059,16 @@
   padding-top: 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--buyer-main-text);
 }
 
-/* --- */
-
-    min-height: 360px;
-    order: -1;
-  }
-
-  .buyer-lp .sector-hero--split .buyer-hero-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
+@media (max-width: 768px) {
   .buyer-lp .buyer-hero-right,
   .buyer-lp .buyer-hero-carousel,
   .buyer-lp .buyer-hero-carousel-frame {
-    order: -1;
-    margin-bottom: 2.2rem;
     min-height: 360px;
-  }
-
-  .buyer-lp .buyer-auth-section .buyer-auth-cta-box {
-    padding: 2.5rem 1.5rem;
-  }
-
-  .buyer-lp .buyer-auth-cta-row {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .buyer-lp .buyer-auth-cta--primary {
-    width: 100%;
-    min-width: 0;
   }
 
   .buyer-lp .buyer-main-auction-grid {
     grid-template-columns: 1fr;
   }
-
-  .buyer-lp .buyer-categories-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
