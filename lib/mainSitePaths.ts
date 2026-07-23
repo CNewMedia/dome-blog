@@ -15,3 +15,11 @@ export function getMainSiteLocaleSegment(locale: string): string {
 export function getMainSiteHomeUrl(locale: string): string {
   return `https://dome-auctions.com/${getMainSiteLocaleSegment(locale)}/`
 }
+
+export function getMainSiteSignupUrl(locale: string): string {
+  return `https://dome-auctions.com/${getMainSiteLocaleSegment(locale)}/signup/`
+}
+
+export function getMainSiteLoginUrl(locale: string): string {
+  return `https://dome-auctions.com/${getMainSiteLocaleSegment(locale)}/login/`
+}

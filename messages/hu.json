@@ -65,6 +65,12 @@
       "relevantHeading": "További releváns árverések"
     },
     "carouselPrev": "Előző dia",
-    "carouselNext": "Következő dia"
+    "carouselNext": "Következő dia",
+    "cta": {
+      "signupIntro": "Még nincs fiókod?",
+      "signup": "Fiók létrehozása",
+      "or": "Vagy",
+      "login": "Bejelentkezés"
+    }
   }
 }

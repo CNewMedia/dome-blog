@@ -65,6 +65,12 @@
       "relevantHeading": "Inne istotne aukcje"
     },
     "carouselPrev": "Poprzedni slajd",
-    "carouselNext": "Następny slajd"
+    "carouselNext": "Następny slajd",
+    "cta": {
+      "signupIntro": "Nie masz konta?",
+      "signup": "Utwórz konto",
+      "or": "Lub",
+      "login": "Zaloguj się"
+    }
   }
 }

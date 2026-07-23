@@ -65,6 +65,12 @@
       "relevantHeading": "Other relevant auctions"
     },
     "carouselPrev": "Previous slide",
-    "carouselNext": "Next slide"
+    "carouselNext": "Next slide",
+    "cta": {
+      "signupIntro": "Don't have an account yet?",
+      "signup": "Create account",
+      "or": "Or",
+      "login": "Log in"
+    }
   }
 }

@@ -405,6 +405,42 @@ export const buyerPageSchema = defineType({
           ],
           preview: { select: { title: 'title', subtitle: 'subtitle', media: 'image' } },
         },
+        {
+          name: 'relevantHeading',
+          title: 'Titel relevante veilingen',
+          type: 'string',
+          description:
+            'Kop boven de extra relevante veilingen. Leeg = standaardvertaling (“Andere relevante veilingen”).',
+        },
+        {
+          name: 'relevant',
+          title: 'Relevante veilingen',
+          type: 'array',
+          description:
+            'Tot 2 extra veilingen onder de grote current/future-blokken. Optioneel; anders fallback op veilingkaarten (legacy).',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'title', title: 'Titel', type: 'string' },
+                {
+                  name: 'href',
+                  title: 'Link URL',
+                  type: 'url',
+                  description: 'Optioneel; maakt de kaart klikbaar.',
+                },
+                {
+                  name: 'image',
+                  title: 'Afbeelding',
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [{ name: 'alt', type: 'string', title: 'Alt-tekst' }],
+                },
+              ],
+              preview: { select: { title: 'title', media: 'image' } },
+            },
+          ],
+        },
       ],
     }),
     defineField({
@@ -413,7 +449,7 @@ export const buyerPageSchema = defineType({
       type: 'array',
       group: 'heavyEquipment',
       description:
-        'Oude vrije kaartenlijst. Wordt als fallback gebruikt wanneer Veilingblokken leeg is.',
+        'Oude vrije kaartenlijst. Fallback voor “Relevante veilingen” wanneer auctionBlocks.relevant leeg is.',
       of: [
         {
           type: 'object',

@@ -65,6 +65,12 @@
       "relevantHeading": "Autres enchères pertinentes"
     },
     "carouselPrev": "Diapositive précédente",
-    "carouselNext": "Diapositive suivante"
+    "carouselNext": "Diapositive suivante",
+    "cta": {
+      "signupIntro": "Pas encore de compte ?",
+      "signup": "Créer un compte",
+      "or": "Ou",
+      "login": "Connexion"
+    }
   }
 }

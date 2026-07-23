@@ -345,6 +345,18 @@ export const getBuyerPage = groq`*[_type == "buyerPage" && slug.current == $slug
           url
         }
       }
+    },
+    relevantHeading,
+    relevant[]{
+      title,
+      href,
+      image{
+        alt,
+        asset->{
+          _id,
+          url
+        }
+      }
     }
   },
   auctionCards[]{

@@ -65,6 +65,12 @@
       "relevantHeading": "Druge relevantne dražbe"
     },
     "carouselPrev": "Prejšnji diapozitiv",
-    "carouselNext": "Naslednji diapozitiv"
+    "carouselNext": "Naslednji diapozitiv",
+    "cta": {
+      "signupIntro": "Še nimate računa?",
+      "signup": "Ustvari račun",
+      "or": "Ali",
+      "login": "Prijava"
+    }
   }
 }

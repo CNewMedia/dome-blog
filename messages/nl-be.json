@@ -65,6 +65,12 @@
       "relevantHeading": "Andere relevante veilingen"
     },
     "carouselPrev": "Vorige slide",
-    "carouselNext": "Volgende slide"
+    "carouselNext": "Volgende slide",
+    "cta": {
+      "signupIntro": "Nog geen account?",
+      "signup": "Account aanmaken",
+      "or": "Of",
+      "login": "Inloggen"
+    }
   }
 }

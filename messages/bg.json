@@ -65,6 +65,12 @@
       "relevantHeading": "Други релевантни търгове"
     },
     "carouselPrev": "Предишен слайд",
-    "carouselNext": "Следващ слайд"
+    "carouselNext": "Следващ слайд",
+    "cta": {
+      "signupIntro": "Нямате акаунт?",
+      "signup": "Създаване на акаунт",
+      "or": "Или",
+      "login": "Вход"
+    }
   }
 }

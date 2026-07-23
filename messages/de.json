@@ -65,6 +65,12 @@
       "relevantHeading": "Weitere relevante Auktionen"
     },
     "carouselPrev": "Vorherige Folie",
-    "carouselNext": "Nächste Folie"
+    "carouselNext": "Nächste Folie",
+    "cta": {
+      "signupIntro": "Noch kein Konto?",
+      "signup": "Konto erstellen",
+      "or": "Oder",
+      "login": "Anmelden"
+    }
   }
 }

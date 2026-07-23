@@ -65,6 +65,12 @@
       "relevantHeading": "Alte licitații relevante"
     },
     "carouselPrev": "Slide anterior",
-    "carouselNext": "Slide următor"
+    "carouselNext": "Slide următor",
+    "cta": {
+      "signupIntro": "Nu ai încă un cont?",
+      "signup": "Creează cont",
+      "or": "Sau",
+      "login": "Autentificare"
+    }
   }
 }

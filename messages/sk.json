@@ -65,6 +65,12 @@
       "relevantHeading": "Ďalšie relevantné aukcie"
     },
     "carouselPrev": "Predchádzajúca snímka",
-    "carouselNext": "Ďalšia snímka"
+    "carouselNext": "Ďalšia snímka",
+    "cta": {
+      "signupIntro": "Ešte nemáte účet?",
+      "signup": "Vytvoriť účet",
+      "or": "Alebo",
+      "login": "Prihlásenie"
+    }
   }
 }
