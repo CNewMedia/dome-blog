@@ -1,5 +1,5 @@
 import { DefaultDocumentNodeResolver, StructureBuilder } from 'sanity/structure'
-import { activeLocales } from '../i18n/locales'
+import { menuLocales, offlineLocales } from '../i18n/locales'
 import { ProductionUrl } from './components/ProductionUrl'
 
 const LOCALE_DESK_LABELS: Record<string, string> = {
@@ -15,29 +15,51 @@ const LOCALE_DESK_LABELS: Record<string, string> = {
   sl: 'SL',
 }
 
+function buyerLocaleListItem(S: StructureBuilder, locale: string) {
+  const label = LOCALE_DESK_LABELS[locale] ?? locale.toUpperCase()
+  return S.listItem()
+    .title(label)
+    .id(`lp-buyer-locale-${locale}`)
+    .child(
+      S.documentList()
+        .title(`Buyer registratie – ${label}`)
+        .filter(`_type == "buyerPage" && locale == "${locale}"`)
+        .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
+        .defaultOrdering([
+          { field: 'slug.current', direction: 'asc' },
+          { field: '_updatedAt', direction: 'desc' },
+        ])
+        .child((documentId) =>
+          S.document()
+            .schemaType('buyerPage')
+            .documentId(documentId)
+            .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
+        )
+    )
+}
+
+/**
+ * Active buyer locales follow menuLocales; offline ones are nested so editors
+ * don't confuse redirected languages with live ones. Re-enable a language by
+ * adding it to menuLocales — it moves out of the inactive folder automatically.
+ */
 function buyerLocaleListItems(S: StructureBuilder) {
-  return activeLocales.map((locale) => {
-    const label = LOCALE_DESK_LABELS[locale] ?? locale.toUpperCase()
-    return S.listItem()
-      .title(label)
-      .id(`lp-buyer-locale-${locale}`)
-      .child(
-        S.documentList()
-          .title(`Buyer registratie – ${label}`)
-          .filter(`_type == "buyerPage" && locale == "${locale}"`)
-          .initialValueTemplates([S.initialValueTemplateItem('buyer-page-new')])
-          .defaultOrdering([
-            { field: 'slug.current', direction: 'asc' },
-            { field: '_updatedAt', direction: 'desc' },
-          ])
-          .child((documentId) =>
-            S.document()
-              .schemaType('buyerPage')
-              .documentId(documentId)
-              .views([S.view.form().title('Content'), S.view.component(ProductionUrl).title('URL')])
-          )
-      )
-  })
+  const items = menuLocales.map((locale) => buyerLocaleListItem(S, locale))
+
+  if (offlineLocales.length > 0) {
+    items.push(
+      S.listItem()
+        .title('Inactieve talen (niet live)')
+        .id('lp-buyer-reg-inactive-locales')
+        .child(
+          S.list()
+            .title('Inactieve talen (niet live)')
+            .items(offlineLocales.map((locale) => buyerLocaleListItem(S, locale)))
+        )
+    )
+  }
+
+  return items
 }
 
 export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, context) => {
