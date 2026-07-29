@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { client } from '../sanity/client'
 import { getSectorSlugs, getInsightSlugs, getBuyerSlugs } from '../sanity/queries'
-import { activeLocales } from '../i18n/locales'
+import { isMenuLocale, menuLocales } from '../i18n/locales'
 import { getBuyerBasePath } from '../lib/buyerPaths'
 
 const DOMAIN = 'https://insights.dome-auctions.com'
@@ -15,7 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const entries: MetadataRoute.Sitemap = []
 
-  for (const locale of activeLocales) {
+  // Only menu-visible locales — offline locales 301 and must not appear in the sitemap.
+  for (const locale of menuLocales) {
     entries.push({
       url: `${DOMAIN}/${locale}/insights`,
       lastModified: new Date(),
@@ -25,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   for (const row of insightSlugs) {
-    if (row.slug && row.locale) {
+    if (row.slug && row.locale && isMenuLocale(row.locale)) {
       entries.push({
         url: `${DOMAIN}/${row.locale}/articles/${row.slug}`,
         lastModified: new Date(),
@@ -36,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   for (const row of sectorPages) {
-    if (row.slug && row.locale) {
+    if (row.slug && row.locale && isMenuLocale(row.locale)) {
       entries.push({
         url: `${DOMAIN}/${row.locale}/${row.slug}`,
         lastModified: new Date(),
@@ -47,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   for (const row of buyerPages) {
-    if (row.slug && row.locale) {
+    if (row.slug && row.locale && isMenuLocale(row.locale)) {
       entries.push({
         url: `${DOMAIN}/${row.locale}/${getBuyerBasePath(row.locale)}/${row.slug}`,
         lastModified: new Date(),

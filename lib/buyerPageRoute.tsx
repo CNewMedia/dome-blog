@@ -6,7 +6,7 @@ import { fetchSanity } from './sanityPublished'
 import { getBuyerHreflangVariants, getBuyerPage, getBuyerSlugs } from '../sanity/queries'
 import BuyerLandingPage from '../components/BuyerLandingPage'
 import type { BuyerPageData } from '../components/BuyerLandingPage'
-import { activeLocales, isAppLocale } from '../i18n/locales'
+import { activeLocales, isAppLocale, isMenuLocale } from '../i18n/locales'
 import { getBuyerBasePath } from './buyerPaths'
 
 const DOMAIN = 'https://insights.dome-auctions.com'
@@ -24,17 +24,12 @@ const OG_LOCALE: Record<string, string> = {
   sl: 'sl_SI',
 }
 
+/** hreflang only for public (menu) locales — never point to offline 301 targets. */
 const HREFLANG_BY_LOCALE: Record<string, string> = {
   'nl-be': 'nl-BE',
   'fr-be': 'fr-BE',
   'en-be': 'en-GB',
   de: 'de',
-  pl: 'pl',
-  ro: 'ro',
-  hu: 'hu',
-  bg: 'bg',
-  sk: 'sk',
-  sl: 'sl',
 }
 
 type Props = {
@@ -126,7 +121,7 @@ export function createBuyerPageRoute(expectedLocale: string) {
 
     const languages: Record<string, string> = {}
     for (const variant of variants ?? []) {
-      if (!variant.locale || !variant.slug || !isAppLocale(variant.locale)) continue
+      if (!variant.locale || !variant.slug || !isMenuLocale(variant.locale)) continue
       const hreflang = HREFLANG_BY_LOCALE[variant.locale]
       if (!hreflang) continue
       languages[hreflang] = buildBuyerUrl(variant.locale, variant.slug)
