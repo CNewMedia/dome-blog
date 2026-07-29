@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { urlFor } from '../sanity/client'
 import { getLocaleString, type SiteSettings } from '../lib/siteSettings'
-import { activeLocales } from '../i18n/locales'
+import { activeLocales, filterMenuLocales, menuLocales } from '../i18n/locales'
 import { getLocaleDisplayLabel, getLocaleShortLabel } from '../i18n/localeLabels'
 import { getBuyerBasePath, isBuyerBasePath } from '../lib/buyerPaths'
 import { getMainSiteHomeUrl, getMainSiteLocaleSegment } from '../lib/mainSitePaths'
@@ -39,14 +39,16 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
     if (second === 'articles' && third) {
       fetch(`/api/insight-locales?slug=${encodeURIComponent(third)}&locale=${encodeURIComponent(localeSeg)}`)
         .then((res) => res.json())
-        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
+        .then((data: { availableLocales?: string[] }) =>
+          setPageLocales(filterMenuLocales(data.availableLocales ?? []))
+        )
         .catch(() => setPageLocales([]))
       return
     }
 
-    // Buyer registration landing: show all configured locales (404 if target has no content).
+    // Buyer registration landing: menu locales only (direct URLs for others still work).
     if (isBuyerBasePath(second) && third) {
-      setPageLocales([...activeLocales])
+      setPageLocales([...menuLocales])
       return
     }
 
@@ -54,16 +56,18 @@ export default function Navbar({ settings }: { settings?: SiteSettings | null })
     if (segments.length >= 2 && second && second !== 'articles' && second !== 'insights' && !isBuyerBasePath(second)) {
       fetch(`/api/sector-locales?sector=${encodeURIComponent(second)}&locale=${encodeURIComponent(localeSeg)}`)
         .then((res) => res.json())
-        .then((data: { availableLocales?: string[] }) => setPageLocales(data.availableLocales ?? []))
+        .then((data: { availableLocales?: string[] }) =>
+          setPageLocales(filterMenuLocales(data.availableLocales ?? []))
+        )
         .catch(() => setPageLocales([]))
       return
     }
 
-    // Overview / other pages: show all active locales
+    // Overview / other pages: menu-visible locales only
     setPageLocales(null)
   }, [pathname])
 
-  const localesToShow = pageLocales ?? [...activeLocales]
+  const localesToShow = pageLocales ?? [...menuLocales]
   const showLangSelector = localesToShow.length > 1
   const localeSwitchPath = (code: string) => {
     const segments = pathname.split('/').filter(Boolean)
