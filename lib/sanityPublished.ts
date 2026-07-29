@@ -4,7 +4,10 @@ import { client } from '../sanity/client'
 import { previewClient } from '../sanity/previewClient'
 
 /**
- * Fetch published Sanity content via CDN (no token).
+ * Fetch published Sanity content via the direct API (`useCdn: false`).
+ * Called on build / ISR / on-demand revalidate — not per public visitor once
+ * the page is cached — so API quota stays low while avoiding CDN race after publish.
+ *
  * In draft/presentation preview, uses previewClient (API + token) for drafts.
  */
 export async function fetchSanity<T>(

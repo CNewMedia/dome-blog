@@ -2,6 +2,7 @@ import { revalidatePath } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
 import { getBuyerBasePath } from '../../../lib/buyerPaths'
+import { activeLocales } from '../../../i18n/locales'
 import { client } from '../../../sanity/client'
 import { getSectorSlugs } from '../../../sanity/queries'
 
@@ -22,10 +23,11 @@ type SectorSlugRow = { slug?: string; locale?: string }
 /**
  * Resolve paths to revalidate for a webhook payload.
  *
- * post: one document per locale. Revalidate article (/articles/{slug} + /insights/{slug}
- * alias), overview (/insights), and locale home (/{locale}).
- *
- * teamMember: dynamic GROQ over all sectorPage locale+slug pairs.
+ * post: article + insights overview + locale home.
+ * teamMember: all sector pages.
+ * siteChrome: locale layout tree (navbar/footer).
+ * siteSettings: all locale layout trees (global chrome/tracking).
+ * tag: all insights overviews (filter tabs / related).
  */
 async function resolvePaths(body: RevalidatePayload): Promise<string[]> {
   const paths = new Set<string>()
@@ -63,6 +65,31 @@ async function resolvePaths(body: RevalidatePayload): Promise<string[]> {
     for (const page of pages) {
       if (typeof page.locale === 'string' && typeof page.slug === 'string') {
         paths.add(`/${page.locale}/${page.slug.toLowerCase()}`)
+      }
+    }
+  }
+
+  if (body._type === 'siteChrome') {
+    const chromeLocale = locale || (typeof body._id === 'string' ? body._id.replace(/^.*siteChrome[-.]/, '') : null)
+    if (chromeLocale && activeLocales.includes(chromeLocale as (typeof activeLocales)[number])) {
+      paths.add(`/${chromeLocale}`)
+    } else {
+      for (const loc of activeLocales) paths.add(`/${loc}`)
+    }
+  }
+
+  if (body._type === 'siteSettings') {
+    for (const loc of activeLocales) paths.add(`/${loc}`)
+  }
+
+  if (body._type === 'tag') {
+    if (locale) {
+      paths.add(`/${locale}/insights`)
+      paths.add(`/${locale}`)
+    } else {
+      for (const loc of activeLocales) {
+        paths.add(`/${loc}/insights`)
+        paths.add(`/${loc}`)
       }
     }
   }
@@ -106,7 +133,8 @@ export async function GET(request: NextRequest) {
   }
 
   for (const path of paths) {
-    revalidatePath(path)
+    // 'layout' so locale-root revalidations (siteChrome/siteSettings) refresh nested pages.
+    revalidatePath(path, path.split('/').filter(Boolean).length === 1 ? 'layout' : 'page')
   }
 
   return NextResponse.json({ revalidated: true, paths })
@@ -149,7 +177,7 @@ export async function POST(request: NextRequest) {
       return new Response(
         JSON.stringify({
           message:
-            'Bad Request: could not resolve paths (need path/paths, _type+locale+slug, teamMember, or post)',
+            'Bad Request: could not resolve paths (need path/paths, _type+locale+slug, teamMember, siteChrome, siteSettings, tag, or post)',
           body,
         }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -157,7 +185,7 @@ export async function POST(request: NextRequest) {
     }
 
     for (const path of paths) {
-      revalidatePath(path)
+      revalidatePath(path, path.split('/').filter(Boolean).length === 1 ? 'layout' : 'page')
     }
 
     return NextResponse.json({

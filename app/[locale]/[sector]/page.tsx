@@ -14,6 +14,9 @@ import SectorLandingPage, {
 } from '../../../components/SectorLandingPage'
 import { activeLocales, isAppLocale, type AppLocale } from '../../../i18n/locales'
 
+/** Hourly ISR safety net if a webhook is missed. */
+export const revalidate = 3600
+
 const DOMAIN = 'https://insights.dome-auctions.com'
 
 const OG_LOCALE: Record<string, string> = {

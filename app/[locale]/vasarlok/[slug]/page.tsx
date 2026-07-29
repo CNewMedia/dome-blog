@@ -1,6 +1,7 @@
 import { createBuyerPageRoute } from '../../../../lib/buyerPageRoute'
 
-export const dynamic = 'force-dynamic'
+/** Hourly ISR safety net if a webhook is missed. */
+export const revalidate = 3600
 
 const { Page, generateMetadata, generateStaticParams } = createBuyerPageRoute('hu')
 
