@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { draftMode } from 'next/headers'
-import { client, urlFor } from '../../../../sanity/client'
-import { previewClient } from '../../../../sanity/previewClient'
+import { urlFor } from '../../../../sanity/client'
+import { fetchSanity } from '../../../../lib/sanityPublished'
 import { getInsight, getRecentInsights, getInsights } from '../../../../sanity/queries'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import PortableText from '../../../../components/PortableText'
+
+/** Hourly ISR safety net if a webhook is missed. */
+export const revalidate = 3600
 
 const DOMAIN = 'https://insights.dome-auctions.com'
 
@@ -26,9 +28,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { locale, slug } = params
 
-  const post = await client
-    .fetch(getInsight(locale), { slug, locale })
-    .catch(() => null)
+  const post = await fetchSanity<any>(getInsight(locale), { slug, locale }).catch(() => null)
 
   if (!post) {
     const fallbackTitle = 'Insight | Dome Auctions'
@@ -90,11 +90,9 @@ export async function generateMetadata(
 export default async function InsightPage({ params }: Props) {
   const { locale, slug } = await params
   const t = await getTranslations('insights')
-  const { isEnabled } = await draftMode()
-  const preview = isEnabled
   const [post, recentPosts] = await Promise.all([
-    (preview && previewClient ? previewClient : client).fetch(getInsight(locale), { slug, locale }),
-    (preview && previewClient ? previewClient : client).fetch(getRecentInsights(locale), { locale }),
+    fetchSanity<any>(getInsight(locale), { slug, locale }),
+    fetchSanity<any[]>(getRecentInsights(locale), { locale }),
   ])
 
   if (!post) notFound()
@@ -104,7 +102,7 @@ export default async function InsightPage({ params }: Props) {
 
   if (primaryTagSlug) {
     try {
-      const relatedByTag: any[] = await client.fetch(
+      const relatedByTag = await fetchSanity<any[]>(
         getInsights(locale, primaryTagSlug),
         { locale, tagSlug: primaryTagSlug }
       )

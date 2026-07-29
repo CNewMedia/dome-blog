@@ -7,6 +7,9 @@ import { fetchSanity } from '../../../lib/sanityPublished'
 import { getInsights, getTags } from '../../../sanity/queries'
 import InsightsFilterTabs from '../../../components/InsightsFilterTabs'
 
+/** Hourly ISR safety net if a webhook is missed. */
+export const revalidate = 3600
+
 type Props = {
   params: Promise<{ locale: string }>
   searchParams: Promise<{ tag?: string }>

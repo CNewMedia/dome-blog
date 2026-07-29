@@ -8,10 +8,13 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { brandFont } from '../../lib/brand-font'
 import { buildSiteSettingsFromChrome } from '../../lib/siteSettings'
-import { client } from '../../sanity/client'
+import { fetchSanity } from '../../lib/sanityPublished'
 import { SanityLive } from '../../sanity/live'
 import { getSiteChrome, getSiteSettings } from '../../sanity/queries'
 import { activeLocales, isAppLocale } from '../../i18n/locales'
+
+/** Hourly ISR safety net if a webhook is missed. */
+export const revalidate = 3600
 
 type Props = {
   children: React.ReactNode
@@ -26,8 +29,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
   const { isEnabled: isDraftMode } = await draftMode()
   const [siteChrome, siteSettings] = await Promise.all([
-    client.fetch(getSiteChrome, { locale }),
-    client.fetch(getSiteSettings),
+    fetchSanity<any>(getSiteChrome, { locale }),
+    fetchSanity<any>(getSiteSettings),
   ])
 
   const chromeSettings = buildSiteSettingsFromChrome(siteChrome, locale)
