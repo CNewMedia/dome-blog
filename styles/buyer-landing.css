@@ -1232,15 +1232,15 @@
     flex: none;
     width: 100%;
     max-width: none;
-    padding-top: 2.5rem;
-    padding-bottom: 2.25rem;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
   }
 
   .buyer-lp .sector-hero--split .buyer-hero-right {
     flex: none;
     width: 100%;
-    min-height: 220px;
-    max-height: 42vh;
+    min-height: 180px;
+    max-height: 32vh;
     order: -1;
   }
 
@@ -1253,8 +1253,34 @@
   .buyer-lp .buyer-hero-carousel-frame {
     order: -1;
     margin-bottom: 0;
-    min-height: 220px;
-    max-height: 42vh;
+    min-height: 180px;
+    max-height: 32vh;
+  }
+
+  .buyer-lp .buyer-hero-left .sector-hero-eyebrow,
+  .buyer-lp .buyer-hero-eyebrow {
+    margin-bottom: 0.85rem;
+  }
+
+  .buyer-lp .buyer-hero-left .sector-hero-h1 {
+    margin-bottom: 0.85rem;
+    font-size: clamp(1.85rem, 7vw, 2.5rem);
+  }
+
+  .buyer-lp .buyer-hero-left .sector-hero-sub,
+  .buyer-lp .buyer-hero-body {
+    margin-bottom: 0.75rem;
+  }
+
+  .buyer-lp .buyer-urgency-line {
+    margin-top: 0.75rem;
+  }
+
+  .buyer-lp .buyer-urgency-line + .buyer-hero-cta-row,
+  .buyer-lp .buyer-hero-body + .buyer-hero-cta-row,
+  .buyer-lp .sector-hero-sub + .buyer-hero-cta-row,
+  .buyer-lp .buyer-hero-cta-row {
+    margin-top: 1.1rem;
   }
 
   .buyer-lp .buyer-hero-carousel-dots {
@@ -1360,8 +1386,8 @@
 
 @media (max-width: 767px) {
   .buyer-lp .sector-hero-in {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .buyer-lp .buyer-auth-section .buyer-auth-cta-box {
