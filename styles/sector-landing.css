@@ -1289,6 +1289,35 @@
   .sector-ref-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Touch / readability — tablet & mobile only; desktop base unchanged. */
+  .sector-hero-cta {
+    min-height: 44px;
+    font-size: 0.875rem;
+    padding: 0.75rem 1.35rem;
+  }
+
+  .sector-machine-toggle {
+    min-height: 44px;
+    font-size: 0.875rem;
+    padding: 0.65rem 1rem;
+  }
+
+  .sector-team-role {
+    font-size: 0.75rem;
+  }
+
+  .sector-team-desc {
+    font-size: 0.875rem;
+  }
+
+  .sector-team-email,
+  .sector-team-phone {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.875rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1323,9 +1352,7 @@
   .sector-ref-grid {
     grid-template-columns: 1fr;
   }
-  .sector-process-grid {
-    grid-template-columns: 1fr;
-  }
+  /* Process stays 2-col at tablet (768); stack only below 600px. */
   .sector-stats-in {
     padding: 0 1.25rem;
     gap: 1.5rem 2rem;
@@ -1335,5 +1362,9 @@
 @media (max-width: 600px) {
   .sector-stat-value {
     font-size: 1.5rem;
+  }
+
+  .sector-process-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,3 +1,4 @@
+import type { Viewport } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { draftMode } from 'next/headers'
@@ -15,6 +16,12 @@ import { activeLocales, isAppLocale } from '../../i18n/locales'
 
 /** Hourly ISR safety net if a webhook is missed. */
 export const revalidate = 3600
+
+/** Single viewport meta via Next — avoid duplicate tags in <head>. */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 type Props = {
   children: React.ReactNode
@@ -54,7 +61,6 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className={brandFontDisabled ? undefined : brandFont.variable}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>{`
           :root {
             --font-body: ${fontBodyStack};
